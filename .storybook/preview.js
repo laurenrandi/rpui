@@ -9,6 +9,7 @@ const preview = {
       },
     },
   },
+  decorators 
 };
 
 export default preview;
