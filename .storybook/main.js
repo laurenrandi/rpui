@@ -7,7 +7,8 @@ const config = {
     "@storybook/preset-create-react-app",
     "@storybook/addon-onboarding",
     "@storybook/addon-interactions",
-    "@storybook/addon-themes"
+    "@storybook/addon-themes",
+    "@storybook/themes",
   ],
   framework: {
     name: "@storybook/react-webpack5",
@@ -23,3 +24,4 @@ const config = {
   staticDirs: ["..\\public"],
 };
 export default config;
+
