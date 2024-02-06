@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Header from '../../Components/Header/Header';
 import { matchPath, useLocation } from 'react-router-dom/dist';
-import { FOCUSABLE_SELECTOR } from '@testing-library/user-event/dist/utils';
+import UserContext from '../../Lib/UserContext/UserContext';
 
 const Layout = () => {
   const [loggingIn, setLoggingIn] = useState(false);
   const { pathname } = useLocation();
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
   useEffect(() => {
     const loading = matchPath('login/success/*', pathname) !== null ? true : false;
     setLoggingIn(loading);
-    console.log(loading);
   }, [pathname]);
   
   return(

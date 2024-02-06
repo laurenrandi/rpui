@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box, Button, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
+import UserContext from '../../Lib/UserContext/UserContext';
 
 const Header = ({ hideLoginButton=false }) => {
   const [tabValue, setTabValue] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
-
+  const { user, setUser } = useContext(UserContext);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleChange = (e, v) => {
     setTabValue(v);
@@ -34,13 +36,26 @@ const Header = ({ hideLoginButton=false }) => {
   }, [location.pathname]);
 
   useEffect(() => {
-    if(window.sessionStorage.getItem("isAdmin") === true) {
-      setIsAdmin(true);
-    };
-    if(window.sessionStorage.getItem("loggedIn") === true) {
+    if(user) {
+      console.log(user);
       setLoggedIn(true);
+      if(user?.admin === true) {
+        setIsAdmin(true);
+      }
+    } else {
+      setLoggedIn(false);
+      setIsAdmin(false);
     }
-  }, []);
+  }, [user]);
+
+  const loginLogoutHandler = async () => {
+    if(loggedIn) {
+      setUser(null);
+      window.location.href = 'http://localhost:8080/logout';
+    } else {
+      window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+    }
+  }
 
   return(
     <>
@@ -62,9 +77,9 @@ const Header = ({ hideLoginButton=false }) => {
                       value={tabValue}
                       onChange={handleChange}
                     >
-                      <Tab label='your profiles' tabIndex={0} LinkComponent={<Link to='/profiles' />} />
-                      <Tab label='documents' tabIndex={0} LinkComponent={<Link to='/documents' />} />
-                      {isAdmin && <Tab label='users' tabIndex={0} LinkComponent={<Link to='/users' />} />}
+                      <Tab label='your profiles' tabIndex={0} onClick={() => navigate('/profiles')} />
+                      <Tab label='documents' tabIndex={0} onClick={() => navigate('/documents')} />
+                      {isAdmin && <Tab label='users' tabIndex={0} onClick={() => navigate('/users')} />}
                     </Tabs>
                   </Box>
                 </Box>
@@ -78,7 +93,7 @@ const Header = ({ hideLoginButton=false }) => {
                   variant={ loggedIn ? 'outlined' : 'contained' }
                   color={ loggedIn ? 'secondary' : 'primary' }
                   endIcon={ loggedIn ? <LogoutIcon /> : <GoogleIcon /> }
-                  href='http://localhost:8080/oauth2/authorization/google'
+                  onClick={loginLogoutHandler}
                 >
                   {loggedIn ? 'Log out' : 'Log in'}
                 </Button>
