@@ -27,7 +27,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
   const userValue = { user, setUser };
 
   return (
