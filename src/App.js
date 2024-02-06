@@ -28,8 +28,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Landing />} />
-            <Route path="/login/success" element={<LoginSuccess />} />
-            {/* <Route path="/profiles" */}
+            <Route path="/login/success/:userId" element={<LoginSuccess />} />
+            {/* <Route path=":userId/profiles" element={<ProfileList />} */}
           </Route>
         </Routes>
       </BrowserRouter>

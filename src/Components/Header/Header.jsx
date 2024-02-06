@@ -5,7 +5,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from 'axios';
 
-const Header = () => {
+const Header = ({ hideLoginButton=false }) => {
   const [tabValue, setTabValue] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -72,16 +72,18 @@ const Header = () => {
             </Box>
           </Grid>
           <Grid item xs={6}>
-            <Box display='flex' justifyContent='right' height={75} alignItems='center' mr={2}>
-              <Button
-                variant={ loggedIn ? 'outlined' : 'contained' }
-                color={ loggedIn ? 'secondary' : 'primary' }
-                endIcon={ loggedIn ? <LogoutIcon /> : <GoogleIcon /> }
-                href='http://localhost:8080/oauth2/authorization/google'
-              >
-                {loggedIn ? 'Log out' : 'Log in'}
-              </Button>
-            </Box>
+            {!hideLoginButton &&
+              <Box display='flex' justifyContent='right' height={75} alignItems='center' mr={2}>
+                <Button
+                  variant={ loggedIn ? 'outlined' : 'contained' }
+                  color={ loggedIn ? 'secondary' : 'primary' }
+                  endIcon={ loggedIn ? <LogoutIcon /> : <GoogleIcon /> }
+                  href='http://localhost:8080/oauth2/authorization/google'
+                >
+                  {loggedIn ? 'Log out' : 'Log in'}
+                </Button>
+              </Box>
+            }
           </Grid>
         </Grid>
       </Box>
