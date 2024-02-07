@@ -21,7 +21,6 @@ const LoginSuccess = () => {
           });
         } catch (err) {
           console.error(err);
-          
         }
       }
       fetchUserInfo();
