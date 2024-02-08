@@ -7,8 +7,6 @@ import UserContext from '../../Lib/UserContext/UserContext';
 const Layout = () => {
   const [loggingIn, setLoggingIn] = useState(false);
   const { pathname } = useLocation();
-  const { user } = useContext(UserContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loading = matchPath('login/success/*', pathname) !== null ? true : false;
