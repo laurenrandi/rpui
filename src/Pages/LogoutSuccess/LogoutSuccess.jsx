@@ -9,6 +9,7 @@ const LogoutSuccess = () => {
   setUser(null);
   navigate('/');
 
+  
   return(
     <>
     </>

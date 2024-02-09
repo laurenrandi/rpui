@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import Header from '../../Components/Header/Header';
 import { matchPath, useLocation } from 'react-router-dom/dist';
 import UserContext from '../../Lib/UserContext/UserContext';
+import { Container } from '@mui/material';
 
 const Layout = () => {
   const [loggingIn, setLoggingIn] = useState(false);
@@ -16,7 +17,9 @@ const Layout = () => {
   return(
     <>
       <Header hideLoginButton={loggingIn} />
-      <Outlet />
+      <Container>
+        <Outlet />
+      </Container>
     </>
   );
 };
