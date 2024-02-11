@@ -1,11 +1,11 @@
-import { Box, Grid, Paper, Typography, Divider, Card, CardHeader, CardContent } from '@mui/material';
+import { Box, Typography, Divider, Card, CardContent } from '@mui/material';
 import React from 'react';
 
 const ContactViewer = ({ contact }) => {
   
   return(
     <Card
-      sx={{ minWidth: 500, backgroundColor: 'elementBackground.main' }}
+      sx={{ width: '100%', backgroundColor: 'elementBackground.main' }}
     >
       <CardContent>
         <Box mb={2}>
@@ -14,7 +14,7 @@ const ContactViewer = ({ contact }) => {
         </Box>
         <Box mb={2}>
           <Typography variant='body2' fontWeight='bold'>Name</Typography>
-          <Typography variant='body1'>{`${contact?.firstName || ''} ${contact?.lastName || ''}`}</Typography>
+          <Typography variant='body1'>{`${contact?.firstName || ''} ${contact?.middleName || ''} ${contact?.lastName || ''}`}</Typography>
         </Box>
         <Box mb={2}>
           <Typography variant='body2' fontWeight='bold'>Email</Typography>

@@ -3,6 +3,7 @@
     "contact": {
         "id": 11,
         "firstName": "John",
+        "middleName": "William",
         "lastName": "Smith",
         "email": "johnsmith@test.com",
         "phone": "706-555-5555"
