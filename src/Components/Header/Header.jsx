@@ -76,6 +76,8 @@ const Header = ({ hideLoginButton=false }) => {
                     <Tabs
                       value={tabValue}
                       onChange={handleChange}
+                      variant="scrollable"
+                      scrollButtons="auto"
                     >
                       <Tab label='your profiles' tabIndex={0} onClick={() => navigate('/profiles')} />
                       <Tab label='documents' tabIndex={0} onClick={() => navigate('/documents')} />
