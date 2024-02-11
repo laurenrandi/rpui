@@ -17,7 +17,7 @@ const Wrapper = ({ initialValues }) => {
 }
 
 export default {
-  title: 'ProfileEditors/ContactEditor',
+  title: 'ProfileEditors/Contact',
   component: Wrapper,
   parameters: {
     layout: 'centered',
