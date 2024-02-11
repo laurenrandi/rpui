@@ -2,7 +2,6 @@ import React from 'react';
 // import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Box,Typography,Grid } from '@mui/material';
 import ReportProblemRoundedIcon from '@mui/icons-material/ReportProblemRounded';
-import Header from './Header.jsx';
 
 const ErrorPage = () => {
   
