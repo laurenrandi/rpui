@@ -1,14 +1,22 @@
-import { Box, Typography, Divider, Card, CardContent } from '@mui/material';
+import { Box, Typography, Divider, Card, CardContent, Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 import React from 'react';
 import FormikTextField from '../FormikTextField/FormikTextField';
+import { useFormik } from 'formik';
 
-const ContactEditor = ({ formik }) => {
+const ContactEditor = ({ contact, onSave, onCancel }) => {
+  const formik = useFormik({
+    initialValues: contact,
+    enableReinitialize: true
+  });
   
   return(
-    <Card
-      sx={{ width: '100%', backgroundColor: 'elementBackground.main' }}
+    <Dialog
+      sx={{ backgroundColor: 'elementBackground.main' }}
+      open
+      fullWidth
     >
-      <CardContent>
+      <DialogContent>
+
         <Box mb={2}>
           <Typography variant='h5' fontWeight='bold' gutterBottom>CONTACT INFO</Typography>
           <Divider/>
@@ -48,8 +56,12 @@ const ContactEditor = ({ formik }) => {
             formik={formik}
           />
         </Box>
-      </CardContent>
-    </Card>
+      </DialogContent>
+      <DialogActions>
+        <Button variant='outlined' onClick={onCancel}>Cancel</Button>
+        <Button variant='contained' color='primary' onClick={() => {onSave(formik.values)}}>Save</Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

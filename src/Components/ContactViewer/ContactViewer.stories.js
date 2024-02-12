@@ -1,10 +1,23 @@
 import ContactViewer from './ContactViewer';
 import sampleProfile from '../../Lib/sampleProfile.json';
+import emptyProfile from '../../Lib/emptyProfile.json';
 import { Box } from '@mui/material';
+import { useFormik } from 'formik';
+
+const Wrapper = ({ initialValues }) => {
+  const formik = useFormik({
+    initialValues: initialValues,
+    enableReinitialize: true
+  });
+
+  return (
+    <ContactViewer formik={formik} />
+  )
+}
 
 export default {
-  title: 'ProfileViewers/Contact',
-  component: ContactViewer,
+  title: 'ProfileComponents/Contact',
+  component: Wrapper,
   parameters: {
     layout: 'centered',
   },
@@ -17,9 +30,13 @@ export default {
   ]
 };
 
-export const Primary = {};
+export const Primary = {
+  args: {
+    initialValues: emptyProfile
+  }
+};
 export const Populated = {
   args: {
-    contact: sampleProfile.contact
+    initialValues: sampleProfile
   }
 };
