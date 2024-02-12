@@ -13,6 +13,7 @@ const FormikTextField = (props) => {
       onBlur={props.formik.handleBur}
       helperText={props.helperText || ''}
       error={props.formik.errors[props.name]}
+      size='small'
       {...props}
     />
   );
