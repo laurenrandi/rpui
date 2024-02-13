@@ -16,7 +16,6 @@ const ContactEditor = ({ contact, onSave, onCancel }) => {
       fullWidth
     >
       <DialogContent>
-
         <Box mb={2}>
           <Typography variant='h5' fontWeight='bold' gutterBottom>CONTACT INFO</Typography>
           <Divider/>
