@@ -24,7 +24,7 @@ const Wrapper = (props) => {
 }
 
 export default {
-  title: 'Components/FormikTextField',
+  title: 'FormikComponents/FormikTextField',
   component: Wrapper,
   parameters: {
     layout: 'centered',

@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import { Container } from '@mui/material';
-import FormikDateField from './FormikDateField';
+import FormikCheckboxField from './FormikCheckboxField';
 
 const Wrapper = ({ initialValues }) => {
   const formik = useFormik({
@@ -9,10 +9,10 @@ const Wrapper = ({ initialValues }) => {
   })
   return (
     <Container>
-      <FormikDateField
+      <FormikCheckboxField
         formik={formik}
-        name='dateField'
-        label='Date Field'
+        name='checkField'
+        label='Checkbox Field'
       />
     </Container>
 
@@ -20,7 +20,7 @@ const Wrapper = ({ initialValues }) => {
 }
 
 export default {
-  title: 'FormikComponents/FormikDateField',
+  title: 'FormikComponents/FormikCheckboxField',
   component: Wrapper,
   parameters: {
     layout: 'centered',
@@ -30,15 +30,7 @@ export default {
 export const Primary = {
   args: {
     initialValues: {
-      dateField: ''
-    }
-  }
-};
-
-export const Populated = {
-  args: {
-    initialValues: {
-      dateField: '2014-10-01T00:00:00.000+00:00'
+      checkField: false
     }
   }
 };
