@@ -1,8 +1,8 @@
 {
     "id": 10,
     "contact": {
+        "id": 11,
         "firstName": "John",
-        "middleName": "William",
         "lastName": "Smith",
         "email": "johnsmith@test.com",
         "phone": "706-555-5555"
@@ -10,18 +10,18 @@
     },
     "education": [
         {
-            "id": 7,
-            "startDate": "2005-08-01T00:00:00.000+00:00",
-            "endDate": "2009-09-01T00:00:00.000+00:00",
+            "id": 27,
+            "startDate": "08/2005",
+            "endDate": "05/2009",
             "school": "UGA",
             "degree": "BS",
             "fieldOfStudy": "Computer Science",
             "minor": null
         },
         {
-            "id": 8,
-            "startDate": "2001-08-01T00:00:00.000+00:00",
-            "endDate": "2005-05-01T00:00:00.000+00:00",
+            "id": 27,
+            "startDate": "08/2001",
+            "endDate": "05/2005",
             "school": "Generic High School",
             "degree": null,
             "fieldOfStudy": null,
@@ -30,85 +30,85 @@
     ],
     "workHistory": [
         {
-            "id": 1,
-            "technologies": [
-                {
-                    "id": 1,
-                    "text": "GIT"
-                },
-                {
-                    "id": 2,
-                    "text": "JavaScript"
-                },
-                {
-                    "id": 3,
-                    "text": ".NET Core"
-                }
-            ],
-            "startDate": "2009-06-01T00:00:00.000+00:00",
-            "endDate": "2014-04-01T00:00:00.000+00:00",
+            "id": 11,
+            "startDate": "06/2009",
+            "endDate": "04/2014",
             "company": "Microsoft",
             "role": "Software Engineer",
             "responsibilities": "Did lots of technical stuff",
-            "current": false
-        },
-        {
-            "id": 2,
+            "current": false,
             "technologies": [
                 {
-                    "id": 4,
-                    "text": "Swift"
+                    "id": 52,
+                    "text": "GIT"
                 },
                 {
-                    "id": 5,
+                    "id": 73,
                     "text": "JavaScript"
                 },
                 {
-                    "id": 6,
-                    "text": "Kotlin"
+                    "id": 102,
+                    "text": ".NET Core"
                 }
-            ],
-            "startDate": "2014-04-01T00:00:00.000+00:00",
+            ]
+        },
+        {
+            "id": 11,
+            "startDate": "04/2014",
             "endDate": null,
             "company": "Apple",
             "role": "Software Engineer",
             "responsibilities": "Did lots of technical stuff as well",
-            "current": true
-        }
-    ],
-    "about": {
-        "id": 4,
-        "bulletList": [
-            {
-                "id": 7,
-                "text": "Love to hike"
-            },
-            {
-                "id": 8,
-                "text": "Another hobby"
-            }
-        ],
-        "description": "Text about what I do"
-    },
-    "projects": [
-        {
-            "id": 4,
+            "current": true,
             "technologies": [
                 {
-                    "id": 2,
+                    "id": 54,
                     "text": "Swift"
                 },
                 {
-                    "id": 3,
+                    "id": 74,
                     "text": "JavaScript"
                 },
                 {
-                    "id": 4,
+                    "id": 94,
+                    "text": "Kotlin"
+                }
+            ]
+        }
+    ],
+    "about": {
+        "id": 15,
+        "bulletList": [
+            {
+                "id": 23,
+                "text": "Love to hike and also hike and sometimes not hike but mostly hike."
+            },
+            {
+                "id": 26,
+                "text": "Another hobby would go here if I were not a boring person who just loves to hike."
+            }
+        ],
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    "projects": [
+        {
+            "id": 22,
+            "technologies": [
+                {
+                    "id": 54,
+                    "text": "Swift"
+                },
+                {
+                    "id": 74,
+                    "text": "JavaScript"
+                },
+                {
+                    "id": 94,
                     "text": "Kotlin"
                 }
             ],
-            "startDate": "2014-10-01T00:00:00.000+00:00",
-            "endDate": "2019-11-01T00:00:00.000+00:00",
+            "startDate": "10/2014",
+            "endDate": "11/2019",
             "name": "Sample Project",
             "description": "We did lots of stuff",
             "type": "Full stack web app"
@@ -116,14 +116,14 @@
     ],
     "skills": [
         {
-            "id": 1,
+            "id": 15,
             "type": "Frontend",
             "name": "React.js",
             "proficiency": 8,
             "months": 22
         },
         {
-            "id": 2,
+            "id": 19,
             "type": "Backend",
             "name": "Java Spring",
             "proficiency": 10,
@@ -132,18 +132,17 @@
     ],
     "industryEquivalency": [
         {
-            "id": 7,
+            "id": 22,
             "language": "Java",
             "months": 22
         },
         {
-            "id": 8,
+            "id": 27,
             "language": ".NET",
             "months": 34
         }
     ],
     "name": "Master Profile",
     "masterProfile": true,
-    "savedProfile": false,
-    "createdDate": "2014-10-01T00:00:00.000+00:00"
+    "savedProfile": false
 }
