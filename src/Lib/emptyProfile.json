@@ -1,0 +1,23 @@
+{
+  "id": 10,
+  "contact": {
+    "firstName": "",
+    "middleName": "",
+    "lastName": "",
+    "headline": "",
+    "email": "",
+    "phone": ""
+  },
+  "education": [],
+  "workHistory": [],
+  "about": {
+    "bulletList": [],
+    "description": ""
+  },
+  "projects": [],
+  "skills": [],
+  "industryEquivalency": [],
+  "name": null,
+  "masterProfile": false,
+  "savedProfile": false
+}

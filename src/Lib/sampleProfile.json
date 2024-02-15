@@ -1,8 +1,8 @@
 {
     "id": 10,
     "contact": {
-        "id": 11,
         "firstName": "John",
+        "middleName": "William",
         "lastName": "Smith",
         "email": "johnsmith@test.com",
         "phone": "706-555-5555"
@@ -10,18 +10,18 @@
     },
     "education": [
         {
-            "id": 27,
-            "startDate": "08/2005",
-            "endDate": "05/2009",
+            "id": 7,
+            "startDate": "2005-08-01T00:00:00.000+00:00",
+            "endDate": "2009-09-01T00:00:00.000+00:00",
             "school": "UGA",
             "degree": "BS",
             "fieldOfStudy": "Computer Science",
             "minor": null
         },
         {
-            "id": 27,
-            "startDate": "08/2001",
-            "endDate": "05/2005",
+            "id": 8,
+            "startDate": "2001-08-01T00:00:00.000+00:00",
+            "endDate": "2005-05-01T00:00:00.000+00:00",
             "school": "Generic High School",
             "degree": null,
             "fieldOfStudy": null,
@@ -30,61 +30,61 @@
     ],
     "workHistory": [
         {
-            "id": 11,
-            "startDate": "06/2009",
-            "endDate": "04/2014",
-            "company": "Microsoft",
-            "role": "Software Engineer",
-            "responsibilities": "Did lots of technical stuff",
-            "current": false,
+            "id": 1,
             "technologies": [
                 {
-                    "id": 52,
+                    "id": 1,
                     "text": "GIT"
                 },
                 {
-                    "id": 73,
+                    "id": 2,
                     "text": "JavaScript"
                 },
                 {
-                    "id": 102,
+                    "id": 3,
                     "text": ".NET Core"
                 }
-            ]
+            ],
+            "startDate": "2009-06-01T00:00:00.000+00:00",
+            "endDate": "2014-04-01T00:00:00.000+00:00",
+            "company": "Microsoft",
+            "role": "Software Engineer",
+            "responsibilities": "Did lots of technical stuff",
+            "current": false
         },
         {
-            "id": 11,
-            "startDate": "04/2014",
+            "id": 2,
+            "technologies": [
+                {
+                    "id": 4,
+                    "text": "Swift"
+                },
+                {
+                    "id": 5,
+                    "text": "JavaScript"
+                },
+                {
+                    "id": 6,
+                    "text": "Kotlin"
+                }
+            ],
+            "startDate": "2014-04-01T00:00:00.000+00:00",
             "endDate": null,
             "company": "Apple",
             "role": "Software Engineer",
             "responsibilities": "Did lots of technical stuff as well",
-            "current": true,
-            "technologies": [
-                {
-                    "id": 54,
-                    "text": "Swift"
-                },
-                {
-                    "id": 74,
-                    "text": "JavaScript"
-                },
-                {
-                    "id": 94,
-                    "text": "Kotlin"
-                }
-            ]
+            "current": true
         }
     ],
     "about": {
-        "id": 15,
+        "id": 4,
         "bulletList": [
             {
-                "id": 23,
+                "id": 7,
                 "text": "Love to hike"
             },
             {
-                "id": 26,
+                "id": 8,
                 "text": "Another hobby"
             }
         ],
@@ -92,23 +92,23 @@
     },
     "projects": [
         {
-            "id": 22,
+            "id": 4,
             "technologies": [
                 {
-                    "id": 54,
+                    "id": 2,
                     "text": "Swift"
                 },
                 {
-                    "id": 74,
+                    "id": 3,
                     "text": "JavaScript"
                 },
                 {
-                    "id": 94,
+                    "id": 4,
                     "text": "Kotlin"
                 }
             ],
-            "startDate": "10/2014",
-            "endDate": "11/2019",
+            "startDate": "2014-10-01T00:00:00.000+00:00",
+            "endDate": "2019-11-01T00:00:00.000+00:00",
             "name": "Sample Project",
             "description": "We did lots of stuff",
             "type": "Full stack web app"
@@ -116,14 +116,14 @@
     ],
     "skills": [
         {
-            "id": 15,
+            "id": 1,
             "type": "Frontend",
             "name": "React.js",
             "proficiency": 8,
             "months": 22
         },
         {
-            "id": 19,
+            "id": 2,
             "type": "Backend",
             "name": "Java Spring",
             "proficiency": 10,
@@ -132,17 +132,18 @@
     ],
     "industryEquivalency": [
         {
-            "id": 22,
+            "id": 7,
             "language": "Java",
             "months": 22
         },
         {
-            "id": 27,
+            "id": 8,
             "language": ".NET",
             "months": 34
         }
     ],
     "name": "Master Profile",
     "masterProfile": true,
-    "savedProfile": false
+    "savedProfile": false,
+    "createdDate": "2014-10-01T00:00:00.000+00:00"
 }
