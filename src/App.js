@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
 import Landing from "./Pages/Landing/Landing";
 import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
