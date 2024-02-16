@@ -6,8 +6,8 @@ import ProjectHistoryEditor from '../ProjectHistoryEditor/ProjectHistoryEditor';
 const ProjectHistoryViewer = ({ formik }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleSave = (contact) => {
-    formik.setFieldValue('contact', contact);
+  const handleSave = (projects) => {
+    formik.setFieldValue('projects', projects);
     setDialogOpen(false);
   };
 
@@ -32,15 +32,15 @@ const ProjectHistoryViewer = ({ formik }) => {
           </Box>
           <Box mb={2}>
             <Typography variant='body2' fontWeight='bold'>Name</Typography>
-            <Typography variant='body1'>{formik.values?.contact?.name}</Typography>
+            <Typography variant='body1'>{formik.values?.projects?.name}</Typography>
           </Box>
           <Box>
           <Box mb={2}>
             <Typography variant='body2' fontWeight='bold'>Timeline</Typography>
-            <Typography variant='body1'>{`${formik.values?.contact?.startDate || ''} ${formik.values?.contact?.endDate || ''} `}</Typography>
+            <Typography variant='body1'>{`${formik.values?.projects?.startDate || ''} ${formik.values?.projects?.endDate || ''} `}</Typography>
           </Box>
             <Typography variant='body2' fontWeight='bold'>Description</Typography>
-            <Typography variant='body1'>{formik.values?.contact?.description}</Typography>
+            <Typography variant='body1'>{formik.values?.projects?.description}</Typography>
           </Box>
 
           <Button><AddIcon />Add Project</Button>
@@ -50,7 +50,7 @@ const ProjectHistoryViewer = ({ formik }) => {
         <ProjectHistoryEditor 
           onSave={handleSave}
           onCancel={handleCancel}
-          contact={formik.values?.contact || {}}
+          projects={formik.values?.projects || {}}
         />
       }
     </>

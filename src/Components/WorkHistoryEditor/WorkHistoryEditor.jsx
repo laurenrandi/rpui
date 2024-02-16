@@ -4,11 +4,10 @@ import FormikTextField from '../FormikTextField/FormikTextField';
 import { useFormik } from 'formik';
 import FormikDateField from '../FormikDateField/FormikDateField';
 
-const ProjectHistoryEditor = ({ contact, onSave, onCancel }) => {
+const WorkHistoryEditor = ({ onSave, onCancel }) => {
   const formik = useFormik({
     enableReinitialize: true
   });
-  
   return(
     <Dialog
       sx={{ backgroundColor: 'elementBackground.main' }}
@@ -17,37 +16,51 @@ const ProjectHistoryEditor = ({ contact, onSave, onCancel }) => {
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>PROJECT HISTORY</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>WORK HISTORY</Typography>
           <Divider/>
         </Box>
         <Box mb={2}>
-          <FormikTextField
-            name='name'
-            label='Name of Project'
-            formik={formik}
-          />
-        </Box>
-        <Box mb={2}>
-          <FormikDateField 
+          <FormikDateField
             name='startDate'
-            label='Start Month Year'
+            label='Start Date'
             formik={formik}
           />
         </Box>
         <Box mb={2}>
           <FormikDateField
             name='endDate'
-            label='End Month Year'
+            label='End Date'
             formik={formik}
           />
         </Box>
         <Box mb={2}>
           <FormikTextField
-            name='description'
-            label='Short Description of Project'
+            name='company'
+            label='Company'
             formik={formik}
           />
-        </Box> 
+        </Box>
+        <Box mb={2}>
+          <FormikTextField
+            name='role'
+            label='Role'
+            formik={formik}
+          />
+        </Box>
+        <Box>
+          <FormikTextField
+            name='responsibilites'
+            label='Short Description of Responsibilites'
+            formik={formik}
+          />
+        </Box>
+        <Box>
+          <FormikTextField
+            name='current'
+            label='Current Job (Yes/No)'
+            formik={formik}
+          />
+        </Box>
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>
@@ -57,4 +70,4 @@ const ProjectHistoryEditor = ({ contact, onSave, onCancel }) => {
   );
 };
 
-export default ProjectHistoryEditor;
+export default WorkHistoryEditor;
