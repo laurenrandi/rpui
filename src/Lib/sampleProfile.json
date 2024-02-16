@@ -123,11 +123,32 @@
             "months": 22
         },
         {
-            "id": 19,
+            "id": 13,
             "type": "Backend",
             "name": "Java Spring",
             "proficiency": 10,
             "months": 5
+        },
+        {
+            "id": 14,
+            "type": "Frontend",
+            "name": "Angular",
+            "proficiency": 6,
+            "months": 15
+        },
+        {
+            "id": 18,
+            "type": "Backend",
+            "name": ".NET",
+            "proficiency": 3,
+            "months": 11
+        },
+        {
+            "id": 19,
+            "type": "Frontend",
+            "name": "Vue",
+            "proficiency": 5,
+            "months": 12
         }
     ],
     "industryEquivalency": [

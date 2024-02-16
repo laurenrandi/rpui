@@ -11,7 +11,6 @@ const ContactEditor = ({ contact, onSave, onCancel }) => {
   
   return(
     <Dialog
-      sx={{ backgroundColor: 'elementBackground.main' }}
       open
       fullWidth
     >

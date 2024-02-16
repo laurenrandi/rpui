@@ -12,6 +12,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import PdfIcon from '@mui/icons-material/CollectionsBookmark';
 import EditIcon from '@mui/icons-material/Edit';
 import ContactViewer from '../../Components/ContactViewer/ContactViewer';
+import SkillsViewer from '../../Components/SkillsViewer/SkillsViewer';
 
 const ProfileEditor = () => {
   const [loading, setLoading] = useState(false);
@@ -127,10 +128,7 @@ const ProfileEditor = () => {
             {/* project history */}
           </Grid>
           <Grid item xs={12}>
-            {/* skills matrix */}
-          </Grid>
-          <Grid item xs={12}>
-            {/* industry equivalency */}
+            <SkillsViewer formik={formik} />
           </Grid>
         </Grid>
       }
