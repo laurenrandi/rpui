@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Edit } from '@mui/icons-material';
-import { Box, Typography, Divider, Card, CardContent, IconButton, Button, AddIcon } from '@mui/material';
+import { Box, Typography, Divider, Card, CardContent, IconButton, Button } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import ProjectHistoryEditor from '../ProjectHistoryEditor/ProjectHistoryEditor';
 
 const ProjectHistoryViewer = ({ formik }) => {
@@ -42,8 +43,9 @@ const ProjectHistoryViewer = ({ formik }) => {
             <Typography variant='body2' fontWeight='bold'>Description</Typography>
             <Typography variant='body1'>{formik.values?.projects?.description}</Typography>
           </Box>
-
-          <Button><AddIcon />Add Project</Button>
+          <Box display='flex' justifyContent='center'>
+            <Button variant='contained'><AddIcon />Add Project</Button>
+          </Box>
         </CardContent>
       </Card>
       {dialogOpen && 
