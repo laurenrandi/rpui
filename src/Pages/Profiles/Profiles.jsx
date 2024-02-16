@@ -5,11 +5,13 @@ import AddIcon from '@mui/icons-material/NoteAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import StarsIcon from '@mui/icons-material/Stars';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Profiles = () => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -66,6 +68,7 @@ const Profiles = () => {
                       title='View Master Profile'
                     >
                       <IconButton
+                        onClick={() => navigate('/profiles/master')}
                         color='primary'
                       >
                         <StarsIcon />
@@ -96,7 +99,8 @@ const Profiles = () => {
                   <TableRow 
                     key={profile.id}
                     hover
-                    sx={{ cursor: 'pointer' }}  
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => navigate(`/profiles/${profile.id}`)}
                   >
                     <TableCell sx={{ userSelect: 'none' }}>{profile.name}</TableCell>
                     <TableCell align='right' sx={{ userSelect: 'none' }}>n/a</TableCell>

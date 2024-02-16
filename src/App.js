@@ -10,6 +10,7 @@ import Profiles from "./Pages/Profiles/Profiles";
 import Documents from "./Pages/Documents/Documents";
 import Users from "./Pages/Users/Users";
 import LogoutSuccess from "./Pages/LogoutSuccess/LogoutSuccess";
+import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
 
 const theme = createTheme({
   palette: {
@@ -39,6 +40,7 @@ function App() {
               <Route path='/logout/success' element={<LogoutSuccess />} />
               <Route path="/login/success/:userId" element={<LoginSuccess />} />
               <Route path="/profiles" element={<Profiles />} />
+              <Route path="/profiles/:profileId" element={<ProfileEditor />} />
               <Route path="/documents" element={<Documents />} />
               <Route path="/users" element={<Users />} />
             </Route>
