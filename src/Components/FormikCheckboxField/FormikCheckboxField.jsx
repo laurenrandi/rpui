@@ -7,7 +7,8 @@ const FormikCheckboxField = (props) => {
     <Box display='flex' justifyContent='left' alignItems='center'>
       <Checkbox
         id={props.name}
-        value={props.formik[props.name] || false}
+        value={props.formik.values[props.name] || false}
+        checked={props.formik.values[props.name] || false}
         onChange={props.formik.handleChange}
         onBlur={props.formik.handleBlur}
         onError={props.formik.errors[props.name]}
