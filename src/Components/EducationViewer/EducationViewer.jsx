@@ -32,42 +32,48 @@ const EducationViewer = ({ formik }) => {
             <Divider/>
           </Box>
           <Grid container spacing = {2}>
-            <Grid item xs={6}>
-              <Box>
-                <Typography variant='body2' fontWeight='bold'>School</Typography>
-                <Typography variant='body1'>{formik.values?.education?.school}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box>
-                <Typography variant='body2' fontWeight='bold'>Degree</Typography>
-                <Typography variant='body1'>{formik.values?.education?.degree}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box >
-                <Typography variant='body2' fontWeight='bold'>Field of Study</Typography>
-                <Typography variant='body1'>{formik.values?.education?.fieldOfStudy}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box >
-                <Typography variant='body2' fontWeight='bold'>Minor</Typography>
-                <Typography variant='body1'>{formik.values?.education?.minor}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-              <Box>
-                <Typography variant='body2' fontWeight='bold'>Start Date</Typography>
-                <Typography variant='body1'>{formik.values?.education?.startDate}</Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={6}>
-            <Box >
-              <Typography variant='body2' fontWeight='bold'>End Date</Typography>
-              <Typography variant='body1'>{formik.values?.education?.endDate}</Typography>
-            </Box>
-            </Grid>
+            {
+              formik.values?.education.map(education => (
+              <>
+                <Grid item xs={6}>
+                  <Box>
+                    <Typography variant='body2' fontWeight='bold'>School</Typography>
+                    <Typography variant='body1'>{education.school}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box>
+                    <Typography variant='body2' fontWeight='bold'>Degree</Typography>
+                    <Typography variant='body1'>{education.degree}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box >
+                    <Typography variant='body2' fontWeight='bold'>Field of Study</Typography>
+                    <Typography variant='body1'>{education.fieldOfStudy}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box >
+                    <Typography variant='body2' fontWeight='bold'>Minor</Typography>
+                    <Typography variant='body1'>{education.minor}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Box>
+                    <Typography variant='body2' fontWeight='bold'>Start Date</Typography>
+                    <Typography variant='body1'>{education.startDate}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={6}>
+                <Box >
+                  <Typography variant='body2' fontWeight='bold'>End Date</Typography>
+                  <Typography variant='body1'>{education.endDate}</Typography>
+                </Box>
+                </Grid>
+              </>
+              ))
+            }
           </Grid>
         </CardContent>
       </Card>
