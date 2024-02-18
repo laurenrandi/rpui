@@ -53,7 +53,7 @@ const EducationViewer = ({ formik }) => {
             <Grid item xs={6}>
               <Box >
                 <Typography variant='body2' fontWeight='bold'>Minor</Typography>
-                <Typography variant='body1'>{formik.values?.education?.startDate}</Typography>
+                <Typography variant='body1'>{formik.values?.education?.minor}</Typography>
               </Box>
             </Grid>
             <Grid item xs={6}>
