@@ -6,7 +6,11 @@ import Grid from '@mui/material/Grid';
 
 const Landing = () => {
   return(
-    <>
+    <Box
+      display='flex'
+      flexDirection='column'
+      height={1000}
+    >
     {/* Welcome Text */}
     <Box
     sx={{
@@ -26,22 +30,24 @@ const Landing = () => {
       }}
     >
       <Grid container spacing = {2} >
-        <Grid item xs={5}>
-            <Typography ml = '.5em' mt = '3%' fontSize='7em' color= 'white'><strong>ABOUT SPB</strong></Typography>
+        <Grid item sm={12} md={5} display='flex' justifyContent='center' alignItems='center'>
+            <Typography mt = '3%' fontSize='7em' color= 'white' align='center'><strong>ABOUT SPB</strong></Typography>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item sm={12} md={7} display='flex' justifyContent='center' alignItems='center'>
         {/* Description : right side text */}
-        <Typography fontSize='1.5em' color = 'white' mr='..3em' mt='.5em'> SPB provides colleagues who are part of a professional services firm 
-          with an effective way to store, update, and product professional profiles for 
-          Client consideration. Think of these as configurable resumes. With SPB you will 
-          be able to enter and maintain your professional skills, experiences, education 
-          and capabilities in an easy to use platform. You can quickly produce PDF versions 
-          of customization profiles that can be shared.
-        </Typography>
+        <Box p={2}>
+          <Typography fontSize='2.5em' color = 'white' mt='.5em' align='center'> SPB provides colleagues who are part of a professional services firm 
+            with an effective way to store, update, and product professional profiles for 
+            Client consideration. Think of these as configurable resumes. With SPB you will 
+            be able to enter and maintain your professional skills, experiences, education 
+            and capabilities in an easy to use platform. You can quickly produce PDF versions 
+            of customization profiles that can be shared.
+          </Typography>
+        </Box>
         </Grid>
       </Grid>
     </Box>
-    </>
+    </Box>
   );
 };
 export default Landing; 
