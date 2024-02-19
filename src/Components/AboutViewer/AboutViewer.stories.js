@@ -2,7 +2,7 @@ import AboutViewer from './AboutViewer';
 import sampleProfile from '../../Lib/sampleProfile.json';
 
 export default {
-  title: 'ProfileViewers/About',
+  title: 'ProfileComponents/About',
   component: AboutViewer,
   parameters: {
     layout: 'centered',

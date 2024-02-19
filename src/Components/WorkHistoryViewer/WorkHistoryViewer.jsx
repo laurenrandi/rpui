@@ -40,8 +40,6 @@ const WorkHistoryViewer = ({ formik }) => {
     setSelectedJob(null);
   };
 
-
-
   return(
     <>
       <Card

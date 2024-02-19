@@ -16,7 +16,7 @@ const Wrapper = ({ initialValues }) => {
 }
 
 export default {
-  title: 'Components/ProjectHistory',
+  title: 'ProfileComponents/ProjectHistory',
   component: Wrapper,
   parameters: {
     layout: 'centered',
