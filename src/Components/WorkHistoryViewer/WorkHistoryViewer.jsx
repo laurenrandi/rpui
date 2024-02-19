@@ -58,12 +58,12 @@ const WorkHistoryViewer = ({ formik }) => {
             <Divider/>
           </Box>
           {formik.values?.workHistory?.length > 0 &&
-            formik.values.workHistory.toSorted((a,b) => dayjs(a.startDate).isAfter(dayjs(b.startDate)) ? 1 : -1).map(job => (
+            formik.values.workHistory.toSorted((a,b) => dayjs(b.startDate).isAfter(dayjs(a.startDate)) ? 1 : -1).map(job => (
               <Box display='flex' justifyContent='space-between'>
                 <Box width='100%'>  
                   <Box display='flex' justifyContent='space-between' mt={2}>
                     <Typography variant='body1'><b>{`${job.company ? job.company : 'Company'}`}</b></Typography>
-                    <Typography variant='body1'>{`${dayjs(job?.startDate).format('MM/YYYY')} - ${job.endDate ? dayjs(job?.endDate).format('MM/YYYY') : ''}`}</Typography>
+                    <Typography variant='body1'>{`${dayjs(job?.startDate).format('MM/YYYY')} - ${job.endDate && !job.current ? dayjs(job?.endDate).format('MM/YYYY') : ''}`}</Typography>
                   </Box>
                   <Box display='flex'>
                     <Typography variant='body1'><i>{job?.role}</i></Typography>
@@ -73,16 +73,11 @@ const WorkHistoryViewer = ({ formik }) => {
                     <Typography variant='body1' flexWrap='wrap'>{job?.responsibilities || ''}</Typography>
                   </Box>
                   {job.technologies?.length > 0 &&
-                    <>
-                      <Box my={1}>
-                        <Typography variant='body2'>Technologies</Typography>
-                      </Box>
-                      <Stack direction='row' spacing={1}>
-                        {job.technologies.map(tech => (
-                          <Chip label={tech.text} variant='outlined' color='primary' />
-                        ))}
-                      </Stack>
-                    </>
+                    <Stack direction='row' columnGap={1} flexWrap='wrap' rowGap={1}>
+                      {job.technologies.map(tech => (
+                        <Chip label={tech.text} variant='outlined' color='primary' />
+                      ))}
+                    </Stack>
                   }
                 </Box>
                 <Box display='flex' flexDirection='column' justifyContent='center' my={1} ml={1}>

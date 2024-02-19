@@ -143,7 +143,7 @@ const SkillsViewer = ({ formik }) => {
               ))
             }
           </Box>
-          {formik.values?.skills?.length > 0 &&
+          {/* {formik.values?.skills?.length > 0 &&
             <>
               <Box mt={4} mb={2}>
                 <Typography variant='h6' align='center'>Industry Equivalencies</Typography>
@@ -180,7 +180,7 @@ const SkillsViewer = ({ formik }) => {
                 ))}
               </Box>
             </>
-          }
+          } */}
         </CardContent>
       </Card>
       <Menu

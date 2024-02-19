@@ -114,7 +114,7 @@ const WorkHistoryEditor = ({ job, onSave, onCancel }) => {
           </Box>
         </Box>
         {formik.values.technologies?.length > 0 &&
-          <Stack direction='row' spacing={1}>
+          <Stack direction='row' columnGap={1} flexWrap='wrap' rowGap={1}>
             {formik.values.technologies.map(tech => (
               <Chip label={tech.text} variant='outlined' color='primary' onDelete={() => handleDeleteTechnology(tech.id)} />
             ))}
