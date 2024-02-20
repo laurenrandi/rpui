@@ -24,6 +24,7 @@ import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 //API
 import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
+import AboutViewer from '../../Components/AboutViewer/AboutViewer';
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -193,7 +194,7 @@ const ProfileEditor = () => {
         </Box>
       }
       {!loading &&
-        <Grid container rowGap={2} columnGap={2}>
+        <Grid container rowGap={2} columnSpacing={2}>
           <Grid container marginTop={2}>
             <Grid item xs={4}>
               <Tooltip title='Back'>
@@ -301,7 +302,7 @@ const ProfileEditor = () => {
             {/* education section */}
           </Grid>
           <Grid item xs={12} md={6}>
-            {/* about section */}
+            <AboutViewer formik={formik} />
           </Grid>
           <Grid item xs={12} md={6}>
             <WorkHistoryViewer formik={formik} />

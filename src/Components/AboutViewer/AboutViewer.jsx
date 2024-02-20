@@ -8,7 +8,7 @@ const AboutViewer = ({ formik }) => {
   
   return(
     <Card
-      sx={{ minWidth: 500, maxWidth: 600, backgroundColor: 'elementBackground.main' }}
+      sx={{ backgroundColor: 'elementBackground.main' }}
     >
       <CardContent>
         <Box mb={2}>
@@ -20,19 +20,23 @@ const AboutViewer = ({ formik }) => {
           </Box>
           <Divider/>
         </Box>
-        <Box mb={2}>
-          <Typography variant='body1'>{formik.values?.about?.description}</Typography>
-        </Box>
-        <Divider/>
-        <Box mb={2}>
-          <Typography mt={2} variant='body1' fontWeight='bold'>Hobbies</Typography>
-        </Box>
         {formik.values?.about?.bulletList?.length > 0 &&
-          formik.values?.about?.bulletList?.map(hobby => (
-            <Box mb={2} >
-              <Typography>{hobby?.text}</Typography>
+          <>
+            <Box mb={2}>
+              <Typography variant='body1'>{formik.values?.about?.description}</Typography>
             </Box>
-          ) )}
+            <Divider/>
+            <Box mb={2}>
+              <Typography mt={2} variant='body1' fontWeight='bold'>Hobbies</Typography>
+            </Box>
+            {formik.values?.about?.bulletList?.length > 0 &&
+              formik.values?.about?.bulletList?.map(hobby => (
+                <Box mb={2} >
+                  <Typography>{hobby?.text}</Typography>
+                </Box>
+              ) )}
+          </>
+        }
       </CardContent>
     </Card>
   );

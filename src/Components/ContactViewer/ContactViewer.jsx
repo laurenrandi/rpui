@@ -30,18 +30,24 @@ const ContactViewer = ({ formik }) => {
             </Box>
             <Divider/>
           </Box>
-          <Box mb={2}>
-            <Typography variant='body2' fontWeight='bold'>Name</Typography>
-            <Typography variant='body1'>{`${formik.values?.contact?.firstName || ''} ${formik.values?.contact?.middleName || ''} ${formik.values?.contact?.lastName || ''}`}</Typography>
-          </Box>
-          <Box mb={2}>
-            <Typography variant='body2' fontWeight='bold'>Email</Typography>
-            <Typography variant='body1'>{formik.values?.contact?.email}</Typography>
-          </Box>
-          <Box>
-            <Typography variant='body2' fontWeight='bold'>Phone Number</Typography>
-            <Typography variant='body1'>{formik.values?.contact?.phone}</Typography>
-          </Box>
+          {(formik.values?.contact?.firstName || formik.values?.contact?.middleName || formik.values?.contact?.lastName) && 
+            <Box mb={2}>
+              <Typography variant='body2' fontWeight='bold'>Name</Typography>
+              <Typography variant='body1'>{`${formik.values?.contact?.firstName || ''} ${formik.values?.contact?.middleName || ''} ${formik.values?.contact?.lastName || ''}`}</Typography>
+            </Box>
+          }
+          {formik.values?.contact?.email && 
+            <Box mb={2}>
+              <Typography variant='body2' fontWeight='bold'>Email</Typography>
+              <Typography variant='body1'>{formik.values?.contact?.email}</Typography>
+            </Box>
+          }
+          {formik.values?.contact?.phone &&
+            <Box>
+              <Typography variant='body2' fontWeight='bold'>Phone Number</Typography>
+              <Typography variant='body1'>{formik.values?.contact?.phone}</Typography>
+            </Box>
+          }
         </CardContent>
       </Card>
       {dialogOpen && 
