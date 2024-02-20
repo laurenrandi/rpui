@@ -43,7 +43,7 @@ const WorkHistoryViewer = ({ formik }) => {
   return(
     <>
       <Card
-        sx={{ width: '100%', backgroundColor: 'elementBackground.main' }}
+        sx={{ width: '100%', backgroundColor: 'elementBackground.main', height: '100%' }}
       >
         <CardContent>
           <Box mb={0.5}>
