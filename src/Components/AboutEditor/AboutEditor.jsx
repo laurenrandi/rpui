@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
-import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton, Chip, Stack } from '@mui/material';
+import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton } from '@mui/material';
 import FormikTextField from '../FormikTextField/FormikTextField';
-import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const initialValues = {
@@ -14,8 +13,12 @@ const AboutEditor = ({ about, onSave, onCancel }) => {
 
     const formik = useFormik({
         initialValues: about || initialValues,
-        enableReinitialize: true
+        enableReinitialize: true,
     });
+
+    useEffect(() => {
+        console.log(formik.values);
+    }, [formik.values]);
 
     return(
         <Dialog open fullWidth>
@@ -24,30 +27,41 @@ const AboutEditor = ({ about, onSave, onCancel }) => {
                     <Typography variant='h5' fontWeight='bold' gutterBottom>ABOUT EDITOR</Typography>
                     <Divider/>
                 </Box>
-                <Box>
+                <Box mt={2}>
                     <FormikTextField
-                      name='description'
-                      label='Description'
-                      formik={formik}
+                        name='description'
+                        label='Description'
+                        multiline
+                        minRows={4}
+                        formik={formik}
                     />
                 </Box>
-                <Divider/>
                 <Box>
                     {formik.values.bulletList.map((listItem, index) => (
-                        <Box>
-                            <FormikTextField
-                              name={`bulletList[${index}].text`}
-                              label='Bullet List Entry'
-                              formik={formik}
+                        <Box display='flex' justifyContent='space-between' width='100%' mt={2}>
+                            <TextField 
+                                fullWidth
+                                id={index}
+                                name={`['bulletList'][${index}]['text']`}
+                                label='List Item'
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                value={formik.values.bulletList?.at(index)?.text}
+                                helperText={formik.errors.bulletList?.at(index)?.text}
+                                error={formik.errors.bulletList?.at(index).text}
+                                FormHelperTextProps={{ sx: {position: 'absolute', top: 40, textWrap: 'pretty'} }}
+                                size='small'
                             />
-                            <Box display='flex' flexDirection='column' justifyContent='center'>
-                                <IconButton onClick={() => formik.values.bulletList.filter(item => item.id !== listItem.id)}>
+                            <Box ml={1}>
+                                <IconButton onClick={() => formik.setFieldValue('bulletList', formik.values.bulletList.filter(item => item.id !== listItem.id))}>
                                     <DeleteIcon color='secondary'/>
                                 </IconButton>
                             </Box>   
-                            <Button onClick={() => formik.values.bulletList.push({ id: `id${Math.Random().toString(16)}`, text: '' })}/>
                         </Box>
                     ))}
+                    <Box display='flex' justifyContent='center' mt={2}>
+                        <Button variant='contained' onClick={() => formik.setFieldValue('bulletList', [...formik.values.bulletList, { id: `id${Math.random().toString(16)}`, text: '' }])}>Add Bullet</Button>
+                    </Box>
                 </Box>
             </DialogContent>
             <DialogActions>

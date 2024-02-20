@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
 import { Box, CircularProgress, Divider, Grid, IconButton, LinearProgress, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
@@ -82,7 +82,7 @@ const ProfileEditor = () => {
     })
   });
   
-  const fetchProfile = async (type) => {
+  const fetchProfile = useCallback(async (type) => {
     if(type === 'initial') {
       setLoading(true);
     }
@@ -124,13 +124,14 @@ const ProfileEditor = () => {
     if(type === 'reset') {
       setResetLoading(false);
     }
-  };
+  // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     if(profileId !== 'new') {
       fetchProfile('initial');
     }
-  }, [profileId, user]);
+  }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
     navigate('/profiles')
@@ -189,10 +190,6 @@ const ProfileEditor = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(formik.isValid);
-  }, [formik.isValid]);
-
   return(
     <>
       {loading &&
@@ -204,7 +201,7 @@ const ProfileEditor = () => {
         </Box>
       }
       {!loading &&
-        <Grid container rowGap={2} columnSpacing={2}>
+        <Grid container rowGap={2} columnSpacing={2} mt={1}>
           <Grid container marginTop={2}>
             <Grid item xs={4}>
               <Tooltip title='Back'>

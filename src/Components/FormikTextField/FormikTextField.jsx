@@ -1,5 +1,4 @@
-import { Box, TextField, Typography } from '@mui/material';
-import { ErrorMessage } from 'formik';
+import { Box, TextField } from '@mui/material';
 import React from 'react';
 
 const FormikTextField = (props) => {
@@ -19,7 +18,6 @@ const FormikTextField = (props) => {
         FormHelperTextProps={{ sx: {position: 'absolute', top: 40, textWrap: 'pretty'} }}
         {...props}
       />
-      {/* <Typography variant='caption' color='error'>{props.formik.errors[props.name]}</Typography> */}
     </Box>
   );
 };

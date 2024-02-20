@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, IconButton, Divider, Stack, Chip } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import { Box, Typography, Card, CardContent, IconButton, Divider } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AboutEditor from '../AboutEditor/AboutEditor';
 
 const AboutViewer = ({ formik }) => {
@@ -12,18 +10,19 @@ const AboutViewer = ({ formik }) => {
     setDialogOpen(true);
   }
   
-const handleDialogCancel = () => {
-  setDialogOpen(false);
-}
+  const handleDialogCancel = () => {
+    setDialogOpen(false);
+  }
 
-const handleDialogSave = (about) => {
-  formik.setFieldValue('about', about);
-}
+  const handleDialogSave = (about) => {
+    formik.setFieldValue('about', { ...about, bulletList: about.bulletList.filter(item => item.text?.length > 0) });
+    setDialogOpen(false);
+  }
 
   return(
     <>
       <Card
-        sx={{ minWidth: 500, maxWidth: 600, backgroundColor: 'elementBackground.main' }}
+        sx={{ width: '100%', height: '100%', backgroundColor: 'elementBackground.main' }}
       >
         <CardContent>
           <Box mb={2}>
@@ -35,19 +34,28 @@ const handleDialogSave = (about) => {
             </Box>
             <Divider/>
           </Box>
-          <Box mb={2}>
-            <Typography variant='body1'>{formik.values?.about?.description}</Typography>
-          </Box>
-          <Divider/>
-          <Box mb={2}>
-            <Typography mt={2} variant='body1' fontWeight='bold'>Hobbies</Typography>
-          </Box>
-          {formik.values?.about?.bulletList?.length > 0 &&
-            formik.values?.about?.bulletList?.map(hobby => (
-              <Box mb={2} >
-                <Typography>{hobby?.text}</Typography>
+          {formik.values?.about?.description &&
+            <>
+              <Box mb={2}>
+                <Typography variant='body1'>{formik.values?.about?.description}</Typography>
               </Box>
-            ) )}
+              <Divider/>
+            </>
+          }
+          {formik.values?.about?.bulletList?.length > 0 && 
+            <>
+              <Box mb={2}>
+                <Typography mt={2} variant='body1' fontWeight='bold'>Hobbies</Typography>
+              </Box>
+              {formik.values?.about?.bulletList?.length > 0 &&
+                formik.values?.about?.bulletList?.map(hobby => (
+                  <Box mb={2} >
+                    <Typography>{hobby?.text}</Typography>
+                  </Box>
+                ))
+              }
+            </>
+          }
         </CardContent>
       </Card>
       {dialogOpen &&
