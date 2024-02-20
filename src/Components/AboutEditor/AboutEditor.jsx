@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton, Chip, Stack } from '@mui/material';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const initialValues = {
     bulletList: [],
