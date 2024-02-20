@@ -1,7 +1,10 @@
-import { Box, Grid, Paper, Typography, Divider, Card, CardHeader, CardContent, List, ListItem, ListItemText, ListItemIcon, CircleIcon } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
+import { Box, Typography, Card, CardContent, IconButton, Divider, Stack, Chip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
-const AboutViewer = ({ about }) => {
+const AboutViewer = ({ formik }) => {
   
   return(
     <Card
@@ -9,29 +12,27 @@ const AboutViewer = ({ about }) => {
     >
       <CardContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>ABOUT</Typography>
+          <Box display='flex' justifyContent='space-between'>
+            <Typography variant='h5' fontWeight='bold' gutterBottom>ABOUT</Typography>
+            <IconButton>
+                <AddIcon color='primary' />
+              </IconButton>
+          </Box>
           <Divider/>
         </Box>
         <Box mb={2}>
-          
-          <Typography variant='body1'>{about?.description}</Typography>
+          <Typography variant='body1'>{formik.values?.about?.description}</Typography>
         </Box>
         <Divider/>
         <Box mb={2}>
           <Typography mt={2} variant='body1' fontWeight='bold'>Hobbies</Typography>
-          <List>
-            <ListItem>
-              <ListItemText>
-                {about?.bulletList[0].text}
-              </ListItemText>
-            </ListItem>
-            <ListItem>
-              <ListItemText>
-                {about?.bulletList[1].text}
-              </ListItemText>
-            </ListItem>
-          </List>
         </Box>
+        {formik.values?.about?.bulletList?.length > 0 &&
+          formik.values?.about?.bulletList?.map(hobby => (
+            <Box mb={2} >
+              <Typography>{hobby?.text}</Typography>
+            </Box>
+          ) )}
       </CardContent>
     </Card>
   );
