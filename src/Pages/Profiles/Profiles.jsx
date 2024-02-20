@@ -6,6 +6,8 @@ import SearchIcon from '@mui/icons-material/Search';
 import StarsIcon from '@mui/icons-material/Stars';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import ServiceUtils from '../../Lib/ServiceUtils';
+import dayjs from 'dayjs';
 
 const Profiles = () => {
   const [profiles, setProfiles] = useState([]);
@@ -18,7 +20,7 @@ const Profiles = () => {
       if(user?.id) {
         setLoading(true);
         try {
-          await axios.get(`http://localhost:8080/users/${user.id}/profiles`)
+          await axios.get(`${ServiceUtils.baseUrl}/users/${user.id}/profiles`)
           .then(res => {
             const { data } = res;
             setProfiles(data);
@@ -33,18 +35,21 @@ const Profiles = () => {
     fetchProfiles();
   }, [user]);
 
+  const handleAddProfile = () => {
+    navigate('/profiles/new');
+  };
 
   return(
     <>
       <Grid container justifyContent='center' width={'100%'} mt={5}>
-        <Box width='70%' sx={{ userSelect: 'none' }}>
+        <Box width='90%'>
           {loading && 
             <LinearProgress
               color='primary'
             />
           }
           <TableContainer component={Paper}>
-            <Table sx={{backgroundColor: 'elementBackground.main', userSelect: 'none'}}>
+            <Table sx={{backgroundColor: 'elementBackground.main'}}>
               <TableHead>
                 <TableRow>
                   <TableCell align='left'>
@@ -65,32 +70,33 @@ const Profiles = () => {
                       </IconButton>
                     </Tooltip>
                     <Tooltip
+                      title='Add Profile'
+                    >
+                      <IconButton
+                        onClick={handleAddProfile}
+                        color='primary'
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip
                       title='View Master Profile'
                     >
                       <IconButton
                         onClick={() => navigate('/profiles/master')}
-                        color='primary'
+                        color='golden'
                       >
                         <StarsIcon />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip
-                      title='Add Profile'
-                    >
-                      <IconButton
-                        color='primary'
-                      >
-                        <AddIcon />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell>
-                    <Typography fontWeight='bold' sx={{ userSelect: 'none' }}>Profile Name</Typography>
+                    <Typography fontWeight='bold'>Profile Name</Typography>
                   </TableCell>
                   <TableCell align='right'>
-                    <Typography fontWeight='bold' sx={{ userSelect: 'none' }}>Created</Typography>
+                    <Typography fontWeight='bold'>Created</Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -102,8 +108,10 @@ const Profiles = () => {
                     sx={{ cursor: 'pointer' }}
                     onClick={() => navigate(`/profiles/${profile.id}`)}
                   >
-                    <TableCell sx={{ userSelect: 'none' }}>{profile.name}</TableCell>
-                    <TableCell align='right' sx={{ userSelect: 'none' }}>n/a</TableCell>
+                    <TableCell>{profile.name}</TableCell>
+                    <TableCell align='right'>
+                      {dayjs(profile.createdDate).isValid() ? dayjs(profile.createdDate).format('MM/DD/YYYY') : 'N/A'}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

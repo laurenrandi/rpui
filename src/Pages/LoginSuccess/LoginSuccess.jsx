@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom/dist';
 import { Box, LinearProgress, Typography } from '@mui/material';
 import UserContext from '../../Lib/UserContext/UserContext';
+import ServiceUtils from '../../Lib/ServiceUtils';
 
 const LoginSuccess = () => {
   const { userId } = useParams();
@@ -13,10 +14,11 @@ const LoginSuccess = () => {
     if(userId) {
       const fetchUserInfo = async () => {
         try {
-          await axios.get(`http://localhost:8080/users/${userId}/info`)
+          await axios.get(`${ServiceUtils.baseUrl}/users/${userId}/info`)
           .then(res => {
             const { data } = res;
             setUser(data);
+            localStorage.setItem("UserId", userId);
             navigate('/profiles');
           });
         } catch (err) {

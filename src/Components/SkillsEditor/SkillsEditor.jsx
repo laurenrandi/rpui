@@ -1,8 +1,15 @@
-import { Dialog, DialogContent, Button, DialogActions, Box, Divider, Typography } from '@mui/material';
+import { Dialog, DialogContent, Button, DialogActions, Box, Divider, Typography, ButtonGroup, Slider } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import * as yup from 'yup';
+
+const types = [
+  'Frontend',
+  'Backend',
+  'Database',
+  'Other'
+];
 
 const SkillsEditor = ({ skill, onSave, onCancel }) => {
   const formik = useFormik({
@@ -16,6 +23,10 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
     // })
   });
 
+  const handleTypeChange = (type) => {
+    formik.setFieldValue('type', type);
+  }
+
   return(
     <Dialog
       open
@@ -26,12 +37,19 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
           <Typography variant='h5' fontWeight='bold' gutterBottom>SKILL EDITOR</Typography>
           <Divider/>
         </Box>
-        <Box mb={2}>
-          <FormikTextField 
-            name='type'
-            label='Type'
-            formik={formik}
-          />
+        <Box display='flex' justifyContent='center' mb={2}>
+          <ButtonGroup>
+            {types.map(type => (
+              <Button
+                onClick={() => handleTypeChange(type)}
+                variant={formik.values.type === type ? 'contained' : 'outlined'}
+                disableElevation
+                color='primary'
+              >
+                {type}
+              </Button>
+            ))}
+          </ButtonGroup>
         </Box>
         <Box mb={2}>
           <FormikTextField
@@ -41,18 +59,30 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
           />
         </Box>
         <Box mb={2}>
-          <FormikTextField 
-            name='proficiency'
-            label='Proficiency'
-            formik={formik}
-          />
-        </Box>
-        <Box>
           <FormikTextField
             name='months'
             label='Months'
             formik={formik}
           />
+        </Box>
+        <Box>
+          <Box display='flex' justifyContent='center'>
+            <Typography>Proficiency</Typography>
+          </Box>
+          <Box display='flex' justifyContent='center'>
+            <Box width='90%'>
+              <Slider 
+                color='primary'
+                min={1}
+                max={10}
+                step={1}
+                marks
+                valueLabelDisplay='auto'
+                defaultValue={formik.values.proficiency}
+                onChange={(e, v) => formik.setFieldValue('proficiency', v)}
+              />
+            </Box>
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

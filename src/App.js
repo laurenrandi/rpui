@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Landing from "./Pages/Landing/Landing";
-import ErrorPage from "./Pages/ErrorPage/ErrorPage";
 import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
 import Layout from "./Pages/Layout/Layout";
 import { ThemeProvider, createTheme } from "@mui/material";
@@ -22,6 +21,9 @@ const theme = createTheme({
     },
     elementBackground: {
       main: '#f2f2f2'
+    },
+    golden: {
+      main: '#E5BA39'
     }
   }
 });

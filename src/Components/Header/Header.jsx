@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Box, Button, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
-import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
-import axios from 'axios';
 import UserContext from '../../Lib/UserContext/UserContext';
+import ServiceUtils from '../../Lib/ServiceUtils';
 
 const Header = ({ hideLoginButton=false }) => {
   const [tabValue, setTabValue] = useState(0);
@@ -51,9 +51,9 @@ const Header = ({ hideLoginButton=false }) => {
   const loginLogoutHandler = async () => {
     if(loggedIn) {
       setUser(null);
-      window.location.href = 'http://localhost:8080/logout';
+      window.location.href = `${ServiceUtils.baseUrl}/logout`;
     } else {
-      window.location.href = 'http://localhost:8080/oauth2/authorization/google';
+      window.location.href = `${ServiceUtils.baseUrl}/oauth2/authorization/google`;
     }
   }
 

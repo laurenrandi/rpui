@@ -68,6 +68,9 @@ const SkillsViewer = ({ formik }) => {
   };
 
   const handleDialogSave = (skill) => {
+    if(!skill.proficiency) {
+      skill.proficiency = 1
+    }
     if(skill.id) {
       const index = formik.values.skills.findIndex(s => s.id === skill.id);
       formik.setFieldValue(`skills[${index}]`, skill);
@@ -117,7 +120,7 @@ const SkillsViewer = ({ formik }) => {
           {formatData(formik.values.skills) &&
             formatData(formik.values.skills)?.map((data, index) => (
               <Box key={index} display='flex' flexDirection='column'>
-                <Box display='flex' justifyContent='center'>
+                <Box display='flex' justifyContent='center' flexWrap='wrap' overflow='auto'>
                   <Typography mr={1} mt={0.75}>{data.title}</Typography>
                   <IconButton
                     onClick={e => handleEditMenuClick(e, data.menuList)}
@@ -126,7 +129,7 @@ const SkillsViewer = ({ formik }) => {
                     <Edit color='primary' />
                   </IconButton>
                 </Box>
-                <Doughnut 
+                <Doughnut
                   data={data.chartData} 
                   options={{ 
                     responsive: true, 
