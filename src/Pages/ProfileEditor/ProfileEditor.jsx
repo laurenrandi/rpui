@@ -4,6 +4,7 @@ import { Box, CircularProgress, Divider, Grid, IconButton, LinearProgress, Toolt
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
+import * as yup from 'yup';
 
 //icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -75,7 +76,10 @@ const ProfileEditor = () => {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: emptyProfile,
-    enableReinitialize: true
+    enableReinitialize: true,
+    validationSchema: yup.object().shape({
+      'name': yup.string().required('A profile name is required')
+    })
   });
   
   const fetchProfile = async (type) => {
@@ -153,8 +157,10 @@ const ProfileEditor = () => {
   };
 
   const handleProfileNameEdit = () => {
-    setProfileName(formik.values?.name);
-    setEditingProfileName(true);
+    if(!editingProfileName) {
+      setProfileName(formik.values?.name);
+      setEditingProfileName(true);
+    }
   };
 
   const handleProfileNameEditConfirm = () => {
@@ -182,6 +188,10 @@ const ProfileEditor = () => {
       setOriginalProfileName('');
     }
   };
+
+  useEffect(() => {
+    console.log(formik.isValid);
+  }, [formik.isValid]);
 
   return(
     <>
@@ -211,7 +221,11 @@ const ProfileEditor = () => {
               ?
                 <Box display='flex' justifyContent='center'>
                   {!editingProfileName 
-                    ? <Typography variant='h5' align='center'>{profileId !== 'master' ? formik?.values?.name : 'Master Profile'}</Typography>
+                    ?
+                    <Box display='flex' flexDirection='column' justifyContent='center'>
+                      <Typography variant='h5' align='center'>{profileId !== 'master' ? formik?.values?.name : 'Master Profile'}</Typography>
+                      {(formik.values.masterProfile && profileId !== 'master') && <Typography variant='caption' align='center'><i>This profile will become your master profile upon saving. Your current master profile will be stored as a normal profile.</i></Typography>}
+                    </Box>
                     :
                     <Box display='flex' width='100%' justifyContent='right' ml={5} alignItems='center'>
                       <FormikTextField 
@@ -220,8 +234,8 @@ const ProfileEditor = () => {
                         formik={formik}
                       />
                       <Box ml={1} display='flex' flexDirection='column'>
-                        <IconButton onClick={handleProfileNameEditConfirm}>
-                          <CheckIcon color='primary' />
+                        <IconButton onClick={handleProfileNameEditConfirm} disabled={!formik.isValid}>
+                          <CheckIcon color={formik.isValid ? 'primary' : 'disabled'} />
                         </IconButton>
                         <IconButton onClick={handleProfileNameEditCancel}>
                           <CloseIcon color='secondary' />
