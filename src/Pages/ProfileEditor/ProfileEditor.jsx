@@ -26,6 +26,7 @@ import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import AboutViewer from '../../Components/AboutViewer/AboutViewer';
+import ProjectViewer from '../../Components/ProjectViewer/ProjectViewer';
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -319,7 +320,7 @@ const ProfileEditor = () => {
             <WorkHistoryViewer formik={formik} />
           </Grid>
           <Grid item xs={12} md={6}>
-            {/* project history */}
+            <ProjectViewer formik={formik} />
           </Grid>
           <Grid item xs={12}>
             <SkillsViewer formik={formik} />

@@ -1,4 +1,4 @@
-import ProjectHistoryViewer from './ProjectHistoryViewer';
+import ProjectViewer from './ProjectViewer';
 import sampleProfile from '../../Lib/sampleProfile.json';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import { Box } from '@mui/material';
@@ -11,12 +11,12 @@ const Wrapper = ({ initialValues }) => {
   });
 
   return (
-    <ProjectHistoryViewer formik={formik} />
+    <ProjectViewer formik={formik} />
   )
 }
 
 export default {
-  title: 'ProfileComponents/ProjectHistory',
+  title: 'ProfileComponents/ProjectViewer',
   component: Wrapper,
   parameters: {
     layout: 'centered',

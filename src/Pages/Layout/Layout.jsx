@@ -28,7 +28,7 @@ const Layout = () => {
         }
       }
     }
-  }, [pathname, navigate]);
+  }, [pathname, navigate, user]);
 
   //save/load user to/from browser session storage on refresh or mount
   useEffect(() => {
@@ -52,7 +52,7 @@ const Layout = () => {
         localStorage.setItem("UserId", user.id);
       }
     }
-  }, []);
+  }, [user, setUser]);
   
   return(
     <>

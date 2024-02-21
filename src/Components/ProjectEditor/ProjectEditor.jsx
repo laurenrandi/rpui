@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Typography, Divider, Card, CardContent, Dialog, DialogContent, DialogActions, Button, IconButton, Chip, Stack } from '@mui/material';
+import { Box, Typography, Divider, Dialog, DialogContent, DialogActions, Button, IconButton, Chip, Stack, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import FormikDateField from '../FormikDateField/FormikDateField';
-import FormikCheckboxField from '../FormikCheckboxField/FormikCheckboxField';
 import AddIcon from '@mui/icons-material/Add';
 
 const initialValues = {
@@ -13,12 +12,12 @@ const initialValues = {
   name: null, 
   description: null, 
   type: null,
-}
+};
 
-const ProjectHistoryEditor = ({ project, onSave, onCancel }) => {
+const ProjectEditor = ({ project, onSave, onCancel }) => {
   const [currentTechnology, setCurrentTechnology] = useState('');
   const formik = useFormik({
-    intialValues: project || initialValues, 
+    initialValues: project || initialValues, 
     enableReinitialize: true
   });
 
@@ -35,17 +34,53 @@ const ProjectHistoryEditor = ({ project, onSave, onCancel }) => {
   
   return(
     <Dialog
-      sx={{ backgroundColor: 'elementBackground.main' }}
       open
       fullWidth
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>PROJECT HISTORY</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>PROJECT EDITOR</Typography>
           <Divider/>
         </Box>
-        <Box mb={2} display='flex'>
+        <Box mb={2}>
           <FormikTextField
+            name='name'
+            label='Name'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikTextField
+            name='description'
+            label='Description'
+            formik={formik}
+            multiline
+            minRows={4}
+          />
+        </Box> 
+        <Box mb={2}>
+          <FormikTextField
+            name='type'
+            label='Type of Project'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikDateField 
+            name='startDate'
+            label='Start Date'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikDateField
+            name='endDate'
+            label='End Date'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2} display='flex'>
+          <TextField 
             id='technologies'
             label='Technology'
             size='small'
@@ -67,48 +102,13 @@ const ProjectHistoryEditor = ({ project, onSave, onCancel }) => {
             </IconButton>
           </Box>
         </Box>
-        {formik.values.technologies?.length > 0 &&
+        {formik.values?.technologies?.length > 0 &&
           <Stack direction='row' columnGap={1} flexWrap='wrap' rowGap={1}>
             {formik.values.technologies.map(tech => (
               <Chip label={tech.text} variant='outlined' color='primary' onDelete={() => handleDeleteTechnology(tech.id)} />
             ))}
           </Stack>
-        }
-        <Box mb={2}>
-          <FormikDateField 
-            name='startDate'
-            label='Start Month Year'
-            formik={formik}
-          />
-        </Box>
-        <Box mb={2}>
-          <FormikDateField
-            name='endDate'
-            label='End Month Year'
-            formik={formik}
-          />
-        </Box>
-        <Box mb={2}>
-          <FormikTextField
-            name='name'
-            label='Name of Project'
-            formik={formik}
-          />
-        </Box>
-        <Box mb={2}>
-          <FormikTextField
-            name='description'
-            label='Short Description of Project'
-            formik={formik}
-          />
-        </Box> 
-        <Box mb={2}>
-          <FormikTextField
-            name='type'
-            label='Type of Project'
-            formik={formik}
-          />
-        </Box>
+        }        
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>
@@ -118,4 +118,4 @@ const ProjectHistoryEditor = ({ project, onSave, onCancel }) => {
   );
 };
 
-export default ProjectHistoryEditor;
+export default ProjectEditor;
