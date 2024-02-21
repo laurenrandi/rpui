@@ -57,7 +57,7 @@ const Layout = () => {
   return(
     <>
       <Header hideLoginButton={loggingIn} />
-      <Container maxWidth='xl'>
+      <Container maxWidth = 'xl'>
         <Outlet />
       </Container>
     </>
