@@ -2,18 +2,29 @@ import React, { useState } from 'react';
 import { Edit } from '@mui/icons-material';
 import { Box, Typography, Divider, Card, CardContent, IconButton, Button } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import dayjs from 'dayjs';
 import ProjectHistoryEditor from '../ProjectHistoryEditor/ProjectHistoryEditor';
 
 const ProjectHistoryViewer = ({ formik }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const handleSave = (projects) => {
-    formik.setFieldValue('projects', projects);
+  const handleSave = (project) => {
+    formik.setFieldValue('projects', project);
     setDialogOpen(false);
   };
 
   const handleCancel = () => {
     setDialogOpen(false);
+  };
+
+  const handleEdit = (id) => {
+    setSelectedProject(formik.values.projects.find(project => project.id === id));
+    setDialogOpen(true);
+  };
+
+  const handleAdd = () => {
+    setSelectedProject(null);
+    setDialogOpen(true);
   };
 
   return(
