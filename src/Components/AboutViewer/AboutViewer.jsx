@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, IconButton, Divider } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
+import { Box, Typography, Card, CardContent, IconButton, Divider, List, ListItem } from '@mui/material';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import EditIcon from '@mui/icons-material/Edit';
 import AboutEditor from '../AboutEditor/AboutEditor';
 
 const AboutViewer = ({ formik }) => {
@@ -29,7 +30,7 @@ const AboutViewer = ({ formik }) => {
             <Box display='flex' justifyContent='space-between'>
               <Typography variant='h5' fontWeight='bold' gutterBottom>ABOUT</Typography>
               <IconButton onClick={handleAdd}>
-                  <AddIcon color='primary' />
+                  <EditIcon color='primary' />
                 </IconButton>
             </Box>
             <Divider/>
@@ -44,13 +45,23 @@ const AboutViewer = ({ formik }) => {
           }
           {formik.values?.about?.bulletList?.length > 0 && 
             <>
-              <Box mb={2}>
-                <Typography mt={2} variant='body1' fontWeight='bold'>Hobbies</Typography>
+              <Box mb={1}>
+                <Typography mt={2} variant='h6' fontWeight='bold'>Hobbies</Typography>
               </Box>
               {formik.values?.about?.bulletList?.length > 0 &&
                 formik.values?.about?.bulletList?.map(hobby => (
-                  <Box mb={2} >
-                    <Typography>{hobby?.text}</Typography>
+                  <Box display='flex'>
+                    <List
+                      sx={{
+                        padding: 0,
+                        listStyleType: 'disc',
+                        listStylePosition: 'inside'
+                      }}
+                    >
+                      <ListItem sx={{ display: 'list-item' }}>
+                        {hobby?.text}
+                      </ListItem>
+                    </List>
                   </Box>
                 ))
               }
