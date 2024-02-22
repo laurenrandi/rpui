@@ -21,12 +21,12 @@ import ContactViewer from '../../Components/ContactViewer/ContactViewer';
 import SkillsViewer from '../../Components/SkillsViewer/SkillsViewer';
 import WorkHistoryViewer from '../../Components/WorkHistoryViewer/WorkHistoryViewer';
 import FormikTextField from '../../Components/FormikTextField/FormikTextField';
+import AboutViewer from '../../Components/AboutViewer/AboutViewer';
+import ProjectViewer from '../../Components/ProjectViewer/ProjectViewer';
 
 //API
 import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
-import AboutViewer from '../../Components/AboutViewer/AboutViewer';
-import ProjectViewer from '../../Components/ProjectViewer/ProjectViewer';
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -100,8 +100,12 @@ const ProfileEditor = () => {
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false);
-        setResetLoading(false);
+        if(type === 'initial') {
+          setLoading(false);
+        }
+        if(type === 'reset') {
+          setResetLoading(false);
+        }
       }
     } else {
       if(profileId !== 'master' && !loading) {
@@ -114,16 +118,14 @@ const ProfileEditor = () => {
         } catch (err) {
           console.error(err);
         } finally {
-          setLoading(false);
-          setResetLoading(false);
+          if(type === 'initial') {
+            setLoading(false);
+          }
+          if(type === 'reset') {
+            setResetLoading(false);
+          }
         }
       }
-    }
-    if(type === 'initial') {
-      setLoading(false);
-    }
-    if(type === 'reset') {
-      setResetLoading(false);
     }
   // eslint-disable-next-line
   }, []);
@@ -201,7 +203,7 @@ const ProfileEditor = () => {
           />
         </Box>
       }
-      {!loading &&
+      {!loading && formik.values &&
         <Grid container rowGap={2} columnSpacing={2} mt={1}>
           <Grid container marginTop={2}>
             <Grid item xs={4}>

@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Edit, Add, Delete } from '@mui/icons-material';
-import { Box, Typography, Divider, Card, CardContent, IconButton, Menu, MenuItem, Tooltip } from '@mui/material';
+import { Box, Typography, Divider, Card, CardContent, IconButton, Menu, Tooltip } from '@mui/material';
 import { Doughnut } from 'react-chartjs-2';
 import { ArcElement, Tooltip as ttip , Legend, Chart, Colors } from 'chart.js';
 import SkillsEditor from '../SkillsEditor/SkillsEditor';
 
 Chart.register(ArcElement, ttip, Legend, Colors);
-
-const equivalencyColors = [
-  '#FFC9B5',
-  '#F7B1AB',
-  '#D8AA96',
-  '#807182',
-  '#C7D3BF'
-];
 
 const SkillsViewer = ({ formik }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -21,31 +13,25 @@ const SkillsViewer = ({ formik }) => {
   const [menuList, setMenuList] = useState(null);
   const [selectedSkill, setSelectedSkill] = useState(null);
 
-  const handleSave = (skills) => {
-    formik.setFieldValue('skills', skills);
-    setDialogOpen(false);
-  };
-
-  const handleCancel = () => {
-    setDialogOpen(false);
-  };
-
-  const formatData = (skills) => {
+  const formatProficiencyData = (skills) => {
     if(skills) {
       const groupedData = Object.groupBy(formik.values?.skills, ({ type }) => type);
       const sets = [];
       for(let i = 0; i < Object.keys(groupedData).length; i++) {
         const currentSet = groupedData[Object.keys(groupedData)[i]];
-        sets[i] = {};
-        sets[i].chartData = {};
-        sets[i].chartData.labels = currentSet.map(skill => skill.name);
-        sets[i].chartData.datasets = [{}];
-        sets[i].chartData.datasets[0].data = currentSet.map(skill => skill.proficiency);
-        sets[i].chartData.datasets[0].label = 'Proficiency'
-        sets[i].chartData.datasets[0].hoverOffset = 4;
-        sets[i].chartData.datasets[0].borderWidth = 1;
-        sets[i].title = Object.keys(groupedData)[i];
-        sets[i].menuList = currentSet.map(skill => ({ id: skill.id, name: skill.name }));
+        sets[i] = {
+          title: Object.keys(groupedData)[i],
+          menuList: currentSet.map(skill => ({ id: skill.id, name: skill.name })),
+          chartData: {
+            labels: currentSet.map(skill => skill.name),
+            datasets: [{
+              data: currentSet.map(skill => skill.proficiency),
+              label: 'Proficiency',
+              hoverOffset: 4,
+              borderWidth: 1
+            }]
+          }
+        }
       };
       return sets;
     }
@@ -117,20 +103,20 @@ const SkillsViewer = ({ formik }) => {
             </Box>
           }
           <Box display='flex' justifyContent='center'>
-          {formatData(formik.values.skills) &&
-            formatData(formik.values.skills)?.map((data, index) => (
+          {formatProficiencyData(formik.values.skills) &&
+            formatProficiencyData(formik.values.skills)?.map(({ chartData, title, menuList }, index) => (
               <Box key={index} display='flex' flexDirection='column'>
                 <Box display='flex' justifyContent='center' flexWrap='wrap' overflow='auto'>
-                  <Typography mr={1} mt={0.75}>{data.title}</Typography>
+                  <Typography mr={1} mt={0.75}>{title}</Typography>
                   <IconButton
-                    onClick={e => handleEditMenuClick(e, data.menuList)}
+                    onClick={e => handleEditMenuClick(e, menuList)}
                     size='small'
                   >
                     <Edit color='primary' />
                   </IconButton>
                 </Box>
                 <Doughnut
-                  data={data.chartData} 
+                  data={chartData} 
                   options={{ 
                     responsive: true, 
                     maintainAspectRatio: true,

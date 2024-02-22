@@ -59,7 +59,7 @@ const ProjectViewer = ({ formik }) => {
           </Box>
           {formik.values?.projects?.length > 0 &&
             formik.values.projects.toSorted((a,b) => dayjs(b.startDate).isAfter(dayjs(a.startDate)) ? 1 : -1).map(project => (
-              <Box display='flex' justifyContent='space-between'>
+              <Box display='flex' justifyContent='space-between' mt={2}>
                 <Box width='100%'>  
                   <Box display='flex' justifyContent='space-between' mt={0.5}>
                     <Box>
@@ -75,8 +75,9 @@ const ProjectViewer = ({ formik }) => {
                     {dayjs(project?.startDate).isValid() && <Typography variant='body1'>{`${dayjs(project?.startDate).format('MM/YYYY')} - ${project.endDate ? dayjs(project?.endDate).format('MM/YYYY') : ''}`}</Typography>}
                   </Box>
                   <Box display='flex'>
-                    <Typography variant='body1'><i>{project?.type}</i></Typography>
+                    <Typography variant='body1'>{project?.type}</Typography>
                   </Box>
+                  <Divider />
                   <Box my={1}>
                     <Typography variant='body1' flexWrap='wrap'>{project?.description || ''}</Typography>
                   </Box>
