@@ -204,7 +204,7 @@ const ProfileEditor = () => {
         </Box>
       }
       {!loading && formik.values &&
-        <Grid container rowGap={2} columnSpacing={2} mt={1}>
+        <Grid container rowGap={2} columnSpacing={2} mt={1} mb={4}>
           <Grid container marginTop={2}>
             <Grid item xs={4}>
               <Tooltip title='Back'>
@@ -224,7 +224,11 @@ const ProfileEditor = () => {
                     ?
                     <Box display='flex' flexDirection='column' justifyContent='center'>
                       <Typography variant='h5' align='center'>{profileId !== 'master' ? formik?.values?.name : 'Master Profile'}</Typography>
-                      {(formik.values.masterProfile && profileId !== 'master') && <Typography variant='caption' align='center'><i>This profile will become your master profile upon saving. Your current master profile will be stored as a normal profile.</i></Typography>}
+                      {(formik.values.masterProfile && profileId !== 'master') && 
+                        <Typography variant='caption' align='center' color='darkGray'>
+                          <i>This profile will become your master profile upon saving. Your current master profile will be stored as a sub-profile.</i>
+                        </Typography>
+                      }
                     </Box>
                     :
                     <Box display='flex' width='100%' justifyContent='right' ml={5} alignItems='center'>
