@@ -11,6 +11,12 @@ import Users from "./Pages/Users/Users";
 import LogoutSuccess from "./Pages/LogoutSuccess/LogoutSuccess";
 import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
 
+//fonts
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 const theme = createTheme({
   palette: {
     primary: {
