@@ -11,21 +11,21 @@
     "education": [
         {
             "id": 27,
-            "startDate": "08/2005",
-            "endDate": "05/2009",
+            "startDate": "02-12-2005",
+            "endDate": "01-12-2007",
             "school": "UGA",
             "degree": "BS",
             "fieldOfStudy": "Computer Science",
-            "minor": null
+            "minor": "math"
         },
         {
             "id": 27,
-            "startDate": "08/2001",
-            "endDate": "05/2005",
+            "startDate": "02-12-2001",
+            "endDate": "05-12-2005",
             "school": "Generic High School",
-            "degree": null,
-            "fieldOfStudy": null,
-            "minor": null
+            "degree": "BS",
+            "fieldOfStudy": "History",
+            "minor": "spanish"
         }
     ],
     "workHistory": [
