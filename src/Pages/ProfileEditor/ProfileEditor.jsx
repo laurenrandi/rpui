@@ -23,6 +23,7 @@ import WorkHistoryViewer from '../../Components/WorkHistoryViewer/WorkHistoryVie
 import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import AboutViewer from '../../Components/AboutViewer/AboutViewer';
 import ProjectViewer from '../../Components/ProjectViewer/ProjectViewer';
+import EducationViewer from '../../Components/EducationViewer/EducationViewer';
 
 //API
 import axios from 'axios';
@@ -316,8 +317,12 @@ const ProfileEditor = () => {
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ContactViewer formik={formik} />
-            {/* education section */}
+            <Grid item mb={2}>
+              <ContactViewer formik={formik} />
+            </Grid>
+            <Grid item>
+              <EducationViewer formik={formik} />
+            </Grid>
           </Grid>
           <Grid item xs={12} md={6}>
             <AboutViewer formik={formik} />
