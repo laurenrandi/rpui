@@ -1,85 +1,81 @@
-import { Box, Typography, Divider, Card, CardContent, Dialog, DialogContent, DialogActions, Button } from '@mui/material';
-import React from 'react';
-import FormikTextField from '../FormikTextField/FormikTextField';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
+import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton, Chip, Stack } from '@mui/material';
+import FormikTextField from '../FormikTextField/FormikTextField';
 import FormikDateField from '../FormikDateField/FormikDateField';
-import {Grid} from '@mui/material';
+import FormikCheckboxField from '../FormikCheckboxField/FormikCheckboxField';
+import AddIcon from '@mui/icons-material/Add';
+
+const initialValues = {
+  school: null,
+  degree: null,
+  minor: null,
+  fieldOfStudy: null,
+  startDate: null,
+  endDate: null,
+}
 
 const EducationEditor = ({ education, onSave, onCancel }) => {
+  
   const formik = useFormik({
-    initialValues: education,
+    initialValues: education || initialValues,
     enableReinitialize: true
   });
-  
+
   return(
     <Dialog
-      sx={{ backgroundColor: 'elementBackground.main' }}
       open
       fullWidth
     >
-    <DialogContent>
-       
+      <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>Education Info</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>Education Editor</Typography>
           <Divider/>
         </Box>
-
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Box mb={2}>
-              <FormikTextField 
-                name='school'
-                label='School'
-                formik={formik}
-              />
-          </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box mb={2}>
-              <FormikTextField
-                name='degree'
-                label='Degree'
-                formik={formik}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-          <Box mb={2}>
-            <FormikTextField
-              name='fieldOfStudy'
-              label='Field Of Study'
+        <Box mb={2}>
+          <FormikTextField
+            name='school'
+            label='School'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikTextField 
+            name='degree'
+            label='Degree'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikTextField 
+            name='minor'
+            label='Minor'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2} display='flex'>
+          <FormikDateField 
+            name='startDate'
+            label='Start Date'
+            formik={formik}
+          />
+          <Box ml={1}>
+            <FormikCheckboxField 
+              name='current'
+              label='Current'
               formik={formik}
             />
           </Box>
-          </Grid>
-          <Grid item xs={6}>
+        </Box>
+        {!formik.values?.current === true &&
           <Box mb={2}>
-            <FormikTextField
-              name='minor'
-              label='Minor'
-              formik={formik}
-            />
-          </Box>
-          </Grid>
-          <Grid item xs={6}>
-          <Box mb={2}>
-            <FormikDateField
-              name='startDate'
-              label ='Start Date'
-              formik={formik}
-              />
-          </Box>
-          </Grid>
-          <Grid item xs={6}>
-          <Box mb={2}>
-            <FormikDateField
+            <FormikDateField 
               name='endDate'
-              label = 'End Date'
+              label='End Date'
               formik={formik}
-              />
+            />
           </Box>
-          </Grid>
-      </Grid>
+        }
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>

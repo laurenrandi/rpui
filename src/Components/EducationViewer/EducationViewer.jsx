@@ -1,87 +1,99 @@
 import React, { useState } from 'react';
-import { Edit } from '@mui/icons-material';
-import { Box, Typography, Divider, Card, CardContent, IconButton } from '@mui/material';
+import { Box, Typography, Card, CardContent, IconButton, Divider, Stack, Chip } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
+import dayjs from 'dayjs';
 import EducationEditor from '../EducationEditor/EducationEditor';
-import {Grid} from '@mui/material';
 
 const EducationViewer = ({ formik }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedEducation, setSelectedEducation] = useState(null);
 
-  const handleSave = (education) => {
-    formik.setFieldValue('education', education);
-    setDialogOpen(false);
+  const handleEdit = (id) => {
+    setSelectedEducation(formik.values.education.find(education => education.id === id));
+    setDialogOpen(true);
   };
 
-  const handleCancel = () => {
+  const handleAdd = () => {
+    setSelectedEducation(null);
+    setDialogOpen(true);
+  };
+
+  const handleDelete = (id) => {
+    formik.setFieldValue('education', formik.values.education.filter(education => education.id !== id));
+  };
+
+  const handleDialogSave = (education) => {
+    if(education.id) {
+      const index = formik.values.education.findIndex(e => e.id === education.id);
+      formik.setFieldValue(`education[${index}]`, education);
+    } else {
+      formik.setFieldValue('education', [ ...formik.values.education, { ...education, id: `id${Math.random().toString(16)}` } ]);
+    }
     setDialogOpen(false);
+    setSelectedEducation(null);
+  };
+
+  const handleDialogCancel = () => {
+    setDialogOpen(false);
+    setSelectedEducation(null);
   };
 
   return(
     <>
       <Card
-        sx={{ width: '100%', backgroundColor: 'elementBackground.main' }}
+        sx={{ width: '100%', backgroundColor: 'elementBackground.main', height: '100%' }}
       >
         <CardContent>
-          <Box >
+          <Box mb={0.5}>
             <Box display='flex' justifyContent='space-between'>
-              <Typography variant='h5' fontWeight='bold' gutterBottom>EDUCATION INFO</Typography>
-              <IconButton color='primary' onClick={() => setDialogOpen(true)}>
-                <Edit />
+              <Typography variant='h5' fontWeight='bold' gutterBottom>Education</Typography>
+              <IconButton onClick={handleAdd}>
+                <AddIcon color='primary' />
               </IconButton>
             </Box>
             <Divider/>
           </Box>
-          <Grid container spacing = {2}>
-            {
-              formik.values?.education.map(education => (
-              <>
-                <Grid item xs={6}>
-                  <Box>
-                    <Typography variant='body2' fontWeight='bold'>School</Typography>
-                    <Typography variant='body1'>{education.school}</Typography>
+          {formik.values?.education?.length > 0 &&
+            formik.values.education.toSorted((a,b) => dayjs(b.startDate).isAfter(dayjs(a.startDate)) ? 1 : -1).map(education => (
+              <Box display='flex' justifyContent='space-between'>
+                <Box width='100%'>  
+                  <Box display='flex' justifyContent='space-between' mt={2}>
+                    <Typography variant='body1'><b>{`${education.school ? education.school : 'School'}`}</b></Typography>
+                    <Typography variant='body1'>{`${dayjs(education?.startDate).format('MM/YYYY')} - ${education.endDate && !education.current ? dayjs(education?.endDate).format('MM/YYYY') : ''}`}</Typography>
                   </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box>
-                    <Typography variant='body2' fontWeight='bold'>Degree</Typography>
-                    <Typography variant='body1'>{education.degree}</Typography>
+                  <Box display='flex'>
+                    <Typography variant='body1'><i>{education?.minor}</i></Typography>
                   </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box >
-                    <Typography variant='body2' fontWeight='bold'>Field of Study</Typography>
-                    <Typography variant='body1'>{education.fieldOfStudy}</Typography>
+                  <Divider />
+                  <Box my={1}>
+                    <Typography variant='body1' flexWrap='wrap'>{education?.degree || ''}</Typography>
                   </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box >
-                    <Typography variant='body2' fontWeight='bold'>Minor</Typography>
-                    <Typography variant='body1'>{education.minor}</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Box>
-                    <Typography variant='body2' fontWeight='bold'>Start Date</Typography>
-                    <Typography variant='body1'>{education.startDate}</Typography>
-                  </Box>
-                </Grid>
-                <Grid item xs={6}>
-                <Box >
-                  <Typography variant='body2' fontWeight='bold'>End Date</Typography>
-                  <Typography variant='body1'>{education.endDate}</Typography>
+                  
                 </Box>
-                </Grid>
-              </>
-              ))
-            }
-          </Grid>
+                <Box display='flex' flexDirection='column' justifyContent='center' my={1} ml={1}>
+                  <IconButton
+                    onClick={() => handleEdit(education.id)}
+                  >
+                    <EditIcon color='primary' />
+                  </IconButton>
+                  <IconButton
+                    onClick={() => handleDelete(education.id)}
+                  >
+                    <DeleteIcon color='secondary' />
+                  </IconButton>
+                </Box>
+              </Box>
+            ))
+          }
         </CardContent>
       </Card>
       {dialogOpen && 
-        <EducationEditor 
-          onSave={handleSave}
-          onCancel={handleCancel}
-          education={formik.values?.education || {}}
+        <EducationEditor
+          education={selectedEducation}
+          onSave={handleDialogSave}
+          onCancel={handleDialogCancel}
         />
       }
     </>
