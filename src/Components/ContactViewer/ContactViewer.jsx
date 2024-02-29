@@ -43,9 +43,15 @@ const ContactViewer = ({ formik }) => {
             </Box>
           }
           {formik.values?.contact?.phone &&
-            <Box>
+            <Box mb={2}>
               <Typography variant='body2' fontWeight='bold'>Phone Number</Typography>
               <Typography variant='body1'>{formik.values?.contact?.phone}</Typography>
+            </Box>
+          }
+           {formik.values?.contact?.headline &&
+            <Box mb={2}>
+              <Typography variant='body2' fontWeight='bold'>Headline</Typography>
+              <Typography variant='body1'>{formik.values?.contact?.headline}</Typography>
             </Box>
           }
         </CardContent>

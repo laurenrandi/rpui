@@ -5,7 +5,8 @@
         "firstName": "John",
         "lastName": "Smith",
         "email": "johnsmith@test.com",
-        "phone": "706-555-5555"
+        "phone": "706-555-5555",
+        "headline": "Software Engineer"
 
     },
     "education": [
