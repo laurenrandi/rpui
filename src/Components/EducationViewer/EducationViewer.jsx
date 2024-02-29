@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, IconButton, Divider, Stack, Chip } from '@mui/material';
+import { Box, Typography, Card, CardContent, IconButton, Divider } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -48,7 +48,7 @@ const EducationViewer = ({ formik }) => {
         <CardContent>
           <Box mb={0.5}>
             <Box display='flex' justifyContent='space-between'>
-              <Typography variant='h5' fontWeight='bold' gutterBottom>Education</Typography>
+              <Typography variant='h5' fontWeight='bold' gutterBottom>EDUCATION</Typography>
               <IconButton onClick={handleAdd}>
                 <AddIcon color='primary' />
               </IconButton>

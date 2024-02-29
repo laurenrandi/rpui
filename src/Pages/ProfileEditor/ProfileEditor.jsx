@@ -141,10 +141,6 @@ const ProfileEditor = () => {
     navigate('/profiles')
   };
 
-  const handleExport = () => {
-    //todo
-  };
-
   const handleSave = async () => {
     setSaveLoading(true);
     try {
@@ -304,8 +300,8 @@ const ProfileEditor = () => {
                     </IconButton>
                 }
                 {!(profileId === 'new') &&
-                  <Tooltip title='Save to PDFs'>
-                    <IconButton onClick={handleExport} disabled={loading}>
+                  <Tooltip title='Export to PDF'>
+                    <IconButton href={`${ServiceUtils.baseUrl}/profiles/${profileId}/pdf`} disabled={loading}>
                       <PdfIcon color='primary' />
                     </IconButton>
                   </Tooltip>
