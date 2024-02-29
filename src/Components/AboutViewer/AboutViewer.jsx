@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, IconButton, Divider, List, ListItem } from '@mui/material';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+import { Box, Typography, Card, CardContent, IconButton, Divider, List } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AboutEditor from '../AboutEditor/AboutEditor';
 
@@ -55,12 +54,11 @@ const AboutViewer = ({ formik }) => {
                       sx={{
                         padding: 0,
                         listStyleType: 'disc',
-                        listStylePosition: 'inside'
+                        listStylePosition: 'inside',
+                        marginLeft: 3
                       }}
                     >
-                      <ListItem sx={{ display: 'list-item' }}>
-                        {hobby?.text}
-                      </ListItem>
+                        <Typography my={1} sx={{ display: 'list-item' }}>{hobby?.text}</Typography>
                     </List>
                   </Box>
                 ))

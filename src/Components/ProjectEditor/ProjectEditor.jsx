@@ -51,6 +51,13 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
         </Box>
         <Box mb={2}>
           <FormikTextField
+            name='type'
+            label='Type'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikTextField
             name='description'
             label='Description'
             formik={formik}
@@ -58,13 +65,6 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
             minRows={4}
           />
         </Box> 
-        <Box mb={2}>
-          <FormikTextField
-            name='type'
-            label='Type of Project'
-            formik={formik}
-          />
-        </Box>
         <Box mb={2}>
           <FormikDateField 
             name='startDate'

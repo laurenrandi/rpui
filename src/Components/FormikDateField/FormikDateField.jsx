@@ -10,7 +10,7 @@ const FormikDateField = (props) => {
         fullWidth
         id={props.name}
         label={props.label}
-        value={props.formik.values[props.name] ? dayjs(props.formik.values[props.name]) : ''}
+        value={props.formik.values[props.name] ? dayjs(props.formik.values[props.name]) : null}
         onChange={(value) => props.formik.setFieldValue(props.name, dayjs(value).isValid() ? dayjs(value).format('YYYY-MM-DD') : null)}
         onBlur={props.formik.handleBlur}
         helperText={props.helperText || ''}

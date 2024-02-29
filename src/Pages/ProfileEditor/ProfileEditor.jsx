@@ -21,12 +21,13 @@ import ContactViewer from '../../Components/ContactViewer/ContactViewer';
 import SkillsViewer from '../../Components/SkillsViewer/SkillsViewer';
 import WorkHistoryViewer from '../../Components/WorkHistoryViewer/WorkHistoryViewer';
 import FormikTextField from '../../Components/FormikTextField/FormikTextField';
+import AboutViewer from '../../Components/AboutViewer/AboutViewer';
+import ProjectViewer from '../../Components/ProjectViewer/ProjectViewer';
+import EducationViewer from '../../Components/EducationViewer/EducationViewer';
 
 //API
 import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
-import AboutViewer from '../../Components/AboutViewer/AboutViewer';
-import ProjectViewer from '../../Components/ProjectViewer/ProjectViewer';
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -100,8 +101,12 @@ const ProfileEditor = () => {
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false);
-        setResetLoading(false);
+        if(type === 'initial') {
+          setLoading(false);
+        }
+        if(type === 'reset') {
+          setResetLoading(false);
+        }
       }
     } else {
       if(profileId !== 'master' && !loading) {
@@ -114,16 +119,14 @@ const ProfileEditor = () => {
         } catch (err) {
           console.error(err);
         } finally {
-          setLoading(false);
-          setResetLoading(false);
+          if(type === 'initial') {
+            setLoading(false);
+          }
+          if(type === 'reset') {
+            setResetLoading(false);
+          }
         }
       }
-    }
-    if(type === 'initial') {
-      setLoading(false);
-    }
-    if(type === 'reset') {
-      setResetLoading(false);
     }
   // eslint-disable-next-line
   }, []);
@@ -201,8 +204,8 @@ const ProfileEditor = () => {
           />
         </Box>
       }
-      {!loading &&
-        <Grid container rowGap={2} columnSpacing={2} mt={1}>
+      {!loading && formik.values &&
+        <Grid container rowGap={2} columnSpacing={2} mt={1} mb={4}>
           <Grid container marginTop={2}>
             <Grid item xs={4}>
               <Tooltip title='Back'>
@@ -222,7 +225,11 @@ const ProfileEditor = () => {
                     ?
                     <Box display='flex' flexDirection='column' justifyContent='center'>
                       <Typography variant='h5' align='center'>{profileId !== 'master' ? formik?.values?.name : 'Master Profile'}</Typography>
-                      {(formik.values.masterProfile && profileId !== 'master') && <Typography variant='caption' align='center'><i>This profile will become your master profile upon saving. Your current master profile will be stored as a normal profile.</i></Typography>}
+                      {(formik.values.masterProfile && profileId !== 'master') && 
+                        <Typography variant='caption' align='center' color='darkGray'>
+                          <i>This profile will become your master profile upon saving. Your current master profile will be stored as a sub-profile.</i>
+                        </Typography>
+                      }
                     </Box>
                     :
                     <Box display='flex' width='100%' justifyContent='right' ml={5} alignItems='center'>
@@ -310,8 +317,12 @@ const ProfileEditor = () => {
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <ContactViewer formik={formik} />
-            {/* education section */}
+            <Grid item mb={2}>
+              <ContactViewer formik={formik} />
+            </Grid>
+            <Grid item>
+              <EducationViewer formik={formik} />
+            </Grid>
           </Grid>
           <Grid item xs={12} md={6}>
             <AboutViewer formik={formik} />
