@@ -5,6 +5,8 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import * as yup from 'yup';
+import useUnsavedChangesWarning from '../../hooks/useUnsavedChangesWarning.tsx';
+
 
 //icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -61,6 +63,7 @@ const cleanArray = (array) => {
     return array;
   }
 }
+
 
 const ProfileEditor = () => {
   const [loading, setLoading] = useState(false);
@@ -132,18 +135,20 @@ const ProfileEditor = () => {
   }, []);
 
   useEffect(() => {
+    
     if(profileId !== 'new') {
       fetchProfile('initial');
     }
   }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
-    navigate('/profiles')
+      navigate('/profiles')
   };
 
   const handleExport = () => {
     //todo
   };
+
 
   const handleSave = async () => {
     setSaveLoading(true);
@@ -160,6 +165,7 @@ const ProfileEditor = () => {
       setSaveLoading(false);
     }
   };
+  useUnsavedChangesWarning(formik.dirty);
 
   const handleProfileNameEdit = () => {
     if(!editingProfileName) {
@@ -194,8 +200,11 @@ const ProfileEditor = () => {
     }
   };
 
+  
+
   return(
     <>
+      
       {loading &&
         <Box display='flex' justifyContent='center' alignItems='center' width='100%' height='85vh'>
           <LinearProgress
@@ -211,6 +220,7 @@ const ProfileEditor = () => {
               <Tooltip title='Back'>
                 <IconButton 
                   onClick={handleBack}
+                  
                   disabled={loading}
                 >
                   <ArrowBackIcon color='primary' />
