@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Typography, Card, CardContent, IconButton, Divider, List } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AboutEditor from '../AboutEditor/AboutEditor';
@@ -15,9 +15,14 @@ const AboutViewer = ({ formik }) => {
   }
 
   const handleDialogSave = (about) => {
-    formik.setFieldValue('about', { ...about, bulletList: about.bulletList.filter(item => item.text?.length > 0) });
+    formik.setFieldValue('bulletList', about.bulletList.filter(item => item.text?.length > 0));
+    formik.setFieldValue('bio', about.bio);
     setDialogOpen(false);
   }
+
+  useEffect(() => {
+    console.log(formik.values);
+  }, [formik.values]);
 
   return(
     <>
@@ -34,21 +39,21 @@ const AboutViewer = ({ formik }) => {
             </Box>
             <Divider/>
           </Box>
-          {formik.values?.about?.description &&
+          {formik.values?.bio &&
             <>
               <Box mb={2}>
-                <Typography variant='body1'>{formik.values?.about?.description}</Typography>
+                <Typography variant='body1'>{formik.values?.bio}</Typography>
               </Box>
               <Divider/>
             </>
           }
-          {formik.values?.about?.bulletList?.length > 0 && 
+          {formik.values?.bulletList?.length > 0 && 
             <>
               <Box mb={1}>
                 <Typography mt={2} variant='h6' fontWeight='bold'>Hobbies</Typography>
               </Box>
-              {formik.values?.about?.bulletList?.length > 0 &&
-                formik.values?.about?.bulletList?.map(hobby => (
+              {formik.values?.bulletList?.length > 0 &&
+                formik.values?.bulletList?.map(hobby => (
                   <Box display='flex'>
                     <List
                       sx={{
@@ -69,7 +74,7 @@ const AboutViewer = ({ formik }) => {
       </Card>
       {dialogOpen &&
         <AboutEditor
-          about={formik.values?.about}
+          profile={formik.values}
           onSave={handleDialogSave}
           onCancel={handleDialogCancel}
         />

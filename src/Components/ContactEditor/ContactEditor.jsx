@@ -3,9 +3,9 @@ import React from 'react';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import { useFormik } from 'formik';
 
-const ContactEditor = ({ contact, onSave, onCancel }) => {
+const ContactEditor = ({ profile, onSave, onCancel }) => {
   const formik = useFormik({
-    initialValues: contact,
+    initialValues: profile,
     enableReinitialize: true
   });
   

@@ -41,8 +41,8 @@ const cleanProfile = (prof) => {
     profile.workHistory = cleanArray(profile.workHistory);
     profile.workHistory.map(job => job.technologies = cleanArray(job.technologies));
   }
-  if(profile?.about?.bulletList?.length > 0) {
-    profile.about.bulletList = cleanArray(profile.about.bulletList);
+  if(profile?.bulletList?.length > 0) {
+    profile.bulletList = cleanArray(profile.bulletList);
   }
   if(profile?.skills?.length > 0) {
     profile.skills = cleanArray(profile.skills);
@@ -301,7 +301,11 @@ const ProfileEditor = () => {
                 }
                 {!(profileId === 'new') &&
                   <Tooltip title='Export to PDF'>
-                    <IconButton href={`${ServiceUtils.baseUrl}/profiles/${profileId}/pdf`} disabled={loading}>
+                    <IconButton 
+                      href={`${ServiceUtils.baseUrl}/profiles/${formik.values?.id}/pdf`} 
+                      disabled={loading}
+                      target='_blank'
+                    >
                       <PdfIcon color='primary' />
                     </IconButton>
                   </Tooltip>

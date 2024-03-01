@@ -1,22 +1,17 @@
 {
-  "contact": {
-    "firstName": "",
-    "middleName": "",
-    "lastName": "",
-    "headline": "",
-    "email": "",
-    "phone": ""
-  },
+  "firstName": "",
+  "middleName": "",
+  "lastName": "",
+  "headline": "",
+  "email": "",
+  "phone": "",
+  "bio": "",
   "education": [],
   "workHistory": [],
-  "about": {
-    "bulletList": [],
-    "description": ""
-  },
+  "bulletList": [],
   "projects": [],
   "skills": [],
   "industryEquivalency": [],
   "name": null,
-  "masterProfile": false,
-  "savedProfile": false
+  "masterProfile": false
 }

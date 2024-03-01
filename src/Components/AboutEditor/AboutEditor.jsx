@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
 import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton } from '@mui/material';
 import FormikTextField from '../FormikTextField/FormikTextField';
@@ -6,19 +6,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const initialValues = {
     bulletList: [],
-    description: null
+    bio: null
 }
 
-const AboutEditor = ({ about, onSave, onCancel }) => {
+const AboutEditor = ({ profile, onSave, onCancel }) => {
 
     const formik = useFormik({
-        initialValues: about || initialValues,
+        initialValues: profile || initialValues,
         enableReinitialize: true,
     });
-
-    useEffect(() => {
-        console.log(formik.values);
-    }, [formik.values]);
 
     return(
         <Dialog open fullWidth>
@@ -29,8 +25,8 @@ const AboutEditor = ({ about, onSave, onCancel }) => {
                 </Box>
                 <Box mt={2}>
                     <FormikTextField
-                        name='description'
-                        label='Description'
+                        name='bio'
+                        label='Bio'
                         multiline
                         minRows={4}
                         formik={formik}
