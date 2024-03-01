@@ -24,13 +24,13 @@ const AboutEditor = ({ about, onSave, onCancel }) => {
         <Dialog open fullWidth>
             <DialogContent>
                 <Box>
-                    <Typography variant='h5' fontWeight='bold' gutterBottom>ABOUT EDITOR</Typography>
+                    <Typography variant='h5' fontWeight='bold' gutterBottom>ABOUT ME</Typography>
                     <Divider/>
                 </Box>
                 <Box mt={2}>
                     <FormikTextField
                         name='description'
-                        label='Description'
+                        label='Write a short summary of yourself, your interests, and anything else!'
                         multiline
                         minRows={4}
                         formik={formik}
@@ -60,7 +60,7 @@ const AboutEditor = ({ about, onSave, onCancel }) => {
                         </Box>
                     ))}
                     <Box display='flex' justifyContent='center' mt={2}>
-                        <Button variant='contained' onClick={() => formik.setFieldValue('bulletList', [...formik.values.bulletList, { id: `id${Math.random().toString(16)}`, text: '' }])}>Add Bullet</Button>
+                        <Button variant='contained' onClick={() => formik.setFieldValue('bulletList', [...formik.values.bulletList, { id: `id${Math.random().toString(16)}`, text: '' }])}>Add Interest</Button>
                     </Box>
                 </Box>
             </DialogContent>

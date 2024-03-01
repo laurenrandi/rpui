@@ -39,7 +39,7 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>PROJECT EDITOR</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>ADD PROJECT</Typography>
           <Divider/>
         </Box>
         <Box mb={2}>
