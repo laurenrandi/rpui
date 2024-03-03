@@ -29,7 +29,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>Education Editor</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>ADD DEGREE</Typography>
           <Divider/>
         </Box>
         <Box mb={2}>
@@ -62,7 +62,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
           <Box ml={1}>
             <FormikCheckboxField 
               name='current'
-              label='Current'
+              label='In Progress'
               formik={formik}
             />
           </Box>

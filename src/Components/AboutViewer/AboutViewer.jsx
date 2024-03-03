@@ -50,7 +50,7 @@ const AboutViewer = ({ formik }) => {
           {formik.values?.bulletList?.length > 0 && 
             <>
               <Box mb={1}>
-                <Typography mt={2} variant='h6' fontWeight='bold'>Hobbies</Typography>
+                <Typography mt={2} variant='h6' fontWeight='bold'>Interests</Typography>
               </Box>
               {formik.values?.bulletList?.length > 0 &&
                 formik.values?.bulletList?.map(hobby => (
