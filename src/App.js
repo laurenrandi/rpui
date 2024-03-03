@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Landing from "./Pages/Landing/Landing";
 import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
 import Layout from "./Pages/Layout/Layout";
@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { useEffect, useState } from "react";
 import UserContext from "./Lib/UserContext/UserContext";
 import Profiles from "./Pages/Profiles/Profiles";
-import Documents from "./Pages/Documents/Documents";
+//import Documents from "./Pages/Documents/Documents";
 import Users from "./Pages/Users/Users";
 import LogoutSuccess from "./Pages/LogoutSuccess/LogoutSuccess";
 import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
@@ -49,7 +49,7 @@ function App() {
               <Route path="/login/success/:userId" element={<LoginSuccess />} />
               <Route path="/profiles" element={<Profiles />} />
               <Route path="/profiles/:profileId" element={<ProfileEditor />} />
-              <Route path="/documents" element={<Documents />} />
+              {/* <Route path="/documents" element={<Documents />} /> */}
               <Route path="/users" element={<Users />} />
             </Route>
           </Routes>

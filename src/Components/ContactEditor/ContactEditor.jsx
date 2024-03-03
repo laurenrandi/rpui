@@ -47,13 +47,21 @@ const ContactEditor = ({ profile, onSave, onCancel }) => {
             formik={formik}
           />
         </Box>
-        <Box>
+        <Box mb = {2}>
           <FormikTextField
             name='phone'
             label='Phone Number'
             formik={formik}
           />
         </Box>
+        <Box mb = {2}>
+          <FormikTextField
+            name='headline'
+            label='Headline'
+            formik={formik}
+          />
+        </Box>
+   
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>

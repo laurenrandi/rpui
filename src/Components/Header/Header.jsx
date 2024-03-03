@@ -23,9 +23,9 @@ const Header = ({ hideLoginButton=false }) => {
       case '/profiles':
         setTabValue(0);
         break;
-      case '/documents':
-        setTabValue(1);
-        break;
+    //  case '/documents':
+     //   setTabValue(1);
+     //   break;
       case '/users':
         setTabValue(2);
         break;
@@ -80,7 +80,7 @@ const Header = ({ hideLoginButton=false }) => {
                       scrollButtons="auto"
                     >
                       <Tab label='your profiles' tabIndex={0} onClick={() => navigate('/profiles')} />
-                      <Tab label='documents' tabIndex={0} onClick={() => navigate('/documents')} />
+                      {/* <Tab label='documents' tabIndex={0} onClick={() => navigate('/documents')} /> */}
                       {isAdmin && <Tab label='users' tabIndex={0} onClick={() => navigate('/users')} />}
                     </Tabs>
                   </Box>
