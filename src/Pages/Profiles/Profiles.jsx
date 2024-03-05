@@ -3,13 +3,15 @@ import UserContext from '../../Lib/UserContext/UserContext';
 import { Grid, Typography, Box, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, LinearProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/NoteAdd';
 import SearchIcon from '@mui/icons-material/Search';
+import DeleteIcon from '@mui/icons-material/Delete';
 import StarsIcon from '@mui/icons-material/Stars';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import dayjs from 'dayjs';
+import { useFormik } from 'formik';
 
-const Profiles = () => {
+const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useContext(UserContext);
@@ -79,16 +81,6 @@ const Profiles = () => {
                         <AddIcon />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip
-                      title='View Master Profile'
-                    >
-                      <IconButton
-                        onClick={() => navigate('/profiles/master')}
-                        color='golden'
-                      >
-                        <StarsIcon />
-                      </IconButton>
-                    </Tooltip>
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -101,6 +93,26 @@ const Profiles = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
+                <TableRow
+                  hover
+                  sx={{ cursor: 'pointer' }}
+                  onClick={() => navigate(`/profiles/master`)}
+                >
+                  <TableCell fontWeight='bold'>Master Profile</TableCell>
+                  <TableCell align='right'>
+                    {dayjs(formik?.values?.createdDate).isValid() ? dayjs(formik?.values?.createdDate).format('MM/DD/YYYY') : 'N/A'}
+                    <IconButton
+                      color='golden'
+                    >
+                      <StarsIcon />
+                    </IconButton>
+                    <IconButton
+                      color='primary'
+                    >
+                      <DeleteIcon color='secondary'/>
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
                 {profiles.map(profile => (
                   <TableRow 
                     key={profile.id}
@@ -112,6 +124,15 @@ const Profiles = () => {
                     <TableCell align='right'>
                       {dayjs(profile.createdDate).isValid() ? dayjs(profile.createdDate).format('MM/DD/YYYY') : 'N/A'}
                     </TableCell>
+                    <TableCell
+                      align='right'>
+                      <IconButton
+                        color='primary'
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                    
                   </TableRow>
                 ))}
               </TableBody>
