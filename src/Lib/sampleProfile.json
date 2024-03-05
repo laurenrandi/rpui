@@ -5,34 +5,35 @@
         "firstName": "John",
         "lastName": "Smith",
         "email": "johnsmith@test.com",
-        "phone": "706-555-5555"
+        "phone": "706-555-5555",
+        "headline": "Software Engineer"
 
     },
     "education": [
         {
             "id": 27,
             "startDate": "02-12-2005",
-            "endDate": "01-12-2007",
+            "graduationDate": "01-12-2007",
             "school": "UGA",
             "degree": "BS",
-            "fieldOfStudy": "Computer Science",
+            "major": "Computer Science",
             "minor": "math"
         },
         {
             "id": 27,
             "startDate": "02-12-2001",
-            "endDate": "05-12-2005",
+            "graduationDate": "05-12-2005",
             "school": "Generic High School",
-            "degree": "BS",
-            "fieldOfStudy": "History",
-            "minor": "spanish"
+            "degree": null,
+            "major": null,
+            "minor": null
         }
     ],
     "workHistory": [
         {
             "id": 11,
             "startDate": "2009-06-01",
-            "endDate": "2014-04-01",
+            "graduationDate": "2014-04-01",
             "company": "Microsoft",
             "role": "Software Engineer",
             "responsibilities": "Did lots of technical stuff",
@@ -55,7 +56,7 @@
         {
             "id": 12,
             "startDate": "2014-04-01",
-            "endDate": null,
+            "graduationDate": null,
             "company": "Apple",
             "role": "Software Engineer",
             "responsibilities": "Did lots of technical stuff as well",

@@ -41,7 +41,7 @@ const WorkHistoryEditor = ({ job, onSave, onCancel }) => {
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>JOB EDITOR</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>ADD JOB</Typography>
           <Divider/>
         </Box>
         <Box mb={2}>
@@ -76,7 +76,7 @@ const WorkHistoryEditor = ({ job, onSave, onCancel }) => {
           <Box ml={1}>
             <FormikCheckboxField 
               name='current'
-              label='Current'
+              label='Current Position'
               formik={formik}
             />
           </Box>

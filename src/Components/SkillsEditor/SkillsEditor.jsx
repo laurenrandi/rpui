@@ -34,7 +34,7 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>SKILL EDITOR</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>ADD SKILL</Typography>
           <Divider/>
         </Box>
         <Box display='flex' justifyContent='center' mb={2}>

@@ -10,9 +10,9 @@ const initialValues = {
   school: null,
   degree: null,
   minor: null,
-  fieldOfStudy: null,
+  major: null,
   startDate: null,
-  endDate: null,
+  graduationDate: null,
 }
 
 const EducationEditor = ({ education, onSave, onCancel }) => {
@@ -29,7 +29,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
     >
       <DialogContent>
         <Box mb={2}>
-          <Typography variant='h5' fontWeight='bold' gutterBottom>Education Editor</Typography>
+          <Typography variant='h5' fontWeight='bold' gutterBottom>ADD DEGREE</Typography>
           <Divider/>
         </Box>
         <Box mb={2}>
@@ -41,8 +41,8 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
         </Box>
         <Box mb={2}>
           <FormikTextField 
-            name='degree'
-            label='Degree'
+            name='major'
+            label='Major'
             formik={formik}
           />
         </Box>
@@ -62,7 +62,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
           <Box ml={1}>
             <FormikCheckboxField 
               name='current'
-              label='Current'
+              label='In Progress'
               formik={formik}
             />
           </Box>
@@ -70,8 +70,8 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
         {!formik.values?.current === true &&
           <Box mb={2}>
             <FormikDateField 
-              name='endDate'
-              label='End Date'
+              name='graduationDate'
+              label='Graduation Date'
               formik={formik}
             />
           </Box>

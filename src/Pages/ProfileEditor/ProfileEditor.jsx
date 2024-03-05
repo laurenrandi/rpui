@@ -5,6 +5,8 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import * as yup from 'yup';
+import useUnsavedChangesWarning from '../../hooks/useUnsavedChangesWarning.tsx';
+
 
 //icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -41,8 +43,8 @@ const cleanProfile = (prof) => {
     profile.workHistory = cleanArray(profile.workHistory);
     profile.workHistory.map(job => job.technologies = cleanArray(job.technologies));
   }
-  if(profile?.about?.bulletList?.length > 0) {
-    profile.about.bulletList = cleanArray(profile.about.bulletList);
+  if(profile?.bulletList?.length > 0) {
+    profile.bulletList = cleanArray(profile.bulletList);
   }
   if(profile?.skills?.length > 0) {
     profile.skills = cleanArray(profile.skills);
@@ -61,6 +63,7 @@ const cleanArray = (array) => {
     return array;
   }
 }
+
 
 const ProfileEditor = () => {
   const [loading, setLoading] = useState(false);
@@ -132,13 +135,14 @@ const ProfileEditor = () => {
   }, []);
 
   useEffect(() => {
+    
     if(profileId !== 'new') {
       fetchProfile('initial');
     }
   }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
-    navigate('/profiles')
+      navigate('/profiles')
   };
 
   const handleSave = async () => {
@@ -156,6 +160,7 @@ const ProfileEditor = () => {
       setSaveLoading(false);
     }
   };
+  useUnsavedChangesWarning(formik.dirty);
 
   const handleProfileNameEdit = () => {
     if(!editingProfileName) {
@@ -190,8 +195,11 @@ const ProfileEditor = () => {
     }
   };
 
+  
+
   return(
     <>
+      
       {loading &&
         <Box display='flex' justifyContent='center' alignItems='center' width='100%' height='85vh'>
           <LinearProgress
@@ -207,6 +215,7 @@ const ProfileEditor = () => {
               <Tooltip title='Back'>
                 <IconButton 
                   onClick={handleBack}
+                  
                   disabled={loading}
                 >
                   <ArrowBackIcon color='primary' />
@@ -301,7 +310,11 @@ const ProfileEditor = () => {
                 }
                 {!(profileId === 'new') &&
                   <Tooltip title='Export to PDF'>
-                    <IconButton href={`${ServiceUtils.baseUrl}/profiles/${profileId}/pdf`} disabled={loading}>
+                    <IconButton 
+                      href={`${ServiceUtils.baseUrl}/profiles/${formik.values?.id}/pdf`} 
+                      disabled={loading}
+                      target='_blank'
+                    >
                       <PdfIcon color='primary' />
                     </IconButton>
                   </Tooltip>
