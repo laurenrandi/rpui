@@ -100,7 +100,6 @@ const Profiles = ( formik ) => {
                 >
                   <TableCell fontWeight='bold'>Master Profile</TableCell>
                   <TableCell align='right'>
-                    {dayjs(formik?.values?.createdDate).isValid() ? dayjs(formik?.values?.createdDate).format('MM/DD/YYYY') : 'N/A'}
                     <IconButton
                       color='golden'
                     >
@@ -123,16 +122,12 @@ const Profiles = ( formik ) => {
                     <TableCell>{profile.name}</TableCell>
                     <TableCell align='right'>
                       {dayjs(profile.createdDate).isValid() ? dayjs(profile.createdDate).format('MM/DD/YYYY') : 'N/A'}
-                    </TableCell>
-                    <TableCell
-                      align='right'>
                       <IconButton
-                        color='primary'
+                        color='secondary'
                       >
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
-                    
                   </TableRow>
                 ))}
               </TableBody>
