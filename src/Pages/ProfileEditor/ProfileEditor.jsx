@@ -135,14 +135,13 @@ const ProfileEditor = () => {
   }, []);
 
   useEffect(() => {
-    
     if(profileId !== 'new') {
       fetchProfile('initial');
     }
   }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
-      navigate('/profiles')
+      navigate(-1);
   };
 
   const handleSave = async () => {
@@ -211,11 +210,10 @@ const ProfileEditor = () => {
       {!loading && formik.values &&
         <Grid container rowGap={2} columnSpacing={2} mt={1} mb={4}>
           <Grid container marginTop={2}>
-            <Grid item xs={4}>
+            <Grid item xs={4} pl={1}>
               <Tooltip title='Back'>
                 <IconButton 
                   onClick={handleBack}
-                  
                   disabled={loading}
                 >
                   <ArrowBackIcon color='primary' />

@@ -41,7 +41,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
         </Box>
         <Box mb={2}>
           <FormikTextField 
-            name='major'
+            name='fieldOfStudy'
             label='Major'
             formik={formik}
           />
@@ -70,7 +70,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
         {!formik.values?.current === true &&
           <Box mb={2}>
             <FormikDateField 
-              name='graduationDate'
+              name='endDate'
               label='Graduation Date'
               formik={formik}
             />

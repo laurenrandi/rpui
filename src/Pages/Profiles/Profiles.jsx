@@ -98,7 +98,7 @@ const Profiles = ( formik ) => {
                   sx={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/profiles/master`)}
                 >
-                  <TableCell fontWeight='bold'>Master Profile</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold' }}>Master Profile</TableCell>
                   <TableCell align='right'>
                     <IconButton
                       color='golden'
