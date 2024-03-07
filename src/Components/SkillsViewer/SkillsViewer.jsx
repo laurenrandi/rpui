@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Edit, Add, Delete } from '@mui/icons-material';
 import { Box, Typography, Divider, Card, CardContent, IconButton, Menu, Tooltip } from '@mui/material';
-import { Doughnut } from 'react-chartjs-2';
-import { ArcElement, Tooltip as ttip , Legend, Chart, Colors } from 'chart.js';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import { ArcElement, Tooltip as ttip , Legend, Chart, Colors, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import SkillsEditor from '../SkillsEditor/SkillsEditor';
 
-Chart.register(ArcElement, ttip, Legend, Colors);
+Chart.register(ArcElement, ttip, Legend, Colors, CategoryScale, LinearScale, BarElement);
 
 const SkillsViewer = ({ formik }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -37,6 +37,24 @@ const SkillsViewer = ({ formik }) => {
     }
     return null;
   };
+
+  const formatExperienceData = (skills) => {
+    if(skills) {
+      const groupedData = Object.groupBy(skills, ({ type }) => type);
+      return({
+        labels: Object.keys(groupedData),
+        datasets: [{
+          label: 'Months of Experience',
+          data: Object.keys(groupedData).map(type => (
+            groupedData[type].map(skill => skill.months).reduce((sum, val) => sum + val, 0)
+          )),
+          hoverOffset: 4,
+          borderWidth: 1
+        }]
+      })
+    }
+    return null;
+  }
 
   const handleEditMenuClick = (event, menuList) => {
     setEditMenuAnchor(event.currentTarget);
@@ -103,73 +121,62 @@ const SkillsViewer = ({ formik }) => {
             </Box>
           }
           <Box display='flex' justifyContent='center'>
-          {formatProficiencyData(formik.values.skills) &&
-            formatProficiencyData(formik.values.skills)?.map(({ chartData, title, menuList }, index) => (
-              <Box key={index} display='flex' flexDirection='column'>
-                <Box display='flex' justifyContent='center' flexWrap='wrap' overflow='auto'>
-                  <Typography mr={1} mt={0.75}>{title}</Typography>
-                  <IconButton
-                    onClick={e => handleEditMenuClick(e, menuList)}
-                    size='small'
-                  >
-                    <Edit color='primary' />
-                  </IconButton>
+            {formatProficiencyData(formik.values.skills) &&
+              formatProficiencyData(formik.values.skills)?.map(({ chartData, title, menuList }, index) => (
+                <Box key={index} display='flex' flexDirection='column'>
+                  <Box display='flex' justifyContent='center' flexWrap='wrap' overflow='auto'>
+                    <Typography mr={1} mt={0.75}>{title}</Typography>
+                    <IconButton
+                      onClick={e => handleEditMenuClick(e, menuList)}
+                      size='small'
+                   >
+                      <Edit color='primary' />
+                   </IconButton>
+                 </Box>
+                 <Doughnut
+                    data={chartData} 
+                    options={{ 
+                      responsive: true, 
+                      maintainAspectRatio: true,
+                      plugins: {
+                        colors: {
+                          enabled: true,
+                          forceOverride: true
+                        }
+                      }
+                    }}
+                  />
                 </Box>
-                <Doughnut
-                  data={chartData} 
-                  options={{ 
-                    responsive: true, 
+              ))
+            }
+          </Box>
+          {formik.values?.skills?.length > 0 && 
+            <Box my={2}>
+              <Typography variant='h6' align='center'>{'Months of Experience (Cumulative)'}</Typography>
+            </Box>
+          }
+          {formatExperienceData(formik.values.skills) && 
+            <Box display='flex' justifyContent='center'>
+              <Box width='70%' height='70%'>
+                <Bar 
+                  data={formatExperienceData(formik.values.skills)}
+                  options={{
+                    responsive: true,
                     maintainAspectRatio: true,
                     plugins: {
                       colors: {
                         enabled: true,
                         forceOverride: true
+                      },
+                      legend: {
+                        display: false
                       }
                     }
                   }}
                 />
               </Box>
-              ))
-            }
-          </Box>
-          {/* {formik.values?.skills?.length > 0 &&
-            <>
-              <Box mt={4} mb={2}>
-                <Typography variant='h6' align='center'>Industry Equivalencies</Typography>
-                <Box display='flex' justifyContent='center'>
-                  <Typography variant='caption' align='center'><i>(in Months)</i></Typography>
-                </Box>
-              </Box>
-              <Box display='flex' justifyContent='center' alignItems='center'flexWrap='wrap'>
-                {formik.values.skills.sort((a,b) => b.months - a.months).map((skill, index) => (
-                  <Box display='flex' flexDirection='column' key={index}>
-                    <Box
-                      display='flex' 
-                      justifyContent='center' 
-                      alignItems='center'
-                      borderRadius='50%'
-                      mx={5}
-                      sx={{border: `3px solid ${equivalencyColors[index % equivalencyColors.length]}`}}
-                    >
-                      <Box 
-                        p={1} 
-                        minWidth={skill.months > 25 ? 100 : 75 + skill.months} 
-                        minHeight={skill.months > 25 ? 100 : 75 + skill.months}
-                        display='flex'
-                        justifyContent='center'
-                        alignItems='center'
-                      >
-                        <Typography>{skill.months}</Typography>
-                      </Box>
-                    </Box>
-                    <Box display='flex' justifyContent='center'>
-                      <Typography variant='caption'>{skill.name}</Typography>
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-            </>
-          } */}
+            </Box>
+          }
         </CardContent>
       </Card>
       <Menu

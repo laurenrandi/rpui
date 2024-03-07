@@ -15,7 +15,7 @@ const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
   const [profileLoading, setProfileLoading] = useState(false);
   const { user } = useContext(UserContext);
-  const { setLoading } = useContext(LoadingContext);
+  const { loading, setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,101 +55,103 @@ const Profiles = ( formik ) => {
 
   return(
     <>
-      <Grid container justifyContent='center' width={'100%'} mt={5}>
-        <Box width='90%'>
-          <TableContainer component={Paper}>
-            <Table sx={{backgroundColor: 'elementBackground.main'}}>
-              <TableHead>
-                <TableRow>
-                  <TableCell align='left'>
-                    <Box my={1}>
-                      <Typography variant='h5' sx={{ userSelect: 'none' }}>
-                        {user?.name ? `${user.name}'s Profiles` : 'Profiles'}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell align='right'>
-                    <Tooltip
-                      title='Search'
-                    >
+      {!loading && 
+        <Grid container justifyContent='center' width={'100%'} mt={5}>
+          <Box width='90%'>
+            <TableContainer component={Paper}>
+              <Table sx={{backgroundColor: 'elementBackground.main'}}>
+                <TableHead>
+                  <TableRow>
+                    <TableCell align='left'>
+                      <Box my={1}>
+                        <Typography variant='h5' sx={{ userSelect: 'none' }}>
+                          {user?.name ? `${user.name}'s Profiles` : 'Profiles'}
+                        </Typography>
+                      </Box>
+                    </TableCell>
+                    <TableCell align='right'>
+                      <Tooltip
+                        title='Search'
+                      >
+                        <IconButton
+                          color='primary'
+                        >
+                          <SearchIcon />
+                        </IconButton>
+                      </Tooltip>
+                      {!profileLoading ?
+                        <Tooltip
+                          title='Add Profile'
+                        >
+                          <IconButton
+                            onClick={handleAddProfile}
+                            color='primary'
+                          >
+                            <AddIcon />
+                          </IconButton>
+                        </Tooltip>
+                      :
+                        <IconButton disabled>
+                          <CircularProgress color='primary' size={20}/>
+                        </IconButton>
+                      }
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>
+                      <Typography fontWeight='bold'>Profile Name</Typography>
+                    </TableCell>
+                    <TableCell align='right'>
+                      <Typography fontWeight='bold'>Created</Typography>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow
+                    hover
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => navigate(`/profiles/master`)}
+                  >
+                    <TableCell sx={{ fontWeight: 'bold' }}>Master Profile</TableCell>
+                    <TableCell align='right'>
+                      <IconButton
+                        color='golden'
+                      >
+                        <StarsIcon />
+                      </IconButton>
                       <IconButton
                         color='primary'
                       >
-                        <SearchIcon />
-                      </IconButton>
-                    </Tooltip>
-                    {!profileLoading ?
-                      <Tooltip
-                        title='Add Profile'
-                      >
-                        <IconButton
-                          onClick={handleAddProfile}
-                          color='primary'
-                        >
-                          <AddIcon />
-                        </IconButton>
-                      </Tooltip>
-                    :
-                      <IconButton disabled>
-                        <CircularProgress color='primary' size={20}/>
-                      </IconButton>
-                    }
-                  </TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight='bold'>Profile Name</Typography>
-                  </TableCell>
-                  <TableCell align='right'>
-                    <Typography fontWeight='bold'>Created</Typography>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow
-                  hover
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => navigate(`/profiles/master`)}
-                >
-                  <TableCell sx={{ fontWeight: 'bold' }}>Master Profile</TableCell>
-                  <TableCell align='right'>
-                    <IconButton
-                      color='golden'
-                    >
-                      <StarsIcon />
-                    </IconButton>
-                    <IconButton
-                      color='primary'
-                    >
-                      <DeleteIcon color='secondary'/>
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-                {profiles.map(profile => (
-                  <TableRow 
-                    key={profile.id}
-                    hover
-                    sx={{ cursor: 'pointer' }}
-                    onClick={() => navigate(`/profiles/${profile.id}`)}
-                  >
-                    <TableCell>{profile.name}</TableCell>
-                    <TableCell align='right'>
-                      {dayjs(profile.createdDate).isValid() ? dayjs(profile.createdDate).format('MM/DD/YYYY') : 'N/A'}
-                      <IconButton
-                        color='secondary'
-                      >
-                        <DeleteIcon />
+                        <DeleteIcon color='secondary'/>
                       </IconButton>
                     </TableCell>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-        <Grid item xs={12} maxWidth={1000}>
+                  {profiles.map(profile => (
+                    <TableRow 
+                      key={profile.id}
+                      hover
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => navigate(`/profiles/${profile.id}`)}
+                    >
+                      <TableCell>{profile.name}</TableCell>
+                      <TableCell align='right'>
+                        {dayjs(profile.createdDate).isValid() ? dayjs(profile.createdDate).format('MM/DD/YYYY') : 'N/A'}
+                        <IconButton
+                          color='secondary'
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Box>
+          <Grid item xs={12} maxWidth={1000}>
+          </Grid>
         </Grid>
-      </Grid>
+      }
     </>
   );
 };
