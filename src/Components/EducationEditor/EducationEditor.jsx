@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useFormik } from 'formik';
-import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton, Chip, Stack } from '@mui/material';
+import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider } from '@mui/material';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import FormikDateField from '../FormikDateField/FormikDateField';
 import FormikCheckboxField from '../FormikCheckboxField/FormikCheckboxField';
-import AddIcon from '@mui/icons-material/Add';
 
 const initialValues = {
   school: null,

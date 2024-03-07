@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
-import { Grid, Typography, Box, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, LinearProgress } from '@mui/material';
+import { Grid, Typography, Box, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/NoteAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,12 +9,13 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import dayjs from 'dayjs';
-import { useFormik } from 'formik';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 
 const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [profileLoading, setProfileLoading] = useState(false);
   const { user } = useContext(UserContext);
+  const { setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,21 +36,27 @@ const Profiles = ( formik ) => {
       }
     }
     fetchProfiles();
-  }, [user]);
+  }, [user, setLoading]);
 
-  const handleAddProfile = () => {
-    navigate('/profiles/new');
+  const handleAddProfile = async () => {
+    setProfileLoading(true);
+    try {
+      await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/profiles/master/clone`)
+      .then(res => {
+        const { data } = res;
+        navigate(`/profiles/${data}`);
+      })
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setProfileLoading(false);
+    }
   };
 
   return(
     <>
       <Grid container justifyContent='center' width={'100%'} mt={5}>
         <Box width='90%'>
-          {loading && 
-            <LinearProgress
-              color='primary'
-            />
-          }
           <TableContainer component={Paper}>
             <Table sx={{backgroundColor: 'elementBackground.main'}}>
               <TableHead>
@@ -71,16 +78,22 @@ const Profiles = ( formik ) => {
                         <SearchIcon />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip
-                      title='Add Profile'
-                    >
-                      <IconButton
-                        onClick={handleAddProfile}
-                        color='primary'
+                    {!profileLoading ?
+                      <Tooltip
+                        title='Add Profile'
                       >
-                        <AddIcon />
+                        <IconButton
+                          onClick={handleAddProfile}
+                          color='primary'
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </Tooltip>
+                    :
+                      <IconButton disabled>
+                        <CircularProgress color='primary' size={20}/>
                       </IconButton>
-                    </Tooltip>
+                    }
                   </TableCell>
                 </TableRow>
                 <TableRow>

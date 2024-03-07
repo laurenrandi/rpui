@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
-import { Box, CircularProgress, Divider, Grid, IconButton, LinearProgress, Tooltip, Typography } from '@mui/material';
+import { Box, CircularProgress, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
@@ -30,6 +30,7 @@ import EducationViewer from '../../Components/EducationViewer/EducationViewer';
 //API
 import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext.jsx';
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -66,7 +67,7 @@ const cleanArray = (array) => {
 
 
 const ProfileEditor = () => {
-  const [loading, setLoading] = useState(false);
+  const { loading, setLoading } = useContext(LoadingContext);
   //separate loading state for reset functon so we don't refresh the whole page
   const [resetLoading, setResetLoading] = useState(false);
   //separate loading state for save function so we can show the loading indicator
@@ -198,15 +199,6 @@ const ProfileEditor = () => {
 
   return(
     <>
-      
-      {loading &&
-        <Box display='flex' justifyContent='center' alignItems='center' width='100%' height='85vh'>
-          <LinearProgress
-            color='primary'
-            style={{ width: "75%" }}
-          />
-        </Box>
-      }
       {!loading && formik.values &&
         <Grid container rowGap={2} columnSpacing={2} mt={1} mb={4}>
           <Grid container marginTop={2}>

@@ -1,34 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import axios from 'axios';
 import ArrowIcon from '@mui/icons-material/ArrowDropDown';
-import { Accordion, AccordionSummary, Typography, Box, AccordionDetails, List, ListItem, ListItemButton, Divider, Chip, Avatar } from '@mui/material';
+import { Accordion, AccordionSummary, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 
 const Users = () => {
   const [users, setUsers] = useState([]); 
-  const [loading, setLoading] = useState(false);
+  const { setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      if(!loading) {
-        setLoading(true);
-        try {
-          await axios.get(`${ServiceUtils.baseUrl}/users/info`)
-          .then(res => {
-            const { data } = res;
-            setUsers(data);
-          });
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
+      setLoading(true);
+      try {
+        await axios.get(`${ServiceUtils.baseUrl}/users/info`)
+        .then(res => {
+          const { data } = res;
+          setUsers(data);
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUsers();
-  }, []);
+  }, [setLoading]);
 
   const getColor = (str) => {
     let hash = 0;
@@ -63,7 +62,16 @@ const Users = () => {
           </AccordionSummary>
           {user?.profiles?.length > 0 &&
             <AccordionDetails>
-              <List>
+              <List
+                subheader={
+                  <>
+                    <ListSubheader sx={{ backgroundColor: 'elementBackground.main', fontSize: '12pt', fontWeight: 'bold' }}>
+                      Profiles
+                    </ListSubheader>
+                    <Divider />
+                  </>
+                }
+              >
                 {user.profiles.filter(profile => profile.name?.length > 0).map((profile, index) => (
                   <>
                     <ListItemButton onClick={() => { navigate(`/profiles/${profile.id}`) }}>
