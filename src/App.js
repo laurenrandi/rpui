@@ -17,6 +17,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { SnackbarProvider } from "notistack";
 
 const theme = createTheme({
   palette: {
@@ -45,19 +46,25 @@ function App() {
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={userValue}>
         <LoadingContext.Provider value={loadingValue}>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Layout />}>
-                <Route index element={<Landing />} />
-                <Route path='/logout/success' element={<LogoutSuccess />} />
-                <Route path="/login/success/:userId" element={<LoginSuccess />} />
-                <Route path="/profiles" element={<Profiles />} />
-                <Route path="/profiles/:profileId" element={<ProfileEditor />} />
-                {/* <Route path="/documents" element={<Documents />} /> */}
-                <Route path="/users" element={<Users />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+          <SnackbarProvider
+            style={{
+              fontFamily: theme.typography.fontFamily
+            }}
+          >
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Landing />} />
+                  <Route path='/logout/success' element={<LogoutSuccess />} />
+                  <Route path="/login/success/:userId" element={<LoginSuccess />} />
+                  <Route path="/profiles" element={<Profiles />} />
+                  <Route path="/profiles/:profileId" element={<ProfileEditor />} />
+                  {/* <Route path="/documents" element={<Documents />} /> */}
+                  <Route path="/users" element={<Users />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </SnackbarProvider>
         </LoadingContext.Provider>
       </UserContext.Provider>
     </ThemeProvider>

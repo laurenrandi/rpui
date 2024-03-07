@@ -31,6 +31,7 @@ import EducationViewer from '../../Components/EducationViewer/EducationViewer';
 import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext.jsx';
+import { useSnackbar } from 'notistack';
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -79,6 +80,7 @@ const ProfileEditor = () => {
   const [originalProfileName, setOriginalProfileName] = useState('');
   const { user } = useContext(UserContext);
   const { profileId } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: emptyProfile,
@@ -153,9 +155,11 @@ const ProfileEditor = () => {
       } else {
         await axios.put(`${ServiceUtils.baseUrl}/profiles/${formik.values.id}`, cleanProfile(formik.values));
       }
-      navigate('/profiles');
+      enqueueSnackbar(`Successfully saved ${formik.values.name}.`, { variant: 'success' });
+      navigate(-1);
     } catch (err) {
       console.error(err);
+      enqueueSnackbar('An error occured while saving your profile.', { variant: 'error' })
     } finally {
       setSaveLoading(false);
     }

@@ -5,23 +5,23 @@ import ArrowIcon from '@mui/icons-material/ArrowDropDown';
 import { Accordion, AccordionSummary, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
+import { useSnackbar } from 'notistack';
 
 const Users = () => {
   const [users, setUsers] = useState([]); 
   const { setLoading } = useContext(LoadingContext);
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
       try {
-        await axios.get(`${ServiceUtils.baseUrl}/users/info`)
-        .then(res => {
-          const { data } = res;
-          setUsers(data);
-        });
+        const { data } = await axios.get(`${ServiceUtils.baseUrl}/users/info`);
+        setUsers(data);
       } catch (err) {
         console.error(err);
+        enqueueSnackbar('An error occured while fetching user data.', { variant: 'error' })
       } finally {
         setLoading(false);
       }
@@ -45,7 +45,7 @@ const Users = () => {
   
   return(
     <Box margin={5}>
-      {users.map(user => (
+      {users.filter(user => user.name?.length > 0).map(user => (
         <Accordion sx={{ backgroundColor: 'elementBackground.main' }}>
           <AccordionSummary expandIcon={<ArrowIcon />}>
             <Box pr={2}>
