@@ -6,7 +6,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import dayjs from 'dayjs';
 import LinkIcon from '@mui/icons-material/Link';
 import ProjectEditor from '../ProjectEditor/ProjectEditor';
-// import projectsEditor from '../projectsEditor/projectsEditor';
 
 const ProjectViewer = ({ formik }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -62,17 +61,19 @@ const ProjectViewer = ({ formik }) => {
               <Box display='flex' justifyContent='space-between' mt={2}>
                 <Box width='100%'>  
                   <Box display='flex' justifyContent='space-between' mt={0.5}>
-                    <Box>
+                    <Box display='flex' alignItems='center'>
                       <Typography variant='body1'><b>{`${project.name ? project.name : 'Project'}`}</b></Typography>
                       {project?.link &&
                         <Box ml={1}>
-                          <IconButton href={project.link} target='_blank'>
+                          <IconButton href={project.link} target='_blank' size='small'>
                             <LinkIcon color='primary' />
                           </IconButton>
                         </Box>
                       }
                     </Box>
-                    {dayjs(project?.startDate).isValid() && <Typography variant='body1'>{`${dayjs(project?.startDate).format('MM/YYYY')} - ${project.endDate ? dayjs(project?.endDate).format('MM/YYYY') : ''}`}</Typography>}
+                    <Box display='flex' alignItems='center'>
+                      {dayjs(project?.startDate).isValid() && <Typography variant='body1'>{`${dayjs(project?.startDate).format('MM/YYYY')} - ${project.endDate ? dayjs(project?.endDate).format('MM/YYYY') : ''}`}</Typography>}
+                    </Box>
                   </Box>
                   <Box display='flex'>
                     <Typography variant='body1'>{project?.type}</Typography>

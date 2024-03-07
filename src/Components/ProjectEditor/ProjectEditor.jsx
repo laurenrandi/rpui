@@ -79,6 +79,13 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
             formik={formik}
           />
         </Box>
+        <Box mb={2}>
+          <FormikTextField
+            name='link'
+            label='Link'
+            formik={formik}
+          />
+        </Box>
         <Box mb={2} display='flex'>
           <TextField 
             id='technologies'

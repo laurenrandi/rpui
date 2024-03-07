@@ -155,7 +155,7 @@ const SkillsViewer = ({ formik }) => {
               <Typography variant='h6' align='center'>{'Months of Experience (Cumulative)'}</Typography>
             </Box>
           }
-          {formatExperienceData(formik.values.skills) && 
+          {formik.values?.skills?.length > 0 &&
             <Box display='flex' justifyContent='center'>
               <Box width='70%' height='70%'>
                 <Bar 
