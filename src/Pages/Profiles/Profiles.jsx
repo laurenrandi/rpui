@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
-import { Grid, Typography, Box, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, LinearProgress } from '@mui/material';
+import { Grid, Typography, Box, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/NoteAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -10,15 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import dayjs from 'dayjs';
 import { useFormik } from 'formik';
-import ProfileDeleteDialog from '../Profiles/ProfileDeleteDialog';
 
 const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [selectedProfileId, setSelectedProfileId] = useState();
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-
   const { user } = useContext(UserContext);
+  const { loading, setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,10 +36,21 @@ const Profiles = ( formik ) => {
       }
     }
     fetchProfiles();
-  }, [user]);
+  }, [user, setLoading]);
 
-  const handleAddProfile = () => {
-    navigate('/profiles/new');
+  const handleAddProfile = async () => {
+    setProfileLoading(true);
+    try {
+      await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/profiles/master/clone`)
+      .then(res => {
+        const { data } = res;
+        navigate(`/profiles/${data}`);
+      })
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setProfileLoading(false);
+    }
   };
 
   const handleDialogCancel = () => {
@@ -144,11 +152,6 @@ const Profiles = ( formik ) => {
                     <TableCell
                       align='right'>
                       <IconButton
-                        onClick={e => {
-                          e.stopPropagation();
-                          setSelectedProfileId(profile.id);
-                          setDeleteDialogOpen(true);
-                        }}
                         color='primary'
                       >
                         <DeleteIcon />
@@ -164,13 +167,6 @@ const Profiles = ( formik ) => {
         <Grid item xs={12} maxWidth={1000}>
         </Grid>
       </Grid>
-      {deleteDialogOpen &&
-        <ProfileDeleteDialog
-          profileId={selectedProfileId}
-          onDelete={handleDialogDelete}
-          onCancel={handleDialogCancel}
-        />
-      }
     </>
   );
 };

@@ -2,7 +2,6 @@ import { Dialog, DialogContent, Button, DialogActions, Box, Divider, Typography,
 import { useFormik } from 'formik';
 import React from 'react';
 import FormikTextField from '../FormikTextField/FormikTextField';
-import * as yup from 'yup';
 
 const types = [
   'Frontend',

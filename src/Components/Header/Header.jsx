@@ -1,16 +1,20 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Box, Button, Grid, Tab, Tabs, Typography, useTheme } from '@mui/material';
+import { Box, Button, Grid, LinearProgress, Tab, Tabs, Typography } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
 import GoogleIcon from '@mui/icons-material/Google';
 import LogoutIcon from '@mui/icons-material/Logout';
+import UsersIcon from '@mui/icons-material/Groups';
+import ProfilesIcon from '@mui/icons-material/Description';
 import UserContext from '../../Lib/UserContext/UserContext';
 import ServiceUtils from '../../Lib/ServiceUtils';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 
 const Header = ({ hideLoginButton=false }) => {
   const [tabValue, setTabValue] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const { user, setUser } = useContext(UserContext);
+  const { loading } = useContext(LoadingContext);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -23,11 +27,8 @@ const Header = ({ hideLoginButton=false }) => {
       case '/profiles':
         setTabValue(0);
         break;
-    //  case '/documents':
-     //   setTabValue(1);
-     //   break;
       case '/users':
-        setTabValue(2);
+        setTabValue(1);
         break;
       default:
         setTabValue(-1);
@@ -78,10 +79,10 @@ const Header = ({ hideLoginButton=false }) => {
                       onChange={handleChange}
                       variant="scrollable"
                       scrollButtons="auto"
+                      indicatorColor='none'
                     >
-                      <Tab label='your profiles' tabIndex={0} onClick={() => navigate('/profiles')} />
-                      {/* <Tab label='documents' tabIndex={0} onClick={() => navigate('/documents')} /> */}
-                      {isAdmin && <Tab label='users' tabIndex={0} onClick={() => navigate('/users')} />}
+                      <Tab label='your profiles' icon={<ProfilesIcon />} iconPosition='start' tabIndex={0} onClick={() => navigate('/profiles')} />
+                      {isAdmin && <Tab label='users' icon={<UsersIcon />} iconPosition='start' tabIndex={1} onClick={() => navigate('/users')} />}
                     </Tabs>
                   </Box>
                 </Box>
@@ -103,6 +104,7 @@ const Header = ({ hideLoginButton=false }) => {
             }
           </Grid>
         </Grid>
+        {loading && <LinearProgress color='primary' />}
       </Box>
     </>
   );
