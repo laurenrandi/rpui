@@ -71,6 +71,8 @@ const Profiles = ( formik ) => {
 
   return(
     <>
+    {!loading &&
+    
       <Grid container justifyContent='center' width={'100%'} mt={5}>
         <Box width='90%'>
           <TableContainer component={Paper}>
@@ -172,6 +174,7 @@ const Profiles = ( formik ) => {
         <Grid item xs={12} maxWidth={1000}>
         </Grid>
       </Grid>
+    }
       {deleteDialogOpen &&
         <ProfileDeleteDialog
           profileId={selectedProfileId}
