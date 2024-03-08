@@ -9,17 +9,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import dayjs from 'dayjs';
-import { useFormik } from 'formik';
 import ProfileDeleteDialog from '../Profiles/ProfileDeleteDialog';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 
 const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [selectedProfileId, setSelectedProfileId] = useState();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const { user } = useContext(UserContext);
   const { loading, setLoading } = useContext(LoadingContext);
   const navigate = useNavigate();
+  const [ profileLoading, setProfileLoading ] = useState(false);
 
   useEffect(() => {
     const fetchProfiles = async () => {
@@ -73,11 +73,6 @@ const Profiles = ( formik ) => {
     <>
       <Grid container justifyContent='center' width={'100%'} mt={5}>
         <Box width='90%'>
-          {loading && 
-            <LinearProgress
-              color='primary'
-            />
-          }
           <TableContainer component={Paper}>
             <Table sx={{backgroundColor: 'elementBackground.main'}}>
               <TableHead>
@@ -99,16 +94,22 @@ const Profiles = ( formik ) => {
                         <SearchIcon />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip
-                      title='Add Profile'
-                    >
-                      <IconButton
-                        onClick={handleAddProfile}
-                        color='primary'
+                    {!profileLoading ?
+                      <Tooltip
+                        title='Add Profile'
                       >
-                        <AddIcon />
-                      </IconButton>
-                    </Tooltip>
+                        <IconButton
+                          onClick={handleAddProfile}
+                          color='primary'
+                        >
+                          <AddIcon />
+                        </IconButton>
+                      </Tooltip>
+                    :
+                    <IconButton disabled>
+                      <CircularProgress color='primary' size={20}/>
+                    </IconButton>
+                    }
                   </TableCell>
                 </TableRow>
                 <TableRow>
@@ -151,21 +152,17 @@ const Profiles = ( formik ) => {
                     <TableCell>{profile.name}</TableCell>
                     <TableCell align='right'>
                       {dayjs(profile.createdDate).isValid() ? dayjs(profile.createdDate).format('MM/DD/YYYY') : 'N/A'}
-                    </TableCell>
-                    <TableCell
-                      align='right'>
                       <IconButton
                         onClick={e => {
                           e.stopPropagation();
                           setSelectedProfileId(profile.id);
                           setDeleteDialogOpen(true);
                         }}
-                        color='primary'
+                        color='secondary'
                       >
                         <DeleteIcon />
                       </IconButton>
-                    </TableCell>
-                    
+                    </TableCell>                    
                   </TableRow>
                 ))}
               </TableBody>
