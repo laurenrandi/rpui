@@ -10,10 +10,14 @@ import { useNavigate } from 'react-router-dom';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import dayjs from 'dayjs';
 import { useFormik } from 'formik';
+import ProfileDeleteDialog from '../Profiles/ProfileDeleteDialog';
 
 const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [selectedProfileId, setSelectedProfileId] = useState();
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -40,6 +44,19 @@ const Profiles = ( formik ) => {
   const handleAddProfile = () => {
     navigate('/profiles/new');
   };
+
+  const handleDialogCancel = () => {
+    setDeleteDialogOpen(false);
+  }
+
+  const handleDialogDelete = async (profileId) => {
+    try {
+      await axios.delete(`${ServiceUtils.baseUrl}/profiles/${profileId}`);
+    }
+    catch (err) {
+      console.error(err);
+    }
+  }
 
   return(
     <>
@@ -127,6 +144,11 @@ const Profiles = ( formik ) => {
                     <TableCell
                       align='right'>
                       <IconButton
+                        onClick={e => {
+                          e.stopPropagation();
+                          setSelectedProfileId(profile.id);
+                          setDeleteDialogOpen(true);
+                        }}
                         color='primary'
                       >
                         <DeleteIcon />
@@ -142,6 +164,13 @@ const Profiles = ( formik ) => {
         <Grid item xs={12} maxWidth={1000}>
         </Grid>
       </Grid>
+      {deleteDialogOpen &&
+        <ProfileDeleteDialog
+          profileId={selectedProfileId}
+          onDelete={handleDialogDelete}
+          onCancel={handleDialogCancel}
+        />
+      }
     </>
   );
 };
