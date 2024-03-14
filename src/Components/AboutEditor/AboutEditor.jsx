@@ -36,6 +36,7 @@ const AboutEditor = ({ profile, onSave, onCancel }) => {
                     {formik.values.bulletList.map((listItem, index) => (
                         <Box display='flex' justifyContent='space-between' width='100%' mt={2}>
                             <TextField 
+                                autoFocus = {true}
                                 fullWidth
                                 id={index}
                                 name={`['bulletList'][${index}]['text']`}
@@ -47,6 +48,11 @@ const AboutEditor = ({ profile, onSave, onCancel }) => {
                                 error={formik.errors.bulletList?.at(index).text}
                                 FormHelperTextProps={{ sx: {position: 'absolute', top: 40, textWrap: 'pretty'} }}
                                 size='small'
+                                onKeyDown={e => {
+                                    if(e.key === 'Enter') {
+                                      formik.setFieldValue('bulletList', [...formik.values.bulletList, { id: `id${Math.random().toString(16)}`, text: '' }])};
+                                    }
+                                  }
                             />
                             <Box ml={1}>
                                 <IconButton onClick={() => formik.setFieldValue('bulletList', formik.values.bulletList.filter(item => item.id !== listItem.id))}>

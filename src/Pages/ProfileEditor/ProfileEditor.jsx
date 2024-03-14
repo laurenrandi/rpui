@@ -5,9 +5,8 @@ import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import * as yup from 'yup';
-import useUnsavedChangesWarning from '../../hooks/useUnsavedChangesWarning.tsx';
 
-
+import UseUnsavedChangesWarning from '../../hooks/UseUnsavedChangesWarning.tsx';
 //icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
@@ -32,6 +31,8 @@ import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext.jsx';
 import { useSnackbar } from 'notistack';
+import BackButtonChanges from './BackButtonChange.jsx';
+
 
 //Removes all the string IDs we generated before saving
 const cleanProfile = (prof) => {
@@ -66,7 +67,6 @@ const cleanArray = (array) => {
   }
 }
 
-
 const ProfileEditor = () => {
   const { loading, setLoading } = useContext(LoadingContext);
   //separate loading state for reset functon so we don't refresh the whole page
@@ -89,7 +89,13 @@ const ProfileEditor = () => {
       'name': yup.string().required('A profile name is required')
     })
   });
-  
+
+  const [backDialogOpen, setBackDialogOpen] = useState(false);
+
+  const handleDialogCancel = () => {
+    setBackDialogOpen(false);
+  }
+
   const fetchProfile = useCallback(async (type) => {
     if(type === 'initial') {
       setLoading(true);
@@ -144,7 +150,10 @@ const ProfileEditor = () => {
   }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
-      navigate(-1);
+      setBackDialogOpen(true);
+  };
+  const handleLeave = () => {
+    navigate(-1);
   };
 
   const handleSave = async () => {
@@ -164,7 +173,8 @@ const ProfileEditor = () => {
       setSaveLoading(false);
     }
   };
-  useUnsavedChangesWarning(formik.dirty);
+
+
 
   const handleProfileNameEdit = () => {
     if(!editingProfileName) {
@@ -199,7 +209,7 @@ const ProfileEditor = () => {
     }
   };
 
-  
+  UseUnsavedChangesWarning(formik.dirty);
 
   return(
     <>
@@ -340,6 +350,12 @@ const ProfileEditor = () => {
             <SkillsViewer formik={formik} />
           </Grid>
         </Grid>
+      }
+       {backDialogOpen &&
+        <BackButtonChanges
+          onLeave={handleLeave}
+          onCancel={handleDialogCancel}
+        />
       }
     </>
   );

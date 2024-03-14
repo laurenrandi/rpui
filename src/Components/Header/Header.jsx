@@ -8,6 +8,8 @@ import ProfilesIcon from '@mui/icons-material/Description';
 import UserContext from '../../Lib/UserContext/UserContext';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
+import BackButtonChanges from '../../Pages/ProfileEditor/BackButtonChange';
+import { useFormik } from 'formik';
 
 const Header = ({ hideLoginButton=false }) => {
   const [tabValue, setTabValue] = useState(0);
@@ -58,6 +60,41 @@ const Header = ({ hideLoginButton=false }) => {
     }
   }
 
+  const [backDialogOpen, setBackDialogOpen] = useState(false);
+  const [backDialog2Open, setBack2DialogOpen] = useState(false);
+
+  const handleDialogCancel = () => {
+    setBackDialogOpen(false);
+  }
+  const handleDialog2Cancel = () => {
+    setBack2DialogOpen(false);
+  }
+
+  const handleBack = () => {
+    if(location.pathname == '/profiles/master' || location.pathname == '/profiles/:profileId')
+    {
+    setBackDialogOpen(true);
+    }
+    else{navigate('/profiles')};
+  };
+  const handleLeave = () => {
+    navigate('/profiles');
+    setBackDialogOpen(false);
+  };
+
+  const handleBack2 = () => {
+    if(location.pathname == '/profiles/master' || location.pathname == '/profiles/:profileId')
+    {
+    setBack2DialogOpen(true);
+    }
+    else{navigate('/users')};
+  };
+  const handleLeave2 = () => {
+    navigate('/users');
+    setBack2DialogOpen(false);
+  };
+
+
   return(
     <>
       <Box
@@ -81,8 +118,8 @@ const Header = ({ hideLoginButton=false }) => {
                       scrollButtons="auto"
                       indicatorColor='none'
                     >
-                      <Tab label='your profiles' icon={<ProfilesIcon />} iconPosition='start' tabIndex={0} onClick={() => navigate('/profiles')} />
-                      {isAdmin && <Tab label='users' icon={<UsersIcon />} iconPosition='start' tabIndex={1} onClick={() => navigate('/users')} />}
+                      <Tab label='your profiles' icon={<ProfilesIcon />} iconPosition='start' tabIndex={0} onClick={handleBack} />
+                      {isAdmin && <Tab label='users' icon={<UsersIcon />} iconPosition='start' tabIndex={1} onClick={handleBack2}/>}
                     </Tabs>
                   </Box>
                 </Box>
@@ -106,6 +143,22 @@ const Header = ({ hideLoginButton=false }) => {
         </Grid>
         {loading && <LinearProgress color='primary' />}
       </Box>
+     
+        {backDialogOpen &&
+          <BackButtonChanges
+            onLeave={handleLeave}
+            onCancel={handleDialogCancel}
+          />
+        
+      }
+       {backDialog2Open &&
+          <BackButtonChanges
+            onLeave={handleLeave2}
+            onCancel={handleDialog2Cancel}
+          />
+        
+      }
+      
     </>
   );
 };
