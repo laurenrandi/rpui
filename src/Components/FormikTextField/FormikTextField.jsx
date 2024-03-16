@@ -9,7 +9,7 @@ const FormikTextField = (props) => {
         id={props.name}
         name={props.name}
         label={props.label}
-        value={props.formik.values[props.name]}
+        value={props.formik.values[props.name] || ''}
         onChange={props.formik.handleChange}
         onBlur={props.formik.handleBur}
         helperText={props.formik.errors[props.name]}

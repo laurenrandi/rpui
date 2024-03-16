@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import * as yup from 'yup';
 
-import UseUnsavedChangesWarning from '../../hooks/UseUnsavedChangesWarning.tsx';
 //icons
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
@@ -209,7 +208,7 @@ const ProfileEditor = () => {
     }
   };
 
-  UseUnsavedChangesWarning(formik.dirty);
+  // UseUnsavedChangesWarning(formik.dirty);
 
   return(
     <>
