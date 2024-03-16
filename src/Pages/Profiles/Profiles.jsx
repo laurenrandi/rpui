@@ -143,7 +143,7 @@ const Profiles = () => {
       await axios.delete(`${ServiceUtils.baseUrl}/profiles/${profileId}`);
       enqueueSnackbar(`Profile successfully deleted.`, { variant: 'success' });
       setDeleteDialogOpen(false);
-      fetchProfiles();
+      fetchProfiles(null, formik.values);
     }
     catch (err) {
       console.error(err);
