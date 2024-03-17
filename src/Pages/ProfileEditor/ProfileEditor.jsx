@@ -206,7 +206,7 @@ const ProfileEditor = () => {
     }
   };
 
-  const isCreator = formik.values?.user?.id === user.id;
+  const isCreator = formik.values?.user?.id === user?.id;
 
   // UseUnsavedChangesWarning(formik.dirty);
 
