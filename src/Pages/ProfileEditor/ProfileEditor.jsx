@@ -158,12 +158,12 @@ const ProfileEditor = () => {
   const handleSave = async () => {
     setSaveLoading(true);
     try {
-      if(profileId === 'new') {
+      if(profileId === 'new' || (profileId === 'master' && !formik.values.id)) {
         await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/profiles`, cleanProfile(formik.values));
       } else {
         await axios.put(`${ServiceUtils.baseUrl}/profiles/${formik.values.id}`, cleanProfile(formik.values));
       }
-      enqueueSnackbar(`Successfully saved ${formik.values.name}.`, { variant: 'success' });
+      enqueueSnackbar(`Successfully saved ${formik.values.name || 'Master Profile'}.`, { variant: 'success' });
       navigate(-1);
     } catch (err) {
       console.error(err);
