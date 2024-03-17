@@ -85,6 +85,7 @@ const Profiles = () => {
   const [ selectDisabledIndex, setSelectDisabledIndex ] = useState(-1);
   const formik = useFormik({
     initialValues: initialValues,
+    validateOnChange: false,
     enableReinitialize: true
   });
 
