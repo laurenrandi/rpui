@@ -204,6 +204,13 @@ const Profiles = () => {
                     </Box>
                   </TableCell>
                   <TableCell align='right'>
+                    {(!searchOpen && activeFilters?.length > 0) &&
+                      <Tooltip title='Reset Filters'>
+                        <IconButton onClick={handleSearchReset} color='primary'>
+                          <ClearFilterIcon />
+                        </IconButton>
+                      </Tooltip>
+                    }
                     {!searchOpen &&
                       <Tooltip
                         title='Search'

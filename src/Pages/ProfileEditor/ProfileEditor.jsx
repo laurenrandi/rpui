@@ -173,8 +173,6 @@ const ProfileEditor = () => {
     }
   };
 
-
-
   const handleProfileNameEdit = () => {
     if(!editingProfileName) {
       setProfileName(formik.values?.name);
@@ -208,6 +206,8 @@ const ProfileEditor = () => {
     }
   };
 
+  const isCreator = formik.values?.user?.id === user.id;
+
   // UseUnsavedChangesWarning(formik.dirty);
 
   return(
@@ -233,7 +233,7 @@ const ProfileEditor = () => {
                     ?
                     <Box display='flex' flexDirection='column' justifyContent='center'>
                       <Typography variant='h5' align='center'>{profileId !== 'master' ? formik?.values?.name : 'Master Profile'}</Typography>
-                      {(formik.values.masterProfile && profileId !== 'master') && 
+                      {(formik.values.masterProfile && profileId !== 'master' && isCreator) && 
                         <Typography variant='caption' align='center' color='darkGray'>
                           <i>This profile will become your master profile upon saving. Your current master profile will be stored as a sub-profile.</i>
                         </Typography>
@@ -269,7 +269,7 @@ const ProfileEditor = () => {
             </Grid>
             <Grid item xs={4}>
               <Box display='flex' justifyContent='right'>
-                {!(profileId === 'new') &&
+                {(!(profileId === 'new') && isCreator) &&
                   <>
                     <Tooltip title="Rename Profile">
                       <IconButton onClick={handleProfileNameEdit} disabled={formik.values?.masterProfile}>
