@@ -17,6 +17,7 @@ import { useFormik } from 'formik';
 import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import ResetIcon from '@mui/icons-material/RestartAlt';
 import FilterIcon from '@mui/icons-material/FilterList';
+import ClearFilterIcon from '@mui/icons-material/FilterListOff';
 
 const searchParams = [
   {
@@ -157,27 +158,13 @@ const Profiles = () => {
     fetchProfiles(null, null);
   };
 
-  const handleApplyFilters = () => {
-    fetchProfiles(null, formik.values);
-    setActiveFilters(Object.keys(formik.values).filter(key => formik.values[key]).map(key => ({
+  const handleApplyFilters = (params) => {
+    fetchProfiles(null, params);
+    setActiveFilters(Object.keys(params).filter(key => params[key]).map(key => ({
         name: key,
         label: searchParams.find(param => param.name === key).label,
-        value: formik.values[key]
+        value: params[key]
     })));
-  };
-
-  const handleChipDelete = (filter) => {
-    formik.setFieldValue(filter.name, null);
-    setActiveFilters(activeFilters.filter(param => param.name !== filter.name));
-    fetchProfiles(null, filtersToParams(formik.values));
-  };
-
-  const filtersToParams = (array) => {
-    let obj = {};
-    for(let i = 0; i < array.length; ++i) {
-      obj[array[i].name] = array[i].value
-    };
-    return obj;
   };
 
   return(
@@ -197,13 +184,12 @@ const Profiles = () => {
                 variant='outlined' 
                 color='primary' 
                 label={`${filter.label}: ${filter.value}`}
-                onDelete={() => handleChipDelete(filter)}
                 sx={{ marginX: 0.5 }}
               />
             ))}
           </Box>
         }
-        <Grid item xs={searchOpen ? 10 : 12}>
+        <Grid item xs={searchOpen ? 9 : 12}>
           <TableContainer component={Paper}>
             {tableLoading && <LinearProgress color='primary' />} 
             <Table sx={{backgroundColor: 'elementBackground.main'}}>
@@ -247,29 +233,33 @@ const Profiles = () => {
                     }
                   </TableCell>
                 </TableRow>
-                <TableRow>
-                  <TableCell>
-                    <Typography fontWeight='bold'>Profile Name</Typography>
-                  </TableCell>
-                  <TableCell align='right' sx={{ fontWeight: 'bold' }}>
-                    Created
-                    <IconButton disabled sx={{ marginLeft: 2 }}>
-                      <DeleteIcon sx={{ color: 'elementBackground.main' }} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
                 <TableRow
                   hover
                   sx={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/profiles/master`)}
                 >
-                  <TableCell sx={{ fontWeight: 'bold' }}>Master Profile</TableCell>
+                  <TableCell>
+                    <Typography fontWeight='bold'>Master Profile</Typography>
+                  </TableCell>
                   <TableCell align='right'>
                     <StarsIcon color='golden' sx={{ marginRight: 1 }}/>
                   </TableCell>
                 </TableRow>
+                <TableRow>
+                  <TableCell>
+                    <Typography fontWeight='bold'>Sub-Profile Name</Typography>
+                  </TableCell>
+                  <TableCell align='right' sx={{ fontWeight: 'bold' }}>
+                    <Box display='flex' justifyContent='right' alignItems='center'>
+                      <Typography fontWeight='bold'>Created</Typography>
+                      <IconButton disabled sx={{ marginLeft: 3.3 }}>
+                        <DeleteIcon sx={{ color: 'elementBackground.main' }} />
+                      </IconButton>
+                    </Box>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
                 {profiles.map((profile, index) => (
                   <TableRow 
                     key={profile.id}
@@ -301,12 +291,12 @@ const Profiles = () => {
           </TableContainer>
         </Grid>
         {searchOpen &&
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <List 
               sx={{
                 backgroundColor: 'elementBackground.main',
-                borderRadius: 1
               }}
+              component={Paper}
             >
               <Box display='flex' justifyContent='space-between' alignItems='center' mx={1} mb={1}>
                 <ListSubheader 
@@ -330,13 +320,29 @@ const Profiles = () => {
               </Box>
               <Divider />
               {searchParams.map(param => (
-                <ListItem sx={{ marginY: 1 }}>
-                  <FormikTextField 
-                    formik={formik}
-                    name={param.name}
-                    label={param.label}
-                    InputLabelProps={{ shrink: true }}
-                  />
+                <ListItem sx={{ marginY: 1, paddingRight: 1, paddingLeft: 2 }} disableGutters>
+                  <Box display='flex' alignItems='center' width='100%'>
+                    <FormikTextField 
+                      formik={formik}
+                      name={param.name}
+                      label={param.label}
+                      InputLabelProps={{ shrink: true }}
+                    />
+                    <Tooltip title='Clear Filter' placement='right'>
+                      <IconButton 
+                        sx={{ marginLeft: 1 }}
+                        disabled={!formik.values[param.name]}
+                        onClick={() => {
+                          formik.setValues({ ...formik.values, [param.name]: null });
+                          if(activeFilters.find(filter => filter.name === param.name)) {
+                            handleApplyFilters({ ...formik.values, [param.name]: null });
+                          }
+                        }}
+                      >
+                        <ClearFilterIcon color={formik.values[param.name] ? 'secondary' : 'disabled'} />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
                 </ListItem>
               ))}
               <Box mb={1}>
@@ -347,7 +353,7 @@ const Profiles = () => {
                     variant='contained'
                     color='primary'
                     fullWidth
-                    onClick={handleApplyFilters}
+                    onClick={() => handleApplyFilters(formik.values)}
                   >
                     Apply Filters
                   </Button>
