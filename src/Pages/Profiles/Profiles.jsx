@@ -242,7 +242,9 @@ const Profiles = () => {
                     <Typography fontWeight='bold'>Master Profile</Typography>
                   </TableCell>
                   <TableCell align='right'>
-                    <StarsIcon color='golden' sx={{ marginRight: 1 }}/>
+                    <Box display='flex' alignItems='center' justifyContent='right'>
+                      <StarsIcon color='golden' sx={{ marginRight: 1 }}/>
+                    </Box>
                   </TableCell>
                 </TableRow>
                 <TableRow>

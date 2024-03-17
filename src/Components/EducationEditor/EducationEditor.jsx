@@ -40,6 +40,13 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
         </Box>
         <Box mb={2}>
           <FormikTextField 
+            name='degree'
+            label='Degree Type'
+            formik={formik}
+          />
+        </Box>
+        <Box mb={2}>
+          <FormikTextField 
             name='fieldOfStudy'
             label='Major'
             formik={formik}
