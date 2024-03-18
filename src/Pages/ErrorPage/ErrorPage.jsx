@@ -15,7 +15,7 @@ const ErrorPage = () => {
           border: '4px solid #005799',
           borderRadius: 4,
           bgcolor: 'white',
-          justifyContnet: 'center',
+          justifyContent: 'center',
 
         }}
       > 
