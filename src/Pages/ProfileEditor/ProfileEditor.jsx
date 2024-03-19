@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
 import { Box, CircularProgress, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
-import { useNavigate, useParams } from 'react-router-dom';
+import { unstable_usePrompt, useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import * as yup from 'yup';
 
@@ -31,6 +31,7 @@ import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext.jsx';
 import { useSnackbar } from 'notistack';
 import BackButtonChanges from './BackButtonChange.jsx';
+import { CustomPrompt } from '../../Components/CustomPrompt/CustomPrompt.jsx';
 
 
 //Removes all the string IDs we generated before saving
@@ -89,12 +90,6 @@ const ProfileEditor = () => {
     })
   });
 
-  const [backDialogOpen, setBackDialogOpen] = useState(false);
-
-  const handleDialogCancel = () => {
-    setBackDialogOpen(false);
-  }
-
   const fetchProfile = useCallback(async (type) => {
     if(type === 'initial') {
       setLoading(true);
@@ -150,13 +145,6 @@ const ProfileEditor = () => {
   }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
-    if(formik.dirty) {
-      setBackDialogOpen(true);
-    } else {
-      handleLeave();
-    }
-  };
-  const handleLeave = () => {
     navigate(-1);
   };
 
@@ -355,12 +343,7 @@ const ProfileEditor = () => {
           </Grid>
         </Grid>
       }
-       {backDialogOpen &&
-        <BackButtonChanges
-          onLeave={handleLeave}
-          onCancel={handleDialogCancel}
-        />
-      }
+      <CustomPrompt when={formik.dirty} message='You have unsaved changes. Are you sure you want to continue?' beforeUnload={true}  />
     </>
   );
 };

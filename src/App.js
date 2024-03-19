@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from "react-router-dom";
 import Landing from "./Pages/Landing/Landing";
 import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
 import Layout from "./Pages/Layout/Layout";
@@ -41,6 +41,20 @@ function App() {
   const [loading, setLoading] = useState(false);
   const userValue = { user, setUser };
   const loadingValue = { loading, setLoading };
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Landing />} />
+          <Route path='/logout/success' element={<LogoutSuccess />} />
+          <Route path="/login/success/:userId" element={<LoginSuccess />} />
+          <Route path="/profiles" element={<Profiles />} />
+          <Route path="/profiles/:profileId" element={<ProfileEditor />} />
+          <Route path="/users" element={<Users />} />
+        </Route>
+      </>
+    )
+  );
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,19 +65,7 @@ function App() {
               fontFamily: theme.typography.fontFamily
             }}
           >
-            <BrowserRouter>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<Landing />} />
-                  <Route path='/logout/success' element={<LogoutSuccess />} />
-                  <Route path="/login/success/:userId" element={<LoginSuccess />} />
-                  <Route path="/profiles" element={<Profiles />} />
-                  <Route path="/profiles/:profileId" element={<ProfileEditor />} />
-                  {/* <Route path="/documents" element={<Documents />} /> */}
-                  <Route path="/users" element={<Users />} />
-                </Route>
-              </Routes>
-            </BrowserRouter>
+            <RouterProvider router={router} />
           </SnackbarProvider>
         </LoadingContext.Provider>
       </UserContext.Provider>
