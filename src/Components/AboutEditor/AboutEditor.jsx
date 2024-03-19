@@ -33,9 +33,11 @@ const AboutEditor = ({ profile, onSave, onCancel }) => {
                     />
                 </Box>
                 <Box>
+                    <Typography align='center' variant='h6' sx={{paddingTop: 2}}>Hobbies & Interests</Typography>
                     {formik.values.bulletList.map((listItem, index) => (
                         <Box display='flex' justifyContent='space-between' width='100%' mt={2}>
                             <TextField 
+                                key={listItem.id || index}
                                 autoFocus = {true}
                                 fullWidth
                                 id={index}

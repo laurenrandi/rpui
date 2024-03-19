@@ -27,7 +27,7 @@ const Users = () => {
       }
     };
     fetchUsers();
-  }, [setLoading]);
+  }, [setLoading, enqueueSnackbar]);
 
   const getColor = (str) => {
     let hash = 0;
@@ -39,14 +39,13 @@ const Users = () => {
       const value = (hash >> (i * 8)) & 0xff
       color += value.toString(16).padStart(2, '0')
     }
-    console.log(color);
     return color;
   };
   
   return(
     <Box margin={5}>
       {users.filter(user => user.name?.length > 0).map(user => (
-        <Accordion sx={{ backgroundColor: 'elementBackground.main' }}>
+        <Accordion sx={{ backgroundColor: 'elementBackground.main' }} key={user.id}>
           <AccordionSummary expandIcon={<ArrowIcon />}>
             <Box pr={2}>
               <Avatar sx={{ bgcolor: getColor(user.name)}}>

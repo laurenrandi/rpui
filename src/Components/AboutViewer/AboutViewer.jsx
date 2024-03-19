@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, Typography, Card, CardContent, IconButton, Divider, List } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import AboutEditor from '../AboutEditor/AboutEditor';
@@ -19,10 +19,6 @@ const AboutViewer = ({ formik }) => {
     formik.setFieldValue('bio', about.bio);
     setDialogOpen(false);
   }
-
-  useEffect(() => {
-    console.log(formik.values);
-  }, [formik.values]);
 
   return(
     <>

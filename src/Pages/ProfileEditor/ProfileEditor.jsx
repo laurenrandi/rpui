@@ -107,7 +107,8 @@ const ProfileEditor = () => {
         await axios.get(`${ServiceUtils.baseUrl}/users/${user?.id}/profiles/master`)
         .then(res => {
           const { data } = res;
-          formik.setValues(data);
+          formik.resetForm({ values: data });
+          // formik.setValues(data);
         });
       } catch (err) {
         console.error(err);
@@ -125,7 +126,7 @@ const ProfileEditor = () => {
           await axios.get(`${ServiceUtils.baseUrl}/profiles/${profileId}`)
           .then(res => {
             const { data } = res;
-            formik.setValues(data);
+            formik.resetForm({ values: data });
           });
         } catch (err) {
           console.error(err);
@@ -149,7 +150,11 @@ const ProfileEditor = () => {
   }, [profileId, user, fetchProfile]);
 
   const handleBack = () => {
+    if(formik.dirty) {
       setBackDialogOpen(true);
+    } else {
+      handleLeave();
+    }
   };
   const handleLeave = () => {
     navigate(-1);

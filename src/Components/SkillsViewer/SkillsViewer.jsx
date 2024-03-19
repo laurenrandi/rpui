@@ -46,7 +46,7 @@ const SkillsViewer = ({ formik }) => {
         datasets: [{
           label: 'Months of Experience',
           data: Object.keys(groupedData).map(type => (
-            groupedData[type].map(skill => skill.months).reduce((sum, val) => sum + val, 0)
+            groupedData[type].map(skill => skill.months).reduce((sum, val) => {return sum + parseInt(val)}, 0)
           )),
           hoverOffset: 4,
           borderWidth: 1
@@ -120,7 +120,7 @@ const SkillsViewer = ({ formik }) => {
               <Typography variant='h6' align='center'>Proficiencies</Typography>
             </Box>
           }
-          <Box display='flex' justifyContent='center'>
+          <Box display='flex' justifyContent='center' flexWrap='wrap'>
             {formatProficiencyData(formik.values.skills) &&
               formatProficiencyData(formik.values.skills)?.map(({ chartData, title, menuList }, index) => (
                 <Box key={index} display='flex' flexDirection='column'>
@@ -133,19 +133,19 @@ const SkillsViewer = ({ formik }) => {
                       <Edit color='primary' />
                    </IconButton>
                  </Box>
-                 <Doughnut
-                    data={chartData} 
-                    options={{ 
-                      responsive: true, 
-                      maintainAspectRatio: true,
-                      plugins: {
-                        colors: {
-                          enabled: true,
-                          forceOverride: true
+                  <Doughnut
+                      data={chartData} 
+                      options={{ 
+                        responsive: true, 
+                        maintainAspectRatio: true,
+                        plugins: {
+                          colors: {
+                            enabled: true,
+                            forceOverride: true
+                          }
                         }
-                      }
-                    }}
-                  />
+                      }}
+                    />
                 </Box>
               ))
             }
