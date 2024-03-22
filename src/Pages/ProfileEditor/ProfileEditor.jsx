@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
 import { Box, CircularProgress, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
-import { unstable_usePrompt, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
 import * as yup from 'yup';
 
@@ -30,7 +30,6 @@ import axios from 'axios';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext.jsx';
 import { useSnackbar } from 'notistack';
-import BackButtonChanges from './BackButtonChange.jsx';
 import { CustomPrompt } from '../../Components/CustomPrompt/CustomPrompt.jsx';
 
 
@@ -151,13 +150,18 @@ const ProfileEditor = () => {
   const handleSave = async () => {
     setSaveLoading(true);
     try {
+      let data = {};
       if(profileId === 'new' || (profileId === 'master' && !formik.values.id)) {
-        await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/profiles`, cleanProfile(formik.values));
+        await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/profiles`, cleanProfile(formik.values)).then(res => {
+          data = res.data
+        });
       } else {
-        await axios.put(`${ServiceUtils.baseUrl}/profiles/${formik.values.id}`, cleanProfile(formik.values));
+        await axios.put(`${ServiceUtils.baseUrl}/profiles/${formik.values.id}`, cleanProfile(formik.values)).then(res => {
+          data = res.data
+        });
       }
+      formik.resetForm({ values: data });
       enqueueSnackbar(`Successfully saved ${formik.values.name || 'Master Profile'}.`, { variant: 'success' });
-      navigate(-1);
     } catch (err) {
       console.error(err);
       enqueueSnackbar('An error occured while saving your profile.', { variant: 'error' })
@@ -343,7 +347,7 @@ const ProfileEditor = () => {
           </Grid>
         </Grid>
       }
-      <CustomPrompt when={formik.dirty} message='You have unsaved changes. Are you sure you want to continue?' beforeUnload={true}  />
+      <CustomPrompt when={formik.dirty && !saveLoading} message='You have unsaved changes. Are you sure you want to continue?' beforeUnload={true}  />
     </>
   );
 };
