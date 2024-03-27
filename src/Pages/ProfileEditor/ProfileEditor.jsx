@@ -102,7 +102,6 @@ const ProfileEditor = () => {
         .then(res => {
           const { data } = res;
           formik.resetForm({ values: data });
-          // formik.setValues(data);
         });
       } catch (err) {
         console.error(err);

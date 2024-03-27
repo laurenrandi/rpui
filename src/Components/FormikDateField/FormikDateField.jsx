@@ -16,6 +16,12 @@ const FormikDateField = (props) => {
         helperText={props.helperText || ''}
         format='MM-DD-YYYY'
         size='small'
+        slotProps={{
+          textField: {
+            error: props.formik.errors[props.name],
+            helperText: props.formik.errors[props.name]
+          }
+        }}
       />
     </LocalizationProvider>
   );

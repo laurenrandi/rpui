@@ -64,7 +64,7 @@ const EducationViewer = ({ formik }) => {
                     <Typography variant='body1'>{`${dayjs(education?.startDate).format('MM/YYYY')} - ${education.endDate && !education.current ? dayjs(education?.endDate).format('MM/YYYY') : ''}`}</Typography>
                   </Box>
                   <Box display='flex'>
-                    <Typography variant='body1'>{education?.degree ? `${education.degree}, ` : ''}{education?.fieldOfStudy}</Typography>
+                    <Typography variant='body1'>{education?.degree ? `${education.degree}` : ''}{education.fieldOfStudy && `, ${education.fieldOfStudy}`}</Typography>
                   </Box>
                   {education?.minor && 
                     <Box>

@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider 
 import FormikTextField from '../FormikTextField/FormikTextField';
 import FormikDateField from '../FormikDateField/FormikDateField';
 import FormikCheckboxField from '../FormikCheckboxField/FormikCheckboxField';
+import * as yup from 'yup';
 
 const initialValues = {
   school: null,
@@ -18,7 +19,13 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
   
   const formik = useFormik({
     initialValues: education || initialValues,
-    enableReinitialize: true
+    enableReinitialize: true,
+    onSubmit: (values) => {onSave(values)},
+    validationSchema: yup.object().shape({
+      'school': yup.string().required('Required'),
+      'degree': yup.string().required('Required'),
+      'startDate': yup.string().required('Required')
+    })
   });
 
   return(
@@ -27,7 +34,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
       fullWidth
     >
       <DialogContent>
-        <Box mb={2}>
+        <Box mb={1}>
           <Typography variant='h5' fontWeight='bold' gutterBottom>ADD DEGREE</Typography>
           <Divider/>
         </Box>
@@ -74,7 +81,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
           </Box>
         </Box>
         {!formik.values?.current === true &&
-          <Box mb={2}>
+          <Box>
             <FormikDateField 
               name='endDate'
               label='Graduation Date'
@@ -85,7 +92,7 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>
-        <Button variant='contained' color='primary' onClick={() => {onSave(formik.values)}}>Save</Button>
+        <Button variant='contained' color='primary' onClick={formik.submitForm}>Save</Button>
       </DialogActions>
     </Dialog>
   );

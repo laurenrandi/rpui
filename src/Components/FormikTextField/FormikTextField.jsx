@@ -15,7 +15,6 @@ const FormikTextField = (props) => {
         helperText={props.formik.errors[props.name]}
         error={props.formik.errors[props.name]}
         size='small'
-        FormHelperTextProps={{ sx: {position: 'absolute', top: 40, textWrap: 'pretty'} }}
         {...props}
       />
     </Box>

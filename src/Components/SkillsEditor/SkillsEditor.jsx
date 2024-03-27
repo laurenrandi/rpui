@@ -2,6 +2,7 @@ import { Dialog, DialogContent, Button, DialogActions, Box, Divider, Typography,
 import { useFormik } from 'formik';
 import React from 'react';
 import FormikTextField from '../FormikTextField/FormikTextField';
+import * as yup from 'yup';
 
 const types = [
   'Frontend',
@@ -14,12 +15,12 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
   const formik = useFormik({
     initialValues: skill,
     enableReinitialize: true,
-    // validationSchema: yup.object({
-    //   type: yup.string().required('Required'),
-    //   name: yup.string().required('Required'),
-    //   proficiency: yup.number().required().max(10, 'Cannot exceed 10'),
-    //   months: yup.number().required('Required')
-    // })
+    onSubmit: values => {onSave(values)},
+    validationSchema: yup.object({
+      type: yup.string().required('Required'),
+      name: yup.string().required('Required'),
+      months: yup.number().required('Required').typeError('Must be a valid integer').min(1, 'Must be at least 1 month')
+    })
   });
 
   const handleTypeChange = (type) => {
@@ -37,18 +38,25 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
           <Divider/>
         </Box>
         <Box display='flex' justifyContent='center' mb={2}>
-          <ButtonGroup>
-            {types.map(type => (
-              <Button
+          <Box display='flex' flexDirection='column' justifyContent='top'>
+            <ButtonGroup>
+              {types.map(type => (
+                <Button
                 onClick={() => handleTypeChange(type)}
                 variant={formik.values.type === type ? 'contained' : 'outlined'}
                 disableElevation
-                color='primary'
-              >
-                {type}
-              </Button>
-            ))}
-          </ButtonGroup>
+                color={formik.errors.type ? 'error' : 'primary'}
+                >
+                  {type}
+                </Button>
+              ))}
+            </ButtonGroup>
+            {formik.errors.type &&
+              <Box display='flex' justifyContent='center' mt={0.5}>
+                <Typography variant='caption' align='center' color='error'>Required</Typography>
+              </Box>
+            }
+          </Box>
         </Box>
         <Box mb={2}>
           <FormikTextField
@@ -86,7 +94,7 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>
-        <Button variant='contained' color='primary' onClick={() => {onSave(formik.values)}}>Save</Button>
+        <Button variant='contained' color='primary' onClick={formik.submitForm}>Save</Button>
       </DialogActions>
     </Dialog>
   );

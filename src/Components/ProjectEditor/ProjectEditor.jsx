@@ -4,6 +4,7 @@ import { useFormik } from 'formik';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import FormikDateField from '../FormikDateField/FormikDateField';
 import AddIcon from '@mui/icons-material/Add';
+import * as yup from 'yup';
 
 const initialValues = {
   technologies: [], 
@@ -18,7 +19,13 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
   const [currentTechnology, setCurrentTechnology] = useState('');
   const formik = useFormik({
     initialValues: project || initialValues, 
-    enableReinitialize: true
+    enableReinitialize: true,
+    onSubmit: values => {onSave(values)},
+    validationSchema: yup.object().shape({
+      'name': yup.string().required('Required'),
+      'type': yup.string().required('Required'),
+      'startDate': yup.string().required('Required')
+    })
   });
 
   const handleAddTechnology = () => {
@@ -119,7 +126,7 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
       </DialogContent>
       <DialogActions>
         <Button variant='outlined' onClick={onCancel}>Cancel</Button>
-        <Button variant='contained' color='primary' onClick={() => {onSave(formik.values)}}>Save</Button>
+        <Button variant='contained' color='primary' onClick={formik.submitForm}>Save</Button>
       </DialogActions>
     </Dialog>
   );
