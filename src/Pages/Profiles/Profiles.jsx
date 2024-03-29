@@ -18,6 +18,7 @@ import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import ResetIcon from '@mui/icons-material/RestartAlt';
 import FilterIcon from '@mui/icons-material/FilterList';
 import ClearFilterIcon from '@mui/icons-material/FilterListOff';
+import Tour from '../../Components/Tour/Tour';
 
 const searchParams = [
   {
@@ -119,7 +120,7 @@ const Profiles = () => {
   //only need to do this on mount, can't add it to the dep array or it infinite rerenders
   //and we need to declare it outside so we can refresh table on filter/delete
   //eslint-disable-next-line
-  }, []);
+  }, [user]);
 
   const handleAddProfile = async () => {
     setProfileLoading(true);
@@ -218,6 +219,7 @@ const Profiles = () => {
                         <IconButton
                           onClick={() => setSearchOpen(true)}
                           color='primary'
+                          tour-id="search"
                         >
                           <SearchIcon />
                         </IconButton>
@@ -230,6 +232,7 @@ const Profiles = () => {
                         <IconButton
                           onClick={handleAddProfile}
                           color='primary'
+                          tour-id="new-profile"
                         >
                           <AddIcon />
                         </IconButton>
@@ -245,6 +248,7 @@ const Profiles = () => {
                   hover
                   sx={{ cursor: 'pointer' }}
                   onClick={() => navigate(`/profiles/master`)}
+                  tour-id="master-profile"
                 >
                   <TableCell>
                     <Typography fontWeight='bold'>Master Profile</Typography>
@@ -255,7 +259,7 @@ const Profiles = () => {
                     </Box>
                   </TableCell>
                 </TableRow>
-                <TableRow>
+                <TableRow tour-id="sub-profiles">
                   <TableCell>
                     <Typography fontWeight='bold'>Sub-Profile Name</Typography>
                   </TableCell>
@@ -380,6 +384,7 @@ const Profiles = () => {
           onCancel={handleDialogCancel}
         />
       }
+      <Tour onStart={() => {setSearchOpen(false)}} variant='profiles' />
     </>
   );
 };

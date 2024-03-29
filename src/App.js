@@ -1,4 +1,4 @@
-import { Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from "react-router-dom";
 import Landing from "./Pages/Landing/Landing";
 import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
 import Layout from "./Pages/Layout/Layout";
@@ -18,6 +18,8 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { SnackbarProvider } from "notistack";
+import { TourProvider } from "@reactour/tour";
+import { steps } from "./Components/Tour/Steps/Profiles";
 
 const theme = createTheme({
   palette: {
@@ -33,7 +35,7 @@ const theme = createTheme({
     golden: {
       main: '#E5BA39'
     }
-  }
+  },
 });
 
 function App() {
@@ -60,13 +62,27 @@ function App() {
     <ThemeProvider theme={theme}>
       <UserContext.Provider value={userValue}>
         <LoadingContext.Provider value={loadingValue}>
-          <SnackbarProvider
-            style={{
-              fontFamily: theme.typography.fontFamily
-            }}
-          >
-            <RouterProvider router={router} />
-          </SnackbarProvider>
+          <TourProvider 
+            steps={[]} 
+            showBadge={false} 
+            showCloseButton={false} 
+            afterOpen={() => {document.body.style.overflow = "hidden"}}
+            beforeClose={() => {document.body.style.overflow = "auto"}}
+            styles={{
+              popover: (base) => ({
+                ...base,
+                fontFamily: theme.typography.fontFamily,
+                textAlign: 'center'
+              })
+          }}>
+            <SnackbarProvider
+              style={{
+                fontFamily: theme.typography.fontFamily
+              }}
+            >
+              <RouterProvider router={router} />
+            </SnackbarProvider>
+          </TourProvider>
         </LoadingContext.Provider>
       </UserContext.Provider>
     </ThemeProvider>

@@ -31,6 +31,7 @@ import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext.jsx';
 import { useSnackbar } from 'notistack';
 import { CustomPrompt } from '../../Components/CustomPrompt/CustomPrompt.jsx';
+import Tour from '../../Components/Tour/Tour.jsx';
 
 
 //Removes all the string IDs we generated before saving
@@ -216,6 +217,7 @@ const ProfileEditor = () => {
                 <IconButton 
                   onClick={handleBack}
                   disabled={loading}
+                  tour-id="back"
                 >
                   <ArrowBackIcon color='primary' />
                 </IconButton>
@@ -224,16 +226,16 @@ const ProfileEditor = () => {
             <Grid item xs={4}>
               {!(profileId === 'new')
               ?
-                <Box display='flex' justifyContent='center'>
+                <Box display='flex' justifyContent='center' tour-id="name">
                   {!editingProfileName 
                     ?
                     <Box display='flex' flexDirection='column' justifyContent='center'>
                       <Typography variant='h5' align='center'>{profileId !== 'master' ? formik?.values?.name : 'Master Profile'}</Typography>
-                      {(formik.values.masterProfile && profileId !== 'master' && isCreator) && 
+                      {/* {(formik.values.masterProfile && profileId !== 'master' && isCreator) && 
                         <Typography variant='caption' align='center' color='darkGray'>
                           <i>This profile will become your master profile upon saving. Your current master profile will be stored as a sub-profile.</i>
                         </Typography>
-                      }
+                      } */}
                     </Box>
                     :
                     <Box display='flex' width='100%' justifyContent='right' ml={5} alignItems='center'>
@@ -267,13 +269,13 @@ const ProfileEditor = () => {
               <Box display='flex' justifyContent='right'>
                 {(!(profileId === 'new') && isCreator) &&
                   <>
-                    <Tooltip title="Rename Profile">
-                      <IconButton onClick={handleProfileNameEdit} disabled={formik.values?.masterProfile}>
+                    <Tooltip title="Rename Profile" tour-id="rename">
+                      <IconButton onClick={handleProfileNameEdit} disabled={formik.values?.masterProfile} tour-id="rename">
                         <RenameIcon color={formik.values?.masterProfile ? 'disabled' : 'primary'} />
                       </IconButton>
                     </Tooltip>
                     <Tooltip title={formik.values.masterProfile ? 'Unset Master Profile' : 'Set Master Profile'}>
-                      <IconButton onClick={handleElevateToMaster} disabled={profileId === 'master'}>
+                      <IconButton onClick={handleElevateToMaster} disabled={profileId === 'master'} tour-id="elevate">
                         <StarIcon color={profileId === 'master' || formik.values.masterProfile ? 'golden' : 'primary'} />
                       </IconButton>
                     </Tooltip>
@@ -284,12 +286,12 @@ const ProfileEditor = () => {
                     {!resetLoading
                       ?
                         <Tooltip title="Revert Changes">
-                          <IconButton onClick={handleProfileReset}>
+                          <IconButton onClick={handleProfileReset} tour-id="revert">
                             <ResetIcon color='primary' />
                           </IconButton>
                         </Tooltip>
                       :
-                        <IconButton disabled>
+                        <IconButton disabled tour-id="revert">
                           <CircularProgress color='primary' size={20}/>
                         </IconButton>
                     }
@@ -298,12 +300,12 @@ const ProfileEditor = () => {
                 {!saveLoading
                   ?
                     <Tooltip title='Save Profile'>
-                      <IconButton onClick={handleSave} disabled={loading}>
+                      <IconButton onClick={handleSave} disabled={loading} tour-id="save">
                         <SaveIcon color='primary' />
                       </IconButton>
                     </Tooltip>
                   :
-                    <IconButton disabled>
+                    <IconButton disabled tour-id="save">
                       <CircularProgress color='primary' size={20}/>
                     </IconButton>
                 }
@@ -313,6 +315,7 @@ const ProfileEditor = () => {
                       href={`${ServiceUtils.baseUrl}/profiles/${formik.values?.id}/pdf`} 
                       disabled={loading}
                       target='_blank'
+                      tour-id="pdf"
                     >
                       <PdfIcon color='primary' />
                     </IconButton>
@@ -325,28 +328,29 @@ const ProfileEditor = () => {
             <Divider />
           </Grid>
           <Grid item xs={12} md={6}>
-            <Grid item mb={2}>
+            <Grid item mb={2} tour-id="contact">
               <ContactViewer formik={formik} />
             </Grid>
-            <Grid item>
+            <Grid item tour-id="education">
               <EducationViewer formik={formik} />
             </Grid>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} tour-id="about">
             <AboutViewer formik={formik} />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} tour-id="workhistory">
             <WorkHistoryViewer formik={formik} />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={6} tour-id="projects">
             <ProjectViewer formik={formik} />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} tour-id="skills">
             <SkillsViewer formik={formik} />
           </Grid>
         </Grid>
       }
       <CustomPrompt when={formik.dirty && !saveLoading} message='You have unsaved changes. Are you sure you want to continue?' beforeUnload={true}  />
+      <Tour variant='profileEditor' />
     </>
   );
 };

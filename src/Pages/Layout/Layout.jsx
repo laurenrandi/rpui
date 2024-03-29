@@ -23,7 +23,7 @@ const Layout = () => {
   useEffect(() => {
     if(!user) {
       if(!localStorage.getItem("UserId")) {
-        if(matchPath('/', pathname) === null) {
+        if(matchPath('/', pathname) === null && matchPath('login/success/*', pathname) === null) {
           navigate('/');
         }
       }
