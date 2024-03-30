@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
-import { Box, Typography, Divider, Dialog, DialogContent, DialogActions, Button, IconButton, Chip, Stack, TextField } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, Divider, Dialog, DialogContent, DialogActions, Button, IconButton, Chip, Stack, TextField, Autocomplete } from '@mui/material';
 import { useFormik } from 'formik';
 import FormikTextField from '../FormikTextField/FormikTextField';
 import FormikDateField from '../FormikDateField/FormikDateField';
 import AddIcon from '@mui/icons-material/Add';
 import * as yup from 'yup';
+import axios from 'axios';
+import ServiceUtils from '../../Lib/ServiceUtils';
 
 const initialValues = {
   technologies: [], 
@@ -17,6 +19,8 @@ const initialValues = {
 
 const ProjectEditor = ({ project, onSave, onCancel }) => {
   const [currentTechnology, setCurrentTechnology] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [options, setOptions] = useState([]);
   const formik = useFormik({
     initialValues: project || initialValues, 
     enableReinitialize: true,
@@ -25,19 +29,48 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
       'name': yup.string().required('Required'),
       'type': yup.string().required('Required'),
       'startDate': yup.string().required('Required')
-    })
+    }),
+    validateOnChange: false,
+    validateOnBlur: true
   });
 
-  const handleAddTechnology = () => {
-    if(currentTechnology.length > 0) {
-      formik.setFieldValue('technologies', [ ...formik.values.technologies, { id: `id${Math.random().toString(16)}`, text: currentTechnology } ]);
-      setCurrentTechnology('');
+  const handleAddTechnology = (value) => {
+    if(value) {
+      formik.setFieldValue('technologies', [ ...formik.values.technologies, { id: `id${Math.random().toString(16)}`, text: value } ]);
+    } else {
+      if(currentTechnology?.length > 0) {
+        formik.setFieldValue('technologies', [ ...formik.values.technologies, { id: `id${Math.random().toString(16)}`, text: currentTechnology } ]);
+      }
     }
+    setCurrentTechnology();
   };
 
   const handleDeleteTechnology = (id) => {
     formik.setFieldValue('technologies', formik.values.technologies.filter(tech => tech.id !== id));
   };
+
+  useEffect(() => {
+    if(!currentTechnology) {
+      setLoading(false);
+      setOptions([]);
+      return;
+    }
+    setLoading(true);
+    const getOptions = setTimeout(async () => {
+      try {
+        await axios.get(`${ServiceUtils.baseUrl}/technologies`, {params: { name: currentTechnology }}).then(resp => {
+          const { data } = resp;
+          setOptions(data);
+        })
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }, 400);
+
+    return () => clearTimeout(getOptions);
+  }, [currentTechnology]);
   
   return(
     <Dialog
@@ -94,23 +127,38 @@ const ProjectEditor = ({ project, onSave, onCancel }) => {
           />
         </Box>
         <Box mb={2} display='flex'>
-          <TextField 
-            id='technologies'
-            label='Technology'
-            size='small'
+          <Autocomplete 
             fullWidth
+            freeSolo
+            size='small'
+            loading={loading}
+            options={options}
             value={currentTechnology}
-            onChange={e => setCurrentTechnology(e.target.value)}
-            onKeyDown={e => {
-              if(e.key === 'Enter') {
-                e.preventDefault();
-                handleAddTechnology();
+            onFocus={() => {setCurrentTechnology(); setOptions([])}}
+            onChange={(event, value, reason) => {
+              if(reason === 'selectOption') {
+                event.preventDefault();
+                handleAddTechnology(value);
+                setCurrentTechnology();
               }
             }}
+            renderInput={(params) => (
+              <TextField 
+                {...params}
+                label="Technologies"
+                onChange={e => setCurrentTechnology(e.target.value)}
+                onKeyDown={(e) => {
+                  if(e.key === 'Enter') {
+                    e.preventDefault();
+                    handleAddTechnology();
+                  }
+                }}
+              />
+            )}
           />
           <Box ml={1}>
             <IconButton 
-              onClick={handleAddTechnology}
+              onClick={() => handleAddTechnology()}
             >
               <AddIcon color='primary' />
             </IconButton>
