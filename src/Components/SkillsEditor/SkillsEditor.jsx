@@ -20,7 +20,9 @@ const SkillsEditor = ({ skill, onSave, onCancel }) => {
       type: yup.string().required('Required'),
       name: yup.string().required('Required'),
       months: yup.number().required('Required').typeError('Must be a valid integer').min(1, 'Must be at least 1 month')
-    })
+    }),
+    validateOnChange: false,
+    validateOnBlur: true
   });
 
   const handleTypeChange = (type) => {

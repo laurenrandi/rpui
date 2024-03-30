@@ -25,7 +25,9 @@ const EducationEditor = ({ education, onSave, onCancel }) => {
       'school': yup.string().required('Required'),
       'degree': yup.string().required('Required'),
       'startDate': yup.string().required('Required')
-    })
+    }),
+    validateOnChange: false,
+    validateOnBlur: true
   });
 
   return(
