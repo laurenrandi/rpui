@@ -14,7 +14,7 @@ const FormikDateField = (props) => {
         onChange={(value) => props.formik.setFieldValue(props.name, dayjs(value).isValid() ? dayjs(value).format('YYYY-MM-DD') : null)}
         onBlur={props.formik.handleBlur}
         helperText={props.helperText || ''}
-        format='MM-DD-YYYY'
+        format='MM/YYYY'
         size='small'
         slotProps={{
           textField: {
