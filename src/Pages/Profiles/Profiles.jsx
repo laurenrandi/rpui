@@ -274,7 +274,7 @@ const Profiles = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {profiles.map((profile, index) => (
+                {profiles.sort((p1, p2) => dayjs(p1.createdDate).isAfter(dayjs(p2.createdDate)) ? -1 : 1).map((profile, index) => (
                   <TableRow 
                     key={profile.id}
                     hover={selectDisabledIndex !== index}
