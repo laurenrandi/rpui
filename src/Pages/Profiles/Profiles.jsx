@@ -26,6 +26,10 @@ const searchParams = [
     label: 'Profile Name'
   },
   {
+    name: 'technology',
+    label: 'Technology'
+  },
+  {
     name: 'bio',
     label: 'Bio'
   },
