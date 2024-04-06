@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import axios from 'axios';
 import ArrowIcon from '@mui/icons-material/ArrowDropDown';
-import { Accordion, AccordionSummary, Button, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader, Grid, Tooltip, IconButton, Card, Paper, ButtonGroup, ListItem, LinearProgress, Stack } from '@mui/material';
+import { Accordion, AccordionSummary, Button, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader, Grid, Tooltip, IconButton, Card, Paper, ButtonGroup, ListItem, LinearProgress, Stack, CircularProgress } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 import { useSnackbar } from 'notistack';
@@ -109,6 +109,26 @@ const profileSearchParams = [
   }
 ]
 
+//used to delay profile load for animation to finish
+//==> makes animation smoother lol
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+//Map user search params to profile params
+const mapParams = (inputParams) => {
+  return ({
+    name: inputParams.profileName,
+    bio: inputParams.bio,
+    technology: inputParams.technology,
+    email: inputParams.profileEmail,
+    phone: inputParams.phone,
+    headline: inputParams.headline,
+    company: inputParams.company,
+    school: inputParams.school,
+    project: inputParams.project,
+    skill: inputParams.skill
+  });
+};
+
 const initialValues = {
   admin: null,
   enabled: null,
@@ -131,6 +151,9 @@ const Users = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchLoading, setSearchLoading] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
+  const [selectedUserId, setSelectedUserId] = useState('');
+  const [profiles, setProfiles] = useState([]);
+  const [profilesLoading, setProfileLoading] = useState(false);
   const { loading, setLoading } = useContext(LoadingContext);
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
@@ -167,6 +190,27 @@ const Users = () => {
       }
     }
   };
+
+  useEffect(() => {
+    setProfiles([]);
+    if(selectedUserId) {
+      const fetchProfiles = async () => {
+        setProfileLoading(true);
+        try {
+          const params = mapParams(formik.values);
+          await sleep(750);
+          const { data } = await axios.get(`${ServiceUtils.baseUrl}/users/${selectedUserId}/profiles`, { params })
+          setProfiles(data);
+        } catch (err) {
+          console.error(err);
+          enqueueSnackbar('An error occured while fetching profiles.', { variant: 'error' });
+        } finally {
+          setProfileLoading(false);
+        }
+      }
+      fetchProfiles();
+    }
+  }, [selectedUserId]);
   
   useEffect(() => {
     fetchUsers(true, null);
@@ -186,6 +230,7 @@ const Users = () => {
   };
 
   const handleApplyFilters = (params) => {
+    setSelectedUserId('');
     fetchUsers(false, params);
     setActiveFilters(Object.keys(params).filter(key => params[key] !== null && params[key] !== '').map(key => ({
       name: key,
@@ -195,6 +240,7 @@ const Users = () => {
   };
 
   const handleSearchReset = () => {
+    setSelectedUserId('');
     formik.setValues(initialValues);
     setActiveFilters([]);
     fetchUsers(false, null);
@@ -252,7 +298,14 @@ const Users = () => {
               </Grid>
             </Card>
             {users.filter(user => user.name?.length > 0).map(user => (
-              <Accordion sx={{ backgroundColor: 'elementBackground.main' }} key={user.id}>
+              <Accordion 
+                sx={{ backgroundColor: 'elementBackground.main' }} 
+                key={user.id} expanded={selectedUserId === user.id} 
+                onChange={() => {
+                  setSelectedUserId(selectedUserId === user.id ? '' : user.id)
+                }}
+                
+              >
                 <AccordionSummary expandIcon={<ArrowIcon />}>
                   <Box pr={2}>
                     <Avatar sx={{ bgcolor: getColor(user.name)}}>
@@ -266,7 +319,12 @@ const Users = () => {
                     {!user.enabled && <Chip label='Disabled' variant='outlined' color='secondary' size='small' />}
                   </Stack>
                 </AccordionSummary>
-                {user?.profiles?.length > 0 &&
+                {profilesLoading &&
+                  <Box display='flex' justifyContent='center' margin={5}>
+                    <CircularProgress color='primary' />
+                  </Box>
+                }
+                {profiles?.length > 0 &&
                   <AccordionDetails>
                     <List
                       subheader={
@@ -278,16 +336,18 @@ const Users = () => {
                         </>
                       }
                     >
-                      {user.profiles.filter(profile => profile.name?.length > 0).map((profile, index) => (
-                        <>
-                          <ListItemButton onClick={() => { navigate(`/profiles/${profile.id}`) }}>
-                            <Typography>
-                              {profile.name}
-                            </Typography>
-                          </ListItemButton>
-                          {(index !== (user.profiles.filter(profile => profile.name?.length > 0).length - 1)) && <Divider />}
-                        </>
-                      ))}
+                      <>
+                        {profiles?.filter(profile => profile.name?.length > 0).map((profile, index) => (
+                          <>
+                            <ListItemButton onClick={() => { navigate(`/profiles/${profile.id}`) }}>
+                              <Typography>
+                                {profile.name}
+                              </Typography>
+                            </ListItemButton>
+                            {(index !== (profiles?.filter(profile => profile.name?.length > 0).length - 1)) && <Divider />}
+                          </>
+                        ))}
+                      </>
                     </List>
                   </AccordionDetails>
                 }
