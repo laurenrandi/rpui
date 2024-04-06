@@ -13,6 +13,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useFormik } from 'formik';
 import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import FilterIcon from '@mui/icons-material/FilterList';
+import Tour from '../../Components/Tour/Tour';
 
 const userSearchParams = [
   {
@@ -202,160 +203,191 @@ const Users = () => {
   return(
     <>
     {!loading &&
-      <Grid container mt={5} columnSpacing={2}>
-        {activeFilters.length > 0 &&
-          <Box display='flex' overflow='auto' justifyContent='left' alignItems='center' mb={1} px={2} width='100%'>
-            <Box display='flex' alignItems='center' p={1}>
-              <Box mr={1}>
-                <FilterIcon color = 'primary' />
+      <>
+        <Grid container mt={5} columnSpacing={2}>
+          {activeFilters.length > 0 &&
+            <Box display='flex' overflow='auto' justifyContent='left' alignItems='center' mb={1} px={2} width='100%'>
+              <Box display='flex' alignItems='center' p={1}>
+                <Box mr={1}>
+                  <FilterIcon color = 'primary' />
+                </Box>
+                <Typography sx={{ color: 'disabled' }}>Filters:</Typography>
               </Box>
-              <Typography sx={{ color: 'disabled' }}>Filters:</Typography>
+              {activeFilters.map(filter => (
+                <Chip 
+                  variant='outlined'
+                  color='primary'
+                  label={`${filter.label}: ${filter.value}`}
+                  sx={{ marginX: 0.5 }}
+                />
+              ))}
             </Box>
-            {activeFilters.map(filter => (
-              <Chip 
-                variant='outlined'
-                color='primary'
-                label={`${filter.label}: ${filter.value}`}
-                sx={{ marginX: 0.5 }}
-              />
-            ))}
-          </Box>
-        }
-        <Grid item xs={searchOpen ? 9 : 12}>
-          {searchLoading && <LinearProgress color='primary' />}
-          <Card sx={{ bgcolor: 'elementBackground.main' }}>
-            <Grid container>
-              <Grid item xs={4} />
-              <Grid item xs={4}>
-                <Typography align='center' variant='h5' my={2}>Users</Typography>
-              </Grid>
-              <Grid item xs={4} display='flex' justifyContent='right' alignItems='center' pr={1}>
-                {(activeFilters?.length > 0 && !searchOpen) &&
-                  <Tooltip title='Clear Filters'>
-                    <IconButton 
-                      onClick={handleSearchReset}
-                    >
-                      <ClearFilterIcon color='primary' />
-                    </IconButton>
-                  </Tooltip>
-                }
-                {!searchOpen &&
-                  <Tooltip title='Search'>
-                    <IconButton onClick={() => setSearchOpen(true)}>
-                      <SearchIcon color='primary' />
-                    </IconButton>
-                  </Tooltip>
-                }
-              </Grid>
-            </Grid>
-          </Card>
-          {users.filter(user => user.name?.length > 0).map(user => (
-            <Accordion sx={{ backgroundColor: 'elementBackground.main' }} key={user.id}>
-              <AccordionSummary expandIcon={<ArrowIcon />}>
-                <Box pr={2}>
-                  <Avatar sx={{ bgcolor: getColor(user.name)}}>
-                    {user.name.charAt(0)}
-                  </Avatar>
-                </Box>
-                <Typography fontWeight='bold' paddingY={1}>{user?.name}</Typography>
-                <Stack direction='row' ml={1} alignItems='center' columnGap={1}>
-                  {user.admin && <Chip label='Admin' variant='outlined' color='primary' size='small' />}
-                  {user.enabled && <Chip label='Enabled' variant='outlined' color='success' size='small' />}
-                  {!user.enabled && <Chip label='Disabled' variant='outlined' color='secondary' size='small' />}
-                </Stack>
-              </AccordionSummary>
-              {user?.profiles?.length > 0 &&
-                <AccordionDetails>
-                  <List
-                    subheader={
-                      <>
-                        <ListSubheader sx={{ backgroundColor: 'elementBackground.main', fontSize: '12pt', fontWeight: 'bold' }}>
-                          Profiles
-                        </ListSubheader>
-                        <Divider />
-                      </>
-                    }
-                  >
-                    {user.profiles.filter(profile => profile.name?.length > 0).map((profile, index) => (
-                      <>
-                        <ListItemButton onClick={() => { navigate(`/profiles/${profile.id}`) }}>
-                          <Typography>
-                            {profile.name}
-                          </Typography>
-                        </ListItemButton>
-                        {(index !== (user.profiles.filter(profile => profile.name?.length > 0).length - 1)) && <Divider />}
-                      </>
-                    ))}
-                  </List>
-                </AccordionDetails>
-              }
-            </Accordion>
-          ))}
-        </Grid>
-        {searchOpen &&
-          <Grid item xs={3}>
-            <List
-              sx={{
-                backgroundColor: 'elementBackground.main'
-              }}
-              component={Paper}
-            >
-              <Box display='flex' justifyContent='space-between' alignItems='center' mx={1} mb={1}>
-                <ListSubheader
-                  sx={{ backgroundColor: 'elementBackground.main' }}
-                  align='center'
-                >
-                  Search
-                </ListSubheader>
-                <Box>
-                  <Tooltip title='Reset Filters'>
-                    <IconButton onClick={handleSearchReset}>
-                      <ResetIcon color='primary' />
-                    </IconButton>
-                  </Tooltip>
-                  <Tooltip title='Close'>
-                    <IconButton onClick={() => setSearchOpen(false)}>
-                      <CloseIcon color='primary' />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Box>
-              <Divider />
-              <ListItem>
-                <ListSubheader sx={{backgroundColor: 'elementBackground.main', marginRight: 2}}>User Search</ListSubheader>
-              </ListItem>
-              {userSearchParams.map(param => (
-                <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
-                  {param.variant === 'bool' &&
-                    <Box display='flex' justifyContent='center' width='100%'>
-                      <ButtonGroup variant='outlined' fullWidth>
-                        {param.options.map(option => (
-                          <Button 
-                            color='primary' 
-                            variant={formik.values[param.name] === option.value ? 'contained' : 'outlined'}
-                            onClick={() => formik.setFieldValue(param.name, option.value)}
-                          >
-                            {option.label}
-                          </Button>
-                        ))}
-                      </ButtonGroup>
-                      <Tooltip title='Clear Filter' placement='right'>
-                        <IconButton
-                          sx={{ marginLeft: 1 }}
-                          disabled={formik.values[param.name] === null}
-                          onClick={() => {
-                            formik.setFieldValue(param.name, null)
-                            if(activeFilters.find(filter => filter.name === param.name)) {
-                              handleApplyFilters({ ...formik.values, [param.name]: null })
-                            }
-                          }}
-                        >
-                          <ClearFilterIcon color={ formik.values[param.name] !== null ? 'secondary' : 'disabled' } />
-                        </IconButton>
-                      </Tooltip>
-                    </Box>
+          }
+          <Grid item xs={searchOpen ? 9 : 12}>
+            {searchLoading && <LinearProgress color='primary' />}
+            <Card sx={{ bgcolor: 'elementBackground.main' }} tour-id="header">
+              <Grid container>
+                <Grid item xs={4} />
+                <Grid item xs={4}>
+                  <Typography align='center' variant='h5' my={2}>Users</Typography>
+                </Grid>
+                <Grid item xs={4} display='flex' justifyContent='right' alignItems='center' pr={1}>
+                  {(activeFilters?.length > 0 && !searchOpen) &&
+                    <Tooltip title='Clear Filters'>
+                      <IconButton 
+                        onClick={handleSearchReset}
+                      >
+                        <ClearFilterIcon color='primary' />
+                      </IconButton>
+                    </Tooltip>
                   }
-                  {param.variant === 'string' &&
+                  {!searchOpen &&
+                    <Tooltip title='Search'>
+                      <IconButton onClick={() => setSearchOpen(true)} tour-id='search'>
+                        <SearchIcon color='primary' />
+                      </IconButton>
+                    </Tooltip>
+                  }
+                </Grid>
+              </Grid>
+            </Card>
+            {users.filter(user => user.name?.length > 0).map(user => (
+              <Accordion sx={{ backgroundColor: 'elementBackground.main' }} key={user.id}>
+                <AccordionSummary expandIcon={<ArrowIcon />}>
+                  <Box pr={2}>
+                    <Avatar sx={{ bgcolor: getColor(user.name)}}>
+                      {user.name.charAt(0)}
+                    </Avatar>
+                  </Box>
+                  <Typography fontWeight='bold' paddingY={1}>{user?.name}</Typography>
+                  <Stack direction='row' ml={1} alignItems='center' columnGap={1}>
+                    {user.admin && <Chip label='Admin' variant='outlined' color='primary' size='small' />}
+                    {user.enabled && <Chip label='Enabled' variant='outlined' color='success' size='small' />}
+                    {!user.enabled && <Chip label='Disabled' variant='outlined' color='secondary' size='small' />}
+                  </Stack>
+                </AccordionSummary>
+                {user?.profiles?.length > 0 &&
+                  <AccordionDetails>
+                    <List
+                      subheader={
+                        <>
+                          <ListSubheader sx={{ backgroundColor: 'elementBackground.main', fontSize: '12pt', fontWeight: 'bold' }}>
+                            Profiles
+                          </ListSubheader>
+                          <Divider />
+                        </>
+                      }
+                    >
+                      {user.profiles.filter(profile => profile.name?.length > 0).map((profile, index) => (
+                        <>
+                          <ListItemButton onClick={() => { navigate(`/profiles/${profile.id}`) }}>
+                            <Typography>
+                              {profile.name}
+                            </Typography>
+                          </ListItemButton>
+                          {(index !== (user.profiles.filter(profile => profile.name?.length > 0).length - 1)) && <Divider />}
+                        </>
+                      ))}
+                    </List>
+                  </AccordionDetails>
+                }
+              </Accordion>
+            ))}
+          </Grid>
+          {searchOpen &&
+            <Grid item xs={3}>
+              <List
+                sx={{
+                  backgroundColor: 'elementBackground.main'
+                }}
+                component={Paper}
+              >
+                <Box display='flex' justifyContent='space-between' alignItems='center' mx={1} mb={1}>
+                  <ListSubheader
+                    sx={{ backgroundColor: 'elementBackground.main' }}
+                    align='center'
+                  >
+                    Search
+                  </ListSubheader>
+                  <Box>
+                    <Tooltip title='Reset Filters'>
+                      <IconButton onClick={handleSearchReset}>
+                        <ResetIcon color='primary' />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title='Close'>
+                      <IconButton onClick={() => setSearchOpen(false)}>
+                        <CloseIcon color='primary' />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </Box>
+                <Divider />
+                <ListItem>
+                  <ListSubheader sx={{backgroundColor: 'elementBackground.main', marginRight: 2}}>User Search</ListSubheader>
+                </ListItem>
+                {userSearchParams.map(param => (
+                  <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
+                    {param.variant === 'bool' &&
+                      <Box display='flex' justifyContent='center' width='100%'>
+                        <ButtonGroup variant='outlined' fullWidth>
+                          {param.options.map(option => (
+                            <Button 
+                              color='primary' 
+                              variant={formik.values[param.name] === option.value ? 'contained' : 'outlined'}
+                              onClick={() => formik.setFieldValue(param.name, option.value)}
+                            >
+                              {option.label}
+                            </Button>
+                          ))}
+                        </ButtonGroup>
+                        <Tooltip title='Clear Filter' placement='right'>
+                          <IconButton
+                            sx={{ marginLeft: 1 }}
+                            disabled={formik.values[param.name] === null}
+                            onClick={() => {
+                              formik.setFieldValue(param.name, null)
+                              if(activeFilters.find(filter => filter.name === param.name)) {
+                                handleApplyFilters({ ...formik.values, [param.name]: null })
+                              }
+                            }}
+                          >
+                            <ClearFilterIcon color={ formik.values[param.name] !== null ? 'secondary' : 'disabled' } />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    }
+                    {param.variant === 'string' &&
+                      <Box display='flex' justifyContent='center' width='100%'>
+                        <FormikTextField 
+                          name={param.name}
+                          label={param.label}
+                          formik={formik}
+                          InputLabelProps={{ shrink: true }}
+                        />
+                        <Tooltip title='Clear Filter' placement='right'>
+                          <IconButton
+                            sx={{ marginLeft: 1 }}
+                            disabled={!formik.values[param.name]}
+                            onClick={() => {
+                              formik.setFieldValue(param.name, null)
+                              if(activeFilters.find(filter => filter.name === param.name)) {
+                                handleApplyFilters({ ...formik.values, [param.name]: null })
+                              }
+                            }}
+                          >
+                            <ClearFilterIcon color={ formik.values[param.name] ? 'secondary' : 'disabled' } />
+                          </IconButton>
+                        </Tooltip>
+                      </Box>
+                    }
+                  </ListItem>
+                ))}
+                <ListItem>
+                  <ListSubheader sx={{backgroundColor: 'elementBackground.main', marginRight: 2}}>Profile Search</ListSubheader>
+                </ListItem>
+                {profileSearchParams.map(param => (
+                  <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
                     <Box display='flex' justifyContent='center' width='100%'>
                       <FormikTextField 
                         name={param.name}
@@ -378,55 +410,27 @@ const Users = () => {
                         </IconButton>
                       </Tooltip>
                     </Box>
-                  }
+                  </ListItem>
+                ))}
+                <Box my={1}>
+                  <Divider />
+                </Box>
+                <ListItem>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    fullWidth
+                    onClick={() => handleApplyFilters(formik.values)}
+                  >
+                    Apply Filters
+                  </Button>
                 </ListItem>
-              ))}
-              <ListItem>
-                <ListSubheader sx={{backgroundColor: 'elementBackground.main', marginRight: 2}}>Profile Search</ListSubheader>
-              </ListItem>
-              {profileSearchParams.map(param => (
-                <ListItem sx={{ display: 'flex', justifyContent: 'center' }}>
-                  <Box display='flex' justifyContent='center' width='100%'>
-                    <FormikTextField 
-                      name={param.name}
-                      label={param.label}
-                      formik={formik}
-                      InputLabelProps={{ shrink: true }}
-                    />
-                    <Tooltip title='Clear Filter' placement='right'>
-                      <IconButton
-                        sx={{ marginLeft: 1 }}
-                        disabled={!formik.values[param.name]}
-                        onClick={() => {
-                          formik.setFieldValue(param.name, null)
-                          if(activeFilters.find(filter => filter.name === param.name)) {
-                            handleApplyFilters({ ...formik.values, [param.name]: null })
-                          }
-                        }}
-                      >
-                        <ClearFilterIcon color={ formik.values[param.name] ? 'secondary' : 'disabled' } />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </ListItem>
-              ))}
-              <Box my={1}>
-                <Divider />
-              </Box>
-              <ListItem>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  fullWidth
-                  onClick={() => handleApplyFilters(formik.values)}
-                >
-                  Apply Filters
-                </Button>
-              </ListItem>
-            </List>
-          </Grid>
-        }
-      </Grid>
+              </List>
+            </Grid>
+          }
+        </Grid>
+        <Tour onStart={() => setSearchOpen(false)} variant='users' />
+      </>
       }
     </>
   );

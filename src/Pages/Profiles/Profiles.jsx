@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
-import { Grid, Typography, Box, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, CircularProgress, LinearProgress, List, ListSubheader, ListItem, Button, Divider, Chip } from '@mui/material';
+import { Grid, Typography, Box, ButtonGroup, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, CircularProgress, LinearProgress, List, ListSubheader, ListItem, Button, Divider, Chip } from '@mui/material';
 import AddIcon from '@mui/icons-material/NoteAdd';
 import SearchIcon from '@mui/icons-material/Search';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -19,6 +19,8 @@ import ResetIcon from '@mui/icons-material/RestartAlt';
 import FilterIcon from '@mui/icons-material/FilterList';
 import ClearFilterIcon from '@mui/icons-material/FilterListOff';
 import Tour from '../../Components/Tour/Tour';
+import ArrowBack from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForward from '@mui/icons-material/ArrowForwardIos';
 
 const searchParams = [
   {
@@ -88,6 +90,10 @@ const Profiles = () => {
   const [ searchOpen, setSearchOpen ] = useState(false);
   const [ activeFilters, setActiveFilters ] = useState([]);
   const [ selectDisabledIndex, setSelectDisabledIndex ] = useState(-1);
+  const [ pageSize, setPageSize ] = useState(10);
+  const [ pageNumber, setPageNumber ] = useState(1);
+  const [ totalResults, setTotalResults ] = useState(0);
+  const [ lastPage, setLastPage ] = useState(0);
   const formik = useFormik({
     initialValues: initialValues,
     validateOnChange: false,
@@ -102,10 +108,12 @@ const Profiles = () => {
         setTableLoading(true);
       }
       try {
-        await axios.get(`${ServiceUtils.baseUrl}/users/${user.id}/profiles`, { params })
+        await axios.get(`${ServiceUtils.baseUrl}/users/${user.id}/profiles/page`, { params: { ...params, pageNumber, pageSize }})
         .then(res => {
           const { data } = res;
-          setProfiles(data);
+          setProfiles(data.profiles);
+          setLastPage(data.lastPage);
+          setTotalResults(data.totalResults);
         });
       } catch (err) {
         console.error(err);
@@ -125,6 +133,10 @@ const Profiles = () => {
   //and we need to declare it outside so we can refresh table on filter/delete
   //eslint-disable-next-line
   }, [user]);
+
+  useEffect(() => {
+    fetchProfiles(null, formik.values);
+  }, [pageNumber, pageSize]);
 
   const handleAddProfile = async () => {
     setProfileLoading(true);
@@ -161,10 +173,12 @@ const Profiles = () => {
   const handleSearchReset = () => {
     formik.setValues(initialValues);
     setActiveFilters([]);
+    setPageNumber(1);
     fetchProfiles(null, null);
   };
 
   const handleApplyFilters = (params) => {
+    setPageNumber(1);
     fetchProfiles(null, params);
     setActiveFilters(Object.keys(params).filter(key => params[key]).map(key => ({
         name: key,
@@ -278,7 +292,7 @@ const Profiles = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {profiles.sort((p1, p2) => dayjs(p1.createdDate).isAfter(dayjs(p2.createdDate)) ? -1 : 1).map((profile, index) => (
+                {profiles.map((profile, index) => (
                   <TableRow 
                     key={profile.id}
                     hover={selectDisabledIndex !== index}
@@ -307,6 +321,59 @@ const Profiles = () => {
               </TableBody>
             </Table>
           </TableContainer>
+          <Box 
+            display='flex' 
+            alignItems='center' 
+            justifyContent='space-between' 
+            component={Paper} 
+            sx={{ backgroundColor: 'elementBackground.main' }}
+          >
+            <Box display='flex' alignItems='center' ml={1.5}>
+              <Typography>{`${totalResults} Result(s)`}</Typography>
+            </Box>
+            <Box display='flex' alignItems='center'>
+              <IconButton 
+                size='small' 
+                color={pageSize === 10 ? 'primary' : 'disabled'}
+                onClick={() => {setPageNumber(1); setPageSize(10)}}
+                sx={{ marginInline: 0.5 }}
+              >
+                10
+              </IconButton>
+              <IconButton 
+                size='small' 
+                color={pageSize === 20 ? 'primary' : 'disabled'}
+                onClick={() => {setPageNumber(1); setPageSize(20)}}
+                sx={{ marginInline: 0.5 }}
+              >
+                20
+              </IconButton>
+              <IconButton 
+                size='small' 
+                color={pageSize === 30 ? 'primary' : 'disabled'}
+                onClick={() => {setPageNumber(1); setPageSize(30)}}
+                sx={{ marginInline: 0.5 }}
+              >
+                30
+              </IconButton>
+              <Typography>Results per page</Typography>
+            </Box>
+            <Box display='flex' alignItems='center'>
+              <IconButton
+                disabled={pageNumber === 1}
+                onClick={() => setPageNumber(prevNum => prevNum - 1)}
+              >
+                <ArrowBack color={pageNumber === 1 ? 'disabled' : 'primary'} />
+              </IconButton>
+              <Typography>{`${pageNumber}/${lastPage}`}</Typography>
+              <IconButton
+                disabled={pageNumber === lastPage}
+                onClick={() => setPageNumber(prevNum => prevNum + 1)}
+              >
+                <ArrowForward color={pageNumber === lastPage ? 'disabled' : 'primary'} />
+              </IconButton>
+            </Box>
+          </Box>
         </Grid>
         {searchOpen &&
           <Grid item xs={3}>
@@ -379,6 +446,9 @@ const Profiles = () => {
             </List>
           </Grid>
         }
+        <Grid item xs={12} display='flex' justifyContent='right' component={Paper}>
+          
+        </Grid>
       </Grid>
     }
       {deleteDialogOpen &&

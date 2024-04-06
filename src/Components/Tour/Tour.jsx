@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Fab } from '@mui/material';
+import { Fab, Tooltip } from '@mui/material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { useTour } from '@reactour/tour';
 import { steps as profileSteps } from './Steps/Profiles';
 import { steps as editorSteps } from './Steps/ProfileEditor';
+import { steps as userSteps } from './Steps/Users';
 
 const Tour = ({ onStart, variant }) => {
   const { setIsOpen, setSteps, setCurrentStep } = useTour();
@@ -15,6 +16,9 @@ const Tour = ({ onStart, variant }) => {
         break;
       case 'profileEditor':
         setSteps(editorSteps);
+        break;
+      case 'users':
+        setSteps(userSteps);
         break;
       default:
         setSteps([]);
@@ -31,7 +35,7 @@ const Tour = ({ onStart, variant }) => {
   };
 
   return(
-    <>
+    <Tooltip title='Feature tour'>
       <Fab 
         color='primary'
         size='small'
@@ -47,7 +51,7 @@ const Tour = ({ onStart, variant }) => {
       >
         <QuestionMarkIcon />
       </Fab>
-    </>
+    </Tooltip>
   );
 };
 
