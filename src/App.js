@@ -7,7 +7,6 @@ import { useState } from "react";
 import UserContext from "./Lib/UserContext/UserContext";
 import LoadingContext from "./Lib/LoadingContext/LoadingContext";
 import Profiles from "./Pages/Profiles/Profiles";
-//import Documents from "./Pages/Documents/Documents";
 import Users from "./Pages/Users/Users";
 import LogoutSuccess from "./Pages/LogoutSuccess/LogoutSuccess";
 import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
@@ -19,16 +18,42 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { SnackbarProvider } from "notistack";
 
-const theme = createTheme({
+import React from 'react';
+import { DarkModeProvider, useDarkMode } from "./Lib/DarkModeContext/DarkModeContext";
+
+import {CssBaseline, GlobalStyles} from "@mui/material";
+
+const AppContent = () => {
+  return (
+    <DarkModeProvider>
+      <App />
+    </DarkModeProvider>
+  );
+};
+
+function App() {
+  
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const userValue = { user, setUser };
+  const loadingValue = { loading, setLoading };
+
+  const { darkMode, toggleDarkMode } = useDarkMode();
+
+  const lightTheme = createTheme({
   palette: {
+    mode: 'light',
     primary: {
       main: '#005799',
     },
     secondary: {
-      main: '#a32828',
+      main: '#de0909',
     },
     elementBackground: {
-      main: '#f2f2f2'
+      main: '#f2f2f2',
+    },
+    applicationBackground:{
+      main: 'rgba(0, 0, 0, 0.08)',
     },
     golden: {
       main: '#E5BA39'
@@ -36,21 +61,48 @@ const theme = createTheme({
   }
 });
 
-function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const userValue = { user, setUser };
-  const loadingValue = { loading, setLoading };
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#cddbe7',
+    },
+    secondary: {
+      main: '#de0909',
+    },
+    elementBackground: {
+      main: '#383838',
+    },
+    applicationBackground:{
+      main: '#212121',
+    },
+    golden: {
+      main: '#E5BA39'
+    }
+  }
+});
+
+const theme = darkMode ? darkTheme : lightTheme;
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
+
+      <ThemeProvider theme={theme}>
+      <div >
+        <CssBaseline/>
+        <GlobalStyles
+          styles={{
+            body: { backgroundColor: "applicationBackground.main" },
+          }}
+        />
+   
       <UserContext.Provider value={userValue}>
         <LoadingContext.Provider value={loadingValue}>
           <SnackbarProvider
             style={{
               fontFamily: theme.typography.fontFamily
-            }}
-          >
+            }}>
+           
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Layout />}>
@@ -67,8 +119,11 @@ function App() {
           </SnackbarProvider>
         </LoadingContext.Provider>
       </UserContext.Provider>
-    </ThemeProvider>
+      </div>
+      </ThemeProvider>
+   
+</>
   );
 }
 
-export default App;
+export default AppContent;

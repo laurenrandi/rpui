@@ -11,6 +11,7 @@ import ServiceUtils from '../../Lib/ServiceUtils';
 import dayjs from 'dayjs';
 import ProfileDeleteDialog from '../Profiles/ProfileDeleteDialog';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
+import { ThemeContext } from '@emotion/react';
 
 const Profiles = ( formik ) => {
   const [profiles, setProfiles] = useState([]);
@@ -21,7 +22,9 @@ const Profiles = ( formik ) => {
   const navigate = useNavigate();
   const [ profileLoading, setProfileLoading ] = useState(false);
 
+  const theme = useContext(ThemeContext);
   useEffect(() => {
+    
     const fetchProfiles = async () => {
       if(user?.id) {
         setLoading(true);

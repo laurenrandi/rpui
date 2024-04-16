@@ -23,7 +23,6 @@ const AboutViewer = ({ formik }) => {
   useEffect(() => {
     console.log(formik.values);
   }, [formik.values]);
-
   return(
     <>
       <Card
