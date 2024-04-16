@@ -7,7 +7,6 @@ import { useState } from "react";
 import UserContext from "./Lib/UserContext/UserContext";
 import LoadingContext from "./Lib/LoadingContext/LoadingContext";
 import Profiles from "./Pages/Profiles/Profiles";
-//import Documents from "./Pages/Documents/Documents";
 import Users from "./Pages/Users/Users";
 import LogoutSuccess from "./Pages/LogoutSuccess/LogoutSuccess";
 import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
@@ -21,45 +20,95 @@ import { SnackbarProvider } from "notistack";
 import { TourProvider } from "@reactour/tour";
 import { steps } from "./Components/Tour/Steps/Profiles";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#005799',
-    },
-    secondary: {
-      main: '#a32828',
-    },
-    elementBackground: {
-      main: '#f2f2f2'
-    },
-    golden: {
-      main: '#E5BA39'
-    }
-  },
-});
+import React from 'react';
+import { DarkModeProvider, useDarkMode } from "./Lib/DarkModeContext/DarkModeContext";
+
+import {CssBaseline, GlobalStyles} from "@mui/material";
+
+const AppContent = () => {
+  return (
+    <DarkModeProvider>
+      <App />
+    </DarkModeProvider>
+  );
+};
 
 function App() {
+  
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const userValue = { user, setUser };
   const loadingValue = { loading, setLoading };
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Landing />} />
-          <Route path='/logout/success' element={<LogoutSuccess />} />
-          <Route path="/login/success/:userId" element={<LoginSuccess />} />
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/profiles/:profileId" element={<ProfileEditor />} />
-          <Route path="/users" element={<Users />} />
-        </Route>
-      </>
-    )
-  );
+
+  const { darkMode, toggleDarkMode } = useDarkMode();
+
+  const lightTheme = createTheme({
+  palette: {
+    mode: 'light',
+    primary: {
+      main: '#005799',
+    },
+    secondary: {
+      main: '#de0909',
+    },
+    elementBackground: {
+      main: '#f2f2f2',
+    },
+    applicationBackground:{
+      main: 'rgba(0, 0, 0, 0.08)',
+    },
+    golden: {
+      main: '#E5BA39'
+    }
+  }
+});
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#cddbe7',
+    },
+    secondary: {
+      main: '#de0909',
+    },
+    elementBackground: {
+      main: '#383838',
+    },
+    applicationBackground:{
+      main: '#212121',
+    },
+    golden: {
+      main: '#E5BA39'
+    }
+  }
+});
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Landing />} />
+        <Route path='/logout/success' element={<LogoutSuccess />} />
+        <Route path="/login/success/:userId" element={<LoginSuccess />} />
+        <Route path="/profiles" element={<Profiles />} />
+        <Route path="/profiles/:profileId" element={<ProfileEditor />} />
+        <Route path="/users" element={<Users />} />
+      </Route>
+    </>
+  )
+);
+
+const theme = darkMode ? darkTheme : lightTheme;
 
   return (
-    <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <GlobalStyles
+          styles={{
+            body: { backgroundColor: "applicationBackground.main" },
+          }}
+        />
       <UserContext.Provider value={userValue}>
         <LoadingContext.Provider value={loadingValue}>
           <TourProvider 
@@ -85,8 +134,8 @@ function App() {
           </TourProvider>
         </LoadingContext.Provider>
       </UserContext.Provider>
-    </ThemeProvider>
+      </ThemeProvider>
   );
 }
 
-export default App;
+export default AppContent;

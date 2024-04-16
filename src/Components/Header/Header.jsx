@@ -10,9 +10,12 @@ import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 import BackButtonChanges from '../../Pages/ProfileEditor/BackButtonChange';
 import { usePrompt } from 'react-router-prompt';
-import { useFormik } from 'formik';
+import AccountMenu from '../AccountMenu/AccountMenu';
+import {useFormik} from 'formik';
+
 
 const Header = ({ hideLoginButton=false }) => {
+  
   const [tabValue, setTabValue] = useState(0);
   const [loggedIn, setLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -20,7 +23,7 @@ const Header = ({ hideLoginButton=false }) => {
   const { loading } = useContext(LoadingContext);
   const location = useLocation();
   const navigate = useNavigate();
-
+  
   const handleChange = (e, v) => {
     setTabValue(v);
   }
@@ -62,6 +65,7 @@ const Header = ({ hideLoginButton=false }) => {
 
   return(
     <>
+    
       <Box
         sx={{
           height: 75,
@@ -70,11 +74,11 @@ const Header = ({ hideLoginButton=false }) => {
         bgcolor='elementBackground.main'
       >
         <Grid container>
-          <Grid item xs={6}>
+          <Grid item xs={9}>
             <Box display='flex' justifyContent='left' pl={2} height={75} alignItems='center'>
               <Typography color='primary' fontWeight='bolder' variant='h4'>SPB</Typography>
               {loggedIn &&
-                <Box display='flex' justifyContent='center' flexDirection='column' height={75} ml={2}>
+                <Box display='flex' justifyContent='center' flexDirection='column' height={75}>
                   <Box display='flex' justifyContent='left'>
                     <Tabs
                       value={tabValue}
@@ -91,20 +95,28 @@ const Header = ({ hideLoginButton=false }) => {
               }
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={3}>
             {!hideLoginButton &&
-              <Box display='flex' justifyContent='right' height={75} alignItems='center' mr={2}>
-                <Button
-                  variant={ loggedIn ? 'outlined' : 'contained' }
-                  color={ loggedIn ? 'secondary' : 'primary' }
-                  endIcon={ loggedIn ? <LogoutIcon /> : <GoogleIcon /> }
-                  onClick={loginLogoutHandler}
-                >
-                  {loggedIn ? 'Log out' : 'Log in'}
-                </Button>
+            <Box display='flex' justifyContent='right' height={75}>
+              {loggedIn &&
+               <AccountMenu  mr={2}/>
+              }
+                <Box display='flex' justifyContent='right' height={75} alignItems='center' pl={2} pr={2}>
+                  
+                  <Button
+                    variant={ loggedIn ? 'outlined' : 'contained' }
+                    color={ loggedIn ? 'secondary' : 'primary' }
+                    endIcon={ loggedIn ? <LogoutIcon /> : <GoogleIcon /> }
+                    onClick={loginLogoutHandler}
+                  >
+                    {loggedIn ? 'Log out' : 'Log in'}
+                  </Button>
+                </Box>
+                  
               </Box>
-            }
+}
           </Grid>
+          
         </Grid>
         {loading && <LinearProgress color='primary' />}
       </Box>      
