@@ -14,6 +14,7 @@ import { useFormik } from 'formik';
 import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import FilterIcon from '@mui/icons-material/FilterList';
 import Tour from '../../Components/Tour/Tour';
+import StarsIcon from '@mui/icons-material/Stars';
 
 const userSearchParams = [
   {
@@ -337,12 +338,15 @@ const Users = () => {
                       }
                     >
                       <>
-                        {profiles?.filter(profile => profile.name?.length > 0).map((profile, index) => (
+                        {profiles?.filter(profile => profile.name?.length > 0).sort((a, b) => (a.masterProfile === b.masterProfile) ? 0 : a.masterProfile ? -1 : 1).map((profile, index) => (
                           <>
                             <ListItemButton onClick={() => { navigate(`/profiles/${profile.id}`) }}>
-                              <Typography>
-                                {profile.name}
-                              </Typography>
+                              <Box display='flex' justifyContent='center' alignItems='center'>
+                                <Typography>
+                                  {profile.name}
+                                </Typography>
+                                {profile.masterProfile && <StarsIcon color='golden' sx={{ marginLeft: 1 }}/>}
+                              </Box>
                             </ListItemButton>
                             {(index !== (profiles?.filter(profile => profile.name?.length > 0).length - 1)) && <Divider />}
                           </>
