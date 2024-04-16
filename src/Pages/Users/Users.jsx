@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import axios from 'axios';
 import ArrowIcon from '@mui/icons-material/ArrowDropDown';
-import { Accordion, AccordionSummary, Button, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader, Grid, Tooltip, IconButton, Card, Paper, ButtonGroup, ListItem, LinearProgress, Stack, CircularProgress } from '@mui/material';
+import { Accordion, AccordionSummary, Button, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader, Grid, Tooltip, IconButton, Card, Paper, ButtonGroup, ListItem, LinearProgress, Stack, CircularProgress, AccordionActions } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
 import { useSnackbar } from 'notistack';
@@ -182,7 +182,7 @@ const Users = () => {
       setUsers(resp);
     } catch (err) {
       console.error(err);
-      enqueueSnackbar('An error occured while fetching user data.', { variant: 'error' })
+      enqueueSnackbar('An error occurred while fetching user data.', { variant: 'error' })
     } finally {
       if(initial) {
         setLoading(false);
@@ -204,7 +204,7 @@ const Users = () => {
           setProfiles(data);
         } catch (err) {
           console.error(err);
-          enqueueSnackbar('An error occured while fetching profiles.', { variant: 'error' });
+          enqueueSnackbar('An error occurred while fetching profiles.', { variant: 'error' });
         } finally {
           setProfileLoading(false);
         }
@@ -246,6 +246,26 @@ const Users = () => {
     setActiveFilters([]);
     fetchUsers(false, null);
   };
+
+  const handleEnableDisable = async (user) => {
+    try {
+      await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/${user.enabled ? 'disable' : 'enable'}`);
+      setUsers([...users.filter(u => u.id !== user.id), { ...user, enabled: !user.enabled }]);
+    } catch (err) {
+      console.error(err);
+      enqueueSnackbar('An error occurred while updating user.', { variant: 'error' });
+    }
+  };
+
+  const handlePromoteDemote = async (user) => {
+    try {
+      await axios.post(`${ServiceUtils.baseUrl}/users/${user.id}/${user.admin ? 'demote' : 'promote'}`);
+      setUsers([...users.filter(u => u.id !== user.id), { ...user, admin: !user.admin }]);
+    } catch (err) {
+      console.error(err);
+      enqueueSnackbar('An error occurred while updating user.', { variant: 'error' });
+    }
+  }
   
   return(
     <>
@@ -354,6 +374,24 @@ const Users = () => {
                       </>
                     </List>
                   </AccordionDetails>
+                }
+                {!profilesLoading && selectedUserId &&
+                  <AccordionActions>
+                     <Button
+                      color={user.enabled ? 'secondary' : 'success'}
+                      variant='outlined'
+                      onClick={() => handleEnableDisable(user)}
+                    >
+                      {user.enabled ? 'Disable user' : 'Enable user'}
+                    </Button>
+                    <Button
+                      color={user.admin ? 'secondary' : 'primary'}
+                      variant='outlined'
+                      onClick={() => handlePromoteDemote(user)}
+                    >
+                      {user.admin ? 'Demote to user' : 'Promote to admin'}
+                    </Button>
+                  </AccordionActions>
                 }
               </Accordion>
             ))}
