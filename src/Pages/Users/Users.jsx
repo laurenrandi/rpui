@@ -31,7 +31,7 @@ const userSearchParams = [
         value: true
       },
       {
-        label: 'User',
+        label: 'Colleague',
         value: false
       }
     ]
