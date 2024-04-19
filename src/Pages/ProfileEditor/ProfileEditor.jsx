@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext.jsx';
-import { Box, CircularProgress, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, CircularProgress, Divider, Grid, IconButton, Link, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate, useParams } from 'react-router-dom';
 import emptyProfile from '../../Lib/emptyProfile.json';
@@ -78,6 +78,7 @@ const ProfileEditor = () => {
   const [profileName, setProfileName] = useState('');
   //for storing name when elevating to master profile
   const [originalProfileName, setOriginalProfileName] = useState('');
+  const [exportAnchor, setExportAnchor] = useState(null);
   const { user } = useContext(UserContext);
   const { profileId } = useParams();
   const { enqueueSnackbar } = useSnackbar();
@@ -312,7 +313,7 @@ const ProfileEditor = () => {
                 {!(profileId === 'new') &&
                   <Tooltip title='Export to PDF'>
                     <IconButton 
-                      href={`${ServiceUtils.baseUrl}/profiles/${formik.values?.id}/pdf`} 
+                      onClick={(e) => setExportAnchor(e.currentTarget)}
                       disabled={loading}
                       target='_blank'
                       tour-id="pdf"
@@ -351,6 +352,14 @@ const ProfileEditor = () => {
       }
       <CustomPrompt when={formik.dirty && !saveLoading} message='You have unsaved changes. Are you sure you want to continue?' beforeUnload={true}  />
       <Tour variant='profileEditor' />
+      <Menu
+        anchorEl={exportAnchor}
+        onClose={() => setExportAnchor(null)}
+        open={Boolean(exportAnchor)}
+      >
+        <MenuItem component={Link} target='_blank' href={`${ServiceUtils.baseUrl}/profiles/${formik.values?.id}/pdf`}>Standard</MenuItem>
+        <MenuItem component={Link} target='_blank' href={`${ServiceUtils.baseUrl}/profiles/${formik.values?.id}/pdf?secondary=true`}>Columns</MenuItem>
+      </Menu>
     </>
   );
 };
