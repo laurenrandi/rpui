@@ -297,7 +297,7 @@ const Users = () => {
               <Grid container>
                 <Grid item xs={4} />
                 <Grid item xs={4}>
-                  <Typography align='center' variant='h5' my={2}>Users</Typography>
+                  <Typography align='center' variant='h5' my={2}>Colleagues</Typography>
                 </Grid>
                 <Grid item xs={4} display='flex' justifyContent='right' alignItems='center' pr={1}>
                   {(activeFilters?.length > 0 && !searchOpen) &&
