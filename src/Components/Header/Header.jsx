@@ -8,10 +8,7 @@ import ProfilesIcon from '@mui/icons-material/Description';
 import UserContext from '../../Lib/UserContext/UserContext';
 import ServiceUtils from '../../Lib/ServiceUtils';
 import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
-import BackButtonChanges from '../../Pages/ProfileEditor/BackButtonChange';
-import { usePrompt } from 'react-router-prompt';
 import AccountMenu from '../AccountMenu/AccountMenu';
-import {useFormik} from 'formik';
 
 
 const Header = ({ hideLoginButton=false }) => {
