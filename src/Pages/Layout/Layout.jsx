@@ -13,6 +13,13 @@ const Layout = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
+  const publicPages = [
+    '/', 
+    'login/success/*',
+    'logout/success/*',
+    'profiles/*'
+  ];
+
   //set logging in state
   useEffect(() => {
     const loading = matchPath('login/success/*', pathname) !== null ? true : false;
@@ -23,7 +30,7 @@ const Layout = () => {
   useEffect(() => {
     if(!user) {
       if(!localStorage.getItem("UserId")) {
-        if(matchPath('/', pathname) === null && matchPath('login/success/*', pathname) === null) {
+        if(!publicPages.some(route => matchPath(route) !== null)) {
           navigate('/');
         }
       }
