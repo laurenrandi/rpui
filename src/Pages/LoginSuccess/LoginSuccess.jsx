@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom/dist';
 import { Box, LinearProgress, Typography } from '@mui/material';
-import UserContext from '../../Lib/UserContext/UserContext';
+import axios from 'axios';
+import React, { useContext, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom/dist';
 import ServiceUtils from '../../Lib/ServiceUtils';
+import UserContext from '../../Lib/UserContext/UserContext';
 
 const LoginSuccess = () => {
   const { userId } = useParams();
@@ -27,7 +27,7 @@ const LoginSuccess = () => {
       }
       fetchUserInfo();
     }
-  }, [userId]);
+  }, [userId, navigate, setUser]);
 
   return(
     <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center' height='75vh'>

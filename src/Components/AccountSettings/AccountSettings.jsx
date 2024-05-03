@@ -1,35 +1,22 @@
-import React from 'react';
-import { useFormik } from 'formik';
-import { Dialog, DialogContent, DialogActions, Button, Box, Typography, Divider, TextField, IconButton } from '@mui/material';
-import FormikTextField from '../FormikTextField/FormikTextField';
-import DeleteIcon from '@mui/icons-material/Delete';
-import UserContext from '../../Lib/UserContext/UserContext';
-import { useContext, useState } from 'react';
-import { ThirtyFpsSelectOutlined } from '@mui/icons-material';
+import { Box, Button, Dialog, DialogActions, DialogContent, Divider, Typography } from '@mui/material';
 import axios from 'axios';
+import { useFormik } from 'formik';
+import React, { useContext } from 'react';
 import ServiceUtils from '../../Lib/ServiceUtils';
-
-
+import UserContext from '../../Lib/UserContext/UserContext';
+import FormikTextField from '../FormikTextField/FormikTextField';
 
 const AccountSettings = ({ profile, onCancel, onSave}) => {
-
-  
-  const [dialogOpen, setDialogOpen] = useState();
-
-  
-
     const { user } = useContext(UserContext);
     const { setUser } = useContext(UserContext);
-
-
     const initialValues = {
-      name: user.name
-  }
+        name: user.name
+    }
 
   const formik = useFormik({
     initialValues: profile || initialValues,
     enableReinitialize: true,
-});
+  });
 
 
     const handleSave = async () => {

@@ -9,16 +9,10 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import Settings from '@mui/icons-material/Settings';
 import AccountSettings from '../AccountSettings/AccountSettings';
-import { useState, useEffect, useContext  } from 'react';
-
-import ServiceUtils from '../../Lib/ServiceUtils';
-import axios from 'axios';
-import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
-import { useSnackbar } from 'notistack';
+import { useContext  } from 'react';
 import UserContext from '../../Lib/UserContext/UserContext';
-import { DarkModeProvider, useDarkMode } from '../../Lib/DarkModeContext/DarkModeContext';
+import { useDarkMode } from '../../Lib/DarkModeContext/DarkModeContext';
 import {Switch} from "@mui/material";
-import { ThemeProvider, createTheme } from "@mui/material";
 
 
 
@@ -47,44 +41,22 @@ export default function AccountMenu() {
 
   const { darkMode, toggleDarkMode } = useDarkMode();
 
-  const theme = createTheme({
-    palette: {
-      mode: darkMode ? 'dark' : 'light',
-    },
-  });
-
-
   const { user } = useContext(UserContext);
-  const [users, setUsers] = useState([]); 
-  const { setLoading } = useContext(LoadingContext);
-  const { enqueueSnackbar } = useSnackbar();
-  useEffect(() => {
-    const fetchUsers = async () => {
-      setLoading(true);
-      try {
-        const { data } = await axios.get(`${ServiceUtils.baseUrl}/users/info`);
-        setUsers(data);
-      } catch (err) {
-        console.error(err);
-        enqueueSnackbar('An error occured while fetching user data.', { variant: 'error' })
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUsers();
-  }, [setLoading]);
   
   const getColor = (str) => {
-    let hash = 0;
-    str.split('').forEach(char => {
-      hash = char.charCodeAt(0) + ((hash << 5) - hash)
-    })
-    let color = '#'
-    for (let i = 0; i < 3; i++) {
-      const value = (hash >> (i * 8)) & 0xff
-      color += value.toString(16).padStart(2, '0')
+    if(str) {
+      let hash = 0;
+      str.split('').forEach(char => {
+        hash = char.charCodeAt(0) + ((hash << 5) - hash)
+      })
+      let color = '#'
+      for (let i = 0; i < 3; i++) {
+        const value = (hash >> (i * 8)) & 0xff
+        color += value.toString(16).padStart(2, '0')
+      }
+      return color;
     }
-    return color;
+    return '';
   };
 
 
@@ -100,7 +72,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 , bgcolor: getColor(user.name)}}>{user.name.charAt(0)}</Avatar> 
+            <Avatar sx={{ width: 32, height: 32 , bgcolor: getColor(user?.name)}}>{user?.name?.charAt(0)}</Avatar> 
           </IconButton>
         </Tooltip>
       </Box>
@@ -109,7 +81,6 @@ export default function AccountMenu() {
         id="account-menu"
         open={open}
         onClose={handleClose}
-        //onClick={handleClose}
         PaperProps={{
           elevation: 0,
           sx: {

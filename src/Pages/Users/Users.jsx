@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import ServiceUtils from '../../Lib/ServiceUtils';
-import axios from 'axios';
 import ArrowIcon from '@mui/icons-material/ArrowDropDown';
-import { Accordion, AccordionSummary, Button, Typography, Box, AccordionDetails, List, ListItemButton, Divider, Chip, Avatar, ListSubheader, Grid, Tooltip, IconButton, Card, Paper, ButtonGroup, ListItem, LinearProgress, Stack, CircularProgress, AccordionActions } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
-import { useSnackbar } from 'notistack';
-import SearchIcon from '@mui/icons-material/Search';
-import ResetIcon from '@mui/icons-material/RestartAlt';
-import ClearFilterIcon from '@mui/icons-material/FilterListOff';
 import CloseIcon from '@mui/icons-material/Close';
-import { useFormik } from 'formik';
-import FormikTextField from '../../Components/FormikTextField/FormikTextField';
 import FilterIcon from '@mui/icons-material/FilterList';
-import Tour from '../../Components/Tour/Tour';
+import ClearFilterIcon from '@mui/icons-material/FilterListOff';
+import ResetIcon from '@mui/icons-material/RestartAlt';
+import SearchIcon from '@mui/icons-material/Search';
 import StarsIcon from '@mui/icons-material/Stars';
+import { Accordion, AccordionActions, AccordionDetails, AccordionSummary, Avatar, Box, Button, ButtonGroup, Card, Chip, CircularProgress, Divider, Grid, IconButton, LinearProgress, List, ListItem, ListItemButton, ListSubheader, Paper, Stack, Tooltip, Typography } from '@mui/material';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { useSnackbar } from 'notistack';
+import React, { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import FormikTextField from '../../Components/FormikTextField/FormikTextField';
+import Tour from '../../Components/Tour/Tour';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
+import ServiceUtils from '../../Lib/ServiceUtils';
 
 const userSearchParams = [
   {
@@ -212,10 +212,14 @@ const Users = () => {
       }
       fetchProfiles();
     }
-  }, [selectedUserId]);
+    //Don't really need formik in the deps - this really should be refactored
+    //but the semester's over
+    // eslint-disable-next-line
+  }, [selectedUserId, enqueueSnackbar]);
   
   useEffect(() => {
     fetchUsers(true, null);
+    // eslint-disable-next-line
   }, [setLoading, enqueueSnackbar]);
 
   const getColor = (str) => {

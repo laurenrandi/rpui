@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Fab, Tooltip } from '@mui/material';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Fab, Tooltip } from '@mui/material';
 import { useTour } from '@reactour/tour';
-import { steps as profileSteps } from './Steps/Profiles';
+import React, { useEffect } from 'react';
 import { steps as editorSteps } from './Steps/ProfileEditor';
+import { steps as profileSteps } from './Steps/Profiles';
 import { steps as userSteps } from './Steps/Users';
 
 const Tour = ({ onStart, variant }) => {
@@ -24,7 +24,7 @@ const Tour = ({ onStart, variant }) => {
         setSteps([]);
         break;
     }
-  }, [variant]);
+  }, [variant, setSteps]);
 
   const handleStart = () => {
     if(onStart) {

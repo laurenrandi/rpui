@@ -1,26 +1,47 @@
-import React, { useContext, useState, useEffect } from 'react';
-import UserContext from '../../Lib/UserContext/UserContext';
-import { Grid, Typography, Box, ButtonGroup, TableContainer, Paper, TableHead, TableRow, TableCell, Table, IconButton, Tooltip, TableBody, CircularProgress, LinearProgress, List, ListSubheader, ListItem, Button, Divider, Chip } from '@mui/material';
-import AddIcon from '@mui/icons-material/NoteAdd';
-import SearchIcon from '@mui/icons-material/Search';
-import DeleteIcon from '@mui/icons-material/Delete';
-import StarsIcon from '@mui/icons-material/Stars';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import ServiceUtils from '../../Lib/ServiceUtils';
-import dayjs from 'dayjs';
-import ProfileDeleteDialog from '../Profiles/ProfileDeleteDialog';
-import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
-import { useSnackbar } from 'notistack';
-import CloseIcon from '@mui/icons-material/Close';
-import { useFormik } from 'formik';
-import FormikTextField from '../../Components/FormikTextField/FormikTextField';
-import ResetIcon from '@mui/icons-material/RestartAlt';
-import FilterIcon from '@mui/icons-material/FilterList';
-import ClearFilterIcon from '@mui/icons-material/FilterListOff';
-import Tour from '../../Components/Tour/Tour';
+import React, { useContext, useEffect, useState } from 'react';
 import ArrowBack from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForward from '@mui/icons-material/ArrowForwardIos';
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilterIcon from '@mui/icons-material/FilterList';
+import ClearFilterIcon from '@mui/icons-material/FilterListOff';
+import AddIcon from '@mui/icons-material/NoteAdd';
+import ResetIcon from '@mui/icons-material/RestartAlt';
+import SearchIcon from '@mui/icons-material/Search';
+import StarsIcon from '@mui/icons-material/Stars';
+import { 
+  Box, 
+  Button, 
+  Chip, 
+  CircularProgress, 
+  Divider, 
+  Grid, 
+  IconButton, 
+  LinearProgress, 
+  List, 
+  ListItem, 
+  ListSubheader, 
+  Paper, 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableContainer, 
+  TableHead, 
+  TableRow, 
+  Tooltip, 
+  Typography 
+} from '@mui/material';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import { useFormik } from 'formik';
+import { useSnackbar } from 'notistack';
+import { useNavigate } from 'react-router-dom';
+import FormikTextField from '../../Components/FormikTextField/FormikTextField';
+import Tour from '../../Components/Tour/Tour';
+import LoadingContext from '../../Lib/LoadingContext/LoadingContext';
+import ServiceUtils from '../../Lib/ServiceUtils';
+import UserContext from '../../Lib/UserContext/UserContext';
+import ProfileDeleteDialog from '../Profiles/ProfileDeleteDialog';
 
 const searchParams = [
   {
@@ -136,6 +157,7 @@ const Profiles = () => {
 
   useEffect(() => {
     fetchProfiles(null, formik.values);
+    // eslint-disable-next-line
   }, [pageNumber, pageSize]);
 
   const handleAddProfile = async () => {

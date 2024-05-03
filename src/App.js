@@ -1,29 +1,28 @@
-import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider} from "react-router-dom";
-import Landing from "./Pages/Landing/Landing";
-import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
-import Layout from "./Pages/Layout/Layout";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { useState } from "react";
-import UserContext from "./Lib/UserContext/UserContext";
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import LoadingContext from "./Lib/LoadingContext/LoadingContext";
-import Profiles from "./Pages/Profiles/Profiles";
-import Users from "./Pages/Users/Users";
+import UserContext from "./Lib/UserContext/UserContext";
+import Landing from "./Pages/Landing/Landing";
+import Layout from "./Pages/Layout/Layout";
+import LoginSuccess from "./Pages/LoginSuccess/LoginSuccess";
 import LogoutSuccess from "./Pages/LogoutSuccess/LogoutSuccess";
 import ProfileEditor from "./Pages/ProfileEditor/ProfileEditor";
+import Profiles from "./Pages/Profiles/Profiles";
+import Users from "./Pages/Users/Users";
 
 //fonts
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { SnackbarProvider } from "notistack";
 import { TourProvider } from "@reactour/tour";
-import { steps } from "./Components/Tour/Steps/Profiles";
+import { SnackbarProvider } from "notistack";
 
 import React from 'react';
 import { DarkModeProvider, useDarkMode } from "./Lib/DarkModeContext/DarkModeContext";
 
-import {CssBaseline, GlobalStyles} from "@mui/material";
+import { CssBaseline, GlobalStyles } from "@mui/material";
 
 const AppContent = () => {
   return (
@@ -40,7 +39,7 @@ function App() {
   const userValue = { user, setUser };
   const loadingValue = { loading, setLoading };
 
-  const { darkMode, toggleDarkMode } = useDarkMode();
+  const { darkMode } = useDarkMode();
 
   const lightTheme = createTheme({
   palette: {
